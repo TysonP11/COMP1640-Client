@@ -79,7 +79,7 @@ export const LoginPage = ({ signin, history, isAuthenticated }) => {
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    if (username.trim() + password.trim() === '') {
+    if (username.trim() === '' || password.trim() === '') {
       setHasError(true)
     } else {
       signin(formData, history)

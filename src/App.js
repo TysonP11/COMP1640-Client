@@ -9,6 +9,7 @@ import LoginPage from './views/LoginPage/LoginPage'
 import HomePage from './views/HomePage/HomePage'
 import Alert from './components/Alert/Alert'
 import PrivateRoute from './components/Routing/PrivateRoute'
+import { loadUser } from './redux/actions/auth'
 
 if (localStorage.token) {
   setAuthToken(localStorage.token)
@@ -17,6 +18,7 @@ if (localStorage.token) {
 const App = () => {
   useEffect(() => {
     setAuthToken(localStorage.token)
+    store.dispatch(loadUser());
   }, [])
 
   return (

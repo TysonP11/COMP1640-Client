@@ -17,7 +17,9 @@ export const signin = (formData, history) => async (dispatch) => {
       payload: payload,
     })
 
-    history.push('/')
+    dispatch(loadUser())
+
+    history.push('/home')
   } catch (err) {
     console.error(err)
 
@@ -29,3 +31,27 @@ export const signin = (formData, history) => async (dispatch) => {
     dispatch(setAlert('Authentication error!', 'error'))
   }
 }
+
+// Load User
+export const loadUser = () => async (dispatch) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  try {
+
+    const res = await axios.get('/api/auth/load-user');
+
+    // dispatch({
+    //   type: USER_LOADED,
+    //   payload: res.data,
+    // });
+
+    console.log(res.data)
+  } catch (err) {
+    // dispatch({
+    //   type: AUTH_ERROR,
+    // });
+    console.log('here' + err)
+  }
+};
