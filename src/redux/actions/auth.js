@@ -44,14 +44,15 @@ export const loadUser = () => async (dispatch) => {
 
     dispatch({
       type: USER_LOADED,
-      payload: res.data,
+      payload: res.data.data,
     });
 
-    console.log(res.data)
+    
   } catch (err) {
+    
     dispatch({
       type: AUTH_ERROR,
     });
-    console.log('here' + err)
+    
   }
 };
