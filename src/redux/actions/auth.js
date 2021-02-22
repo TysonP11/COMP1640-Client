@@ -1,0 +1,31 @@
+import { SIGNIN_SUCCESS, SIGNIN_ERROR } from '../actions/types'
+import axios from '../../api/axios'
+import setAuthToken from '../../utils/setAuthToken'
+import { setAlert } from './alert'
+
+// login
+export const signin = (formData, history) => async (dispatch) => {
+  try {
+    const res = await axios.post('/api/auth/login', formData)
+
+    const payload = res.data.data
+
+    setAuthToken(payload.access_token)
+
+    dispatch({
+      type: SIGNIN_SUCCESS,
+      payload: payload,
+    })
+
+    history.push('/')
+  } catch (err) {
+    console.error(err)
+
+    dispatch({
+      type: SIGNIN_ERROR,
+      payload: { msg: err.message },
+    })
+
+    dispatch(setAlert('Authentication error!', 'error'))
+  }
+}
