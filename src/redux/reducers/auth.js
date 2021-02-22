@@ -1,4 +1,4 @@
-import { SIGNIN_SUCCESS, SIGNIN_ERROR } from '../actions/types'
+import { SIGNIN_SUCCESS, SIGNIN_ERROR, AUTH_ERROR, USER_LOADED } from '../actions/types'
 
 const initialState = {
   isAuthenticated: false,
@@ -19,7 +19,7 @@ export default function authReducer(state = initialState, action) {
         loading: false,
         error: {},
       }
-
+      case AUTH_ERROR:
     case SIGNIN_ERROR:
       localStorage.removeItem('token')
       return {
@@ -28,6 +28,13 @@ export default function authReducer(state = initialState, action) {
         loading: false,
         user: {},
         error: payload,
+      }
+    case USER_LOADED:
+      return {
+        ...state,
+        isAuthenticated: true,
+        loading: false,
+        user: payload
       }
 
     default:
