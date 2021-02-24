@@ -9,12 +9,15 @@ const useStyles = makeStyles((theme) => ({
   alert: {
     position: 'absolute',
     bottom: '2%',
-    right: '0%',
+    right: '2%',
     width: '30%',
     '@media (max-width: 768px)': {
       position: 'absolute',
       bottom: '2%',
-      width: '100%',
+      width: '90%',
+      left: '50%',
+      transform: 'translateX(-50%)'
+      
     },
   },
 }))

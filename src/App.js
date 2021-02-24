@@ -29,7 +29,7 @@ const App = () => {
           <Route exact path='/' component={LandingPage} />
           <Route exact path='/login' component={LoginPage} />
 
-          <PrivateRoute exact path='/home' component={HomePage} />
+          <PrivateRoute exact path='/home' component={HomePage} expectedAuthorities={['ROLE_STUDENT','ROLE_MARKETING_COORDINATOR']} />
         </Switch>
       </Router>
     </Provider>
