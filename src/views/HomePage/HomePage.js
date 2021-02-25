@@ -1,12 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 
 export const HomePage = ({auth}) => {
-    useEffect(()=>{
-        console.log(auth)
-    },[auth])
 
     // if(!auth.isAuthenticated || !auth.loading || !auth.user) {
     //     console.log('here')
@@ -14,18 +11,17 @@ export const HomePage = ({auth}) => {
     // } else {
     //     console.log('other')
     // }
-    if(auth.user.authorities.map(authority => authority.authority).indexOf('ROLE_MARKETING_MANAGER') >= 0) {
-        console.log('manager')
-        return <Redirect to="/marketing-manager-home" />
-    } else if (auth.user.authorities.map(authority => authority.authority).indexOf('ROLE_MARKETING_COORDINATOR') >= 0) {
-        return <Redirect to="/marketing-coordinator-home" />
-    } else if (auth.user.authorities.map(authority => authority.authority).indexOf('ROLE_STUDENT') >= 0) {
-        return <Redirect to="/student-home" />
-    } else if (auth.user.authorities.map(authority => authority.authority).indexOf('ROLE_GUEST') >= 0) {
-        return <Redirect to="/guest-home" />
-    } else {
-        return null
-    }
+    return auth.loading || !auth.user || !auth.user.authorities ? null : (
+        auth.user.authorities.map(authority => authority.authority).indexOf('ROLE_MARKETING_MANAGER') >= 0 ?               
+            <Redirect to="/marketing-manager-home" />
+        : auth.user.authorities.map(authority => authority.authority).indexOf('ROLE_MARKETING_COORDINATOR') >= 0 ?
+            <Redirect to="/marketing-coordinator-home" />
+        : auth.user.authorities.map(authority => authority.authority).indexOf('ROLE_STUDENT') >= 0 ?
+            <Redirect to="/student-home" />
+        : auth.user.authorities.map(authority => authority.authority).indexOf('ROLE_GUEST') >= 0 ?
+            <Redirect to="/guest-home" />
+        : null
+    )  
 }
 
 HomePage.propTypes = {
