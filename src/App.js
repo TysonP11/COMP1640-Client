@@ -10,6 +10,7 @@ import HomePage from './views/HomePage/HomePage'
 import Alert from './components/Alert/Alert'
 import PrivateRoute from './components/Routing/PrivateRoute'
 import { loadUser } from './redux/actions/auth'
+import MenuAppBar from './components/common/MenuAppBar'
 
 if (localStorage.token) {
   setAuthToken(localStorage.token)
@@ -23,8 +24,10 @@ const App = () => {
 
   return (
     <Provider store={store}>
-      <Alert />
+      
       <Router>
+      <MenuAppBar/>
+      <Alert />
         <Switch>
           <Route exact path='/' component={LandingPage} />
           <Route exact path='/login' component={LoginPage} />
