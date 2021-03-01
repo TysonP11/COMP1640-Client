@@ -5,40 +5,42 @@ import { Redirect, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 const PrivateRoute = ({
-    component: Component,
-    auth: { isAuthenticated, loading, user},
-    expectedAuthorities,    
-    ...rest
+  component: Component,
+  auth: { isAuthenticated, loading, user },
+  expectedAuthorities,
+  ...rest
 }) => {
-    console.log(isAuthenticated, loading)
-
-    const [hasAccess, setHasAccess] = useState(true)
-    useEffect(() => {    
-        
-            if(!loading && user.authorities ) {
-                setHasAccess(user.authorities.some(element => expectedAuthorities.indexOf(element.authority) >= 0))              
-            }
-    }, [])
-return (
+  const [hasAccess, setHasAccess] = useState(true)
+  useEffect(() => {
+    if (!loading && user.authorities) {
+      setHasAccess(
+        user.authorities.some(
+          (element) => expectedAuthorities.indexOf(element.authority) >= 0,
+        ),
+      )
+    }
+  // eslint-disable-next-line
+  }, [])
+  return (
     <Route
-        {...rest}
-        render={(props) =>
-             !isAuthenticated && !loading ? (
-                    <Redirect to='/login' />
-                ) : isAuthenticated && hasAccess && !loading ? (
-                    <Component {...props} />
-                ) : null         
-        }
+      {...rest}
+      render={(props) =>
+        !isAuthenticated && !loading ? (
+          <Redirect to='/login' />
+        ) : isAuthenticated && hasAccess && !loading ? (
+          <Component {...props} />
+        ) : null
+      }
     />
-)}
+  )
+}
 
 PrivateRoute.propTypes = {
-    auth: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = (state) => ({
-    auth: state.auth,
-    
+  auth: state.auth,
 })
 
 export default connect(mapStateToProps)(PrivateRoute)
