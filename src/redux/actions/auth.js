@@ -10,8 +10,6 @@ export const signin = (formData, history) => async (dispatch) => {
 
     const payload = res.data.data
 
-    setAuthToken(payload.access_token)
-
     dispatch({
       type: SIGNIN_SUCCESS,
       payload: payload,

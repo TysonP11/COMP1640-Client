@@ -12,3 +12,10 @@ export const SIGNIN_ERROR = 'SIGNIN_ERROR'
 export const SIGNUP_ERROR = 'SIGNUP_ERROR'
 export const SIGNOUT = 'SIGNOUT'
 export const REFRESH_TOKEN = 'REFRESH_TOKEN'
+
+// campaign types
+export const GET_CAMPAIGNS = 'GET_CAMPAGINS'
+export const GET_CAMPAIGN = 'GET_CAMPAIGN'
+export const CREATE_CAMPAIGN = 'CREATE_CAMPAIGN'
+export const UPDATE_CAMPAIGN = 'CAMPAIGN'
+export const CAMPAIGN_ERROR = 'CAMPAIGN_ERROR'

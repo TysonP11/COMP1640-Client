@@ -7,10 +7,13 @@ import setAuthToken from './utils/setAuthToken'
 import LandingPage from './views/LandingPage/LandingPage'
 import LoginPage from './views/LoginPage/LoginPage'
 import HomePage from './views/HomePage/HomePage'
+import CampaignPage from './views/CampaignPage/CampaignPage'
+
 import Alert from './components/Alert/Alert'
 import PrivateRoute from './components/Routing/PrivateRoute'
 import { loadUser } from './redux/actions/auth'
 import MenuAppBar from './components/Common/MenuAppBar'
+import { Container } from '@material-ui/core'
 
 if (localStorage.token) {
   setAuthToken(localStorage.token)
@@ -18,22 +21,36 @@ if (localStorage.token) {
 
 const App = () => {
   useEffect(() => {
-    setAuthToken(localStorage.token)
-    store.dispatch(loadUser());
+    store.dispatch(loadUser())
   }, [])
 
   return (
     <Provider store={store}>
-      
       <Router>
-      <MenuAppBar/>
-      <Alert />
-        <Switch>
-          <Route exact path='/' component={LandingPage} />
-          <Route exact path='/login' component={LoginPage} />
+        <MenuAppBar />
+        <Alert />
+        <Route exact path='/' component={LandingPage} />
+        <Container maxWidth='lg'>
+          <Switch>
+            <Route exact path='/login' component={LoginPage} />
 
-          <PrivateRoute exact path='/home' component={HomePage} expectedAuthorities={['ROLE_STUDENT','ROLE_MARKETING_COORDINATOR']} />
-        </Switch>
+            <PrivateRoute
+              exact
+              path='/home'
+              component={HomePage}
+              expectedAuthorities={[
+                'ROLE_STUDENT',
+                'ROLE_MARKETING_COORDINATOR',
+              ]}
+            />
+            <PrivateRoute
+              exact
+              path='/campaign'
+              component={CampaignPage}
+              expectedAuthorities={['ROLE_ADMIN']}
+            />
+          </Switch>
+        </Container>
       </Router>
     </Provider>
   )
