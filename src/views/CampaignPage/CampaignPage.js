@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import Typography from '@material-ui/core/Typography'
 import PropTypes from 'prop-types'
 
 import {
   getCampaigns,
   createCampaign,
   getCampaign,
-  updateCampaign
+  updateCampaign,
 } from '../../redux/actions/campaign'
 import CampaignTable from '../../components/Campaign/CampaignTable'
 import CreateCampaignForm from '../../components/Campaign/CreateCampaignForm'
 import { Button, makeStyles } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
+import Spinner from '../../components/Common/Spinner'
 
 const useStyles = makeStyles((theme) => ({
   createButton: {
@@ -46,7 +46,7 @@ export const CampaignPage = ({
   }, [])
 
   return loading || auth.loading || !auth.user || !auth ? (
-    <Typography>Loading</Typography>
+    <Spinner />
   ) : (
     <>
       <Button
@@ -96,5 +96,5 @@ export default connect(mapStateToProps, {
   getCampaigns,
   createCampaign,
   getCampaign,
-  updateCampaign
+  updateCampaign,
 })(CampaignPage)
