@@ -1,24 +1,18 @@
-import React, { Fragment } from 'react'
+import React, { useState } from 'react'
 import { fade, makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
 import InputBase from '@material-ui/core/InputBase'
-
-import MenuItem from '@material-ui/core/MenuItem'
-import Menu from '@material-ui/core/Menu'
 import MenuIcon from '@material-ui/icons/Menu'
 import SearchIcon from '@material-ui/icons/Search'
-import AccountCircle from '@material-ui/icons/AccountCircle'
-
 import DashboardIcon from '@material-ui/icons/Dashboard'
 import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary'
-import MoreIcon from '@material-ui/icons/MoreVert'
 
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import _ from 'lodash'
+import SideBar from './SideBar'
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -85,113 +79,124 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export const PrimarySearchAppBar = ({ auth }) => {
-  const { user, loading, isAuthenticated } = auth
+  // const { user, loading, isAuthenticated } = auth
   const classes = useStyles()
-  const [anchorEl, setAnchorEl] = React.useState(null)
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null)
+  // const [anchorEl, setAnchorEl] = React.useState(null)
+  // // const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null)
 
-  const isMenuOpen = Boolean(anchorEl)
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
+  // // const isMenuOpen = Boolean(anchorEl)
+  // // const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
 
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget)
+  // const handleProfileMenuOpen = (event) => {
+  //   setAnchorEl(event.currentTarget)
+  // }
+
+  const [mobileOpen, setMobileOpen] = useState(false)
+
+  const handleSideBarToggle = () => {
+    setMobileOpen(!mobileOpen)
   }
 
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null)
-  }
+  // const handleMobileMenuClose = () => {
+  //   setMobileMoreAnchorEl(null)
+  // }
 
-  const handleMenuClose = () => {
-    setAnchorEl(null)
-    handleMobileMenuClose()
-  }
+  // const handleMenuClose = () => {
+  //   setAnchorEl(null)
+  //   handleMobileMenuClose()
+  // }
 
-  const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget)
-  }
+  // const handleMobileMenuOpen = (event) => {
+  //   setMobileMoreAnchorEl(event.currentTarget)
+  // }
 
-  const menuId = 'primary-search-account-menu'
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      {!loading && isAuthenticated && _.isEmpty(user) && (
-        <Fragment>
-          {_.get(user, 'authorities[0]') === 'ROLE_MARKETING_MANAGER' ? (
-            <Fragment>
-              <MenuItem onClick={handleMenuClose}>Manage Campaigns</MenuItem>
-              <MenuItem onClick={handleMenuClose}>Sign Out</MenuItem>
-            </Fragment>
-          ) : _.get(user, 'authorities[0]') === 'ROLE_MARKETING_COORDINATOR' ? (
-            <Fragment>
-              <MenuItem onClick={handleMenuClose}>Manage Submissions</MenuItem>
-              <MenuItem onClick={handleMenuClose}>Sign Out</MenuItem>
-            </Fragment>
-          ) : _.get(user, 'authorities[0]') === 'ROLE_STUDENT' ? (
-            <Fragment>
-              <MenuItem onClick={handleMenuClose}>My Submissions</MenuItem>
-              <MenuItem onClick={handleMenuClose}>Sign Out</MenuItem>
-            </Fragment>
-          ) : (
-            <MenuItem onClick={handleMenuClose}>Sign Out</MenuItem>
-          )}
-        </Fragment>
-      )}
-    </Menu>
-  )
+  // const menuId = 'primary-search-account-menu'
+  // const renderMenu = (
+  //   <Menu
+  //     anchorEl={anchorEl}
+  //     anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+  //     id={menuId}
+  //     keepMounted
+  //     transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+  //     open={isMenuOpen}
+  //     onClose={handleMenuClose}
+  //   >
+  //     {!loading && isAuthenticated && _.isEmpty(user) && (
+  //       <Fragment>
+  //         {_.get(user, 'authorities[0]') === 'ROLE_MARKETING_MANAGER' ? (
+  //           <Fragment>
+  //             <MenuItem onClick={handleMenuClose}>Manage Campaigns</MenuItem>
+  //             <MenuItem onClick={handleMenuClose}>Sign Out</MenuItem>
+  //           </Fragment>
+  //         ) : _.get(user, 'authorities[0]') === 'ROLE_MARKETING_COORDINATOR' ? (
+  //           <Fragment>
+  //             <MenuItem onClick={handleMenuClose}>Manage Submissions</MenuItem>
+  //             <MenuItem onClick={handleMenuClose}>Sign Out</MenuItem>
+  //           </Fragment>
+  //         ) : _.get(user, 'authorities[0]') === 'ROLE_STUDENT' ? (
+  //           <Fragment>
+  //             <MenuItem onClick={handleMenuClose}>My Submissions</MenuItem>
+  //             <MenuItem onClick={handleMenuClose}>Sign Out</MenuItem>
+  //           </Fragment>
+  //         ) : (
+  //           <MenuItem onClick={handleMenuClose}>Sign Out</MenuItem>
+  //         )}
+  //       </Fragment>
+  //     )}
+  //   </Menu>
+  // )
 
-  const mobileMenuId = 'primary-search-account-menu-mobile'
-  const renderMobileMenu = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      id={mobileMenuId}
-      keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
-      <MenuItem>
-        <IconButton color='inherit'>
-          <DashboardIcon />
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton color='inherit'>
-          <PhotoLibraryIcon />
-        </IconButton>
-        <p>View All Submissions</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          aria-label='account of current user'
-          aria-controls='primary-search-account-menu'
-          aria-haspopup='true'
-          color='inherit'
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
-    </Menu>
-  )
+  // const mobileMenuId = 'primary-search-account-menu-mobile'
+  // const renderMobileMenu = (
+  //   <Menu
+  //     anchorEl={mobileMoreAnchorEl}
+  //     anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+  //     id={mobileMenuId}
+  //     keepMounted
+  //     transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+  //     open={isMobileMenuOpen}
+  //     onClose={handleMobileMenuClose}
+  //   >
+  //     <MenuItem>
+  //       <IconButton color='inherit'>
+  //         <DashboardIcon />
+  //       </IconButton>
+  //       <p>Messages</p>
+  //     </MenuItem>
+  //     <MenuItem>
+  //       <IconButton color='inherit'>
+  //         <PhotoLibraryIcon />
+  //       </IconButton>
+  //       <p>View All Submissions</p>
+  //     </MenuItem>
+  //     <MenuItem onClick={handleProfileMenuOpen}>
+  //       <IconButton
+  //         aria-label='account of current user'
+  //         aria-controls='primary-search-account-menu'
+  //         aria-haspopup='true'
+  //         color='inherit'
+  //       >
+  //         <AccountCircle />
+  //       </IconButton>
+  //       <p>Profile</p>
+  //     </MenuItem>
+  //   </Menu>
+  // )
 
   return (
     <div className={classes.grow}>
-      <AppBar position='static'>
+      <SideBar
+        mobileOpen={mobileOpen}
+        handleSideBarToggle={handleSideBarToggle}
+      />
+      <AppBar position='fixed'>
         <Toolbar>
           <IconButton
             edge='start'
             className={classes.menuButton}
             color='inherit'
             aria-label='open drawer'
+            onClick={handleSideBarToggle}
           >
             <MenuIcon />
           </IconButton>
@@ -219,7 +224,7 @@ export const PrimarySearchAppBar = ({ auth }) => {
             <IconButton color='inherit'>
               <PhotoLibraryIcon />
             </IconButton>
-            <IconButton
+            {/* <IconButton
               edge='end'
               aria-label='account of current user'
               aria-controls={menuId}
@@ -239,12 +244,12 @@ export const PrimarySearchAppBar = ({ auth }) => {
               color='inherit'
             >
               <MoreIcon />
-            </IconButton>
+            </IconButton> */}
           </div>
         </Toolbar>
       </AppBar>
-      {renderMobileMenu}
-      {renderMenu}
+      {/* {renderMobileMenu}
+      {renderMenu} */}
     </div>
   )
 }
