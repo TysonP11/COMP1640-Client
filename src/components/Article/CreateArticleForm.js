@@ -23,7 +23,7 @@ import emailjs from 'emailjs-com';
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(2),
-    marginTop: theme.spacing(12),
+    marginTop: theme.spacing(2),
     backgroundColor: '#f5f5f5',
   },
   input: {
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
   fileInput: {
     '@media (max-width: 768px)': {
-      height: 150
+      height: 150,
     },
     width: '100%',
     height: 100,
@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
   },
   imageInput: {
     '@media (max-width: 768px)': {
-      height: 150
+      height: 150,
     },
     width: '100%',
     height: 300,
@@ -71,7 +71,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export const CreateArticleForm = ({ createArticle }) => {
+export const CreateArticleForm = ({
+  createArticle,
+  userDetails,
+  username,
+  campaignCode,
+}) => {
   const classes = useStyles()
   const [name, setName] = useState('')
   const [message, setMessage] = useState('')
@@ -103,9 +108,9 @@ export const CreateArticleForm = ({ createArticle }) => {
       message: message,
       image_url: image[0],
       document_url: document[0],
-      user_username: 'admin',
-      faculty_code: 'COMP',
-      campaign_code: 'SPRING_2020',
+      user_username: username,
+      faculty_code: userDetails.faculty_code,
+      campaign_code: campaignCode,
     }
 
     const emailData = {
@@ -124,8 +129,6 @@ export const CreateArticleForm = ({ createArticle }) => {
 
     createArticle(formData)
   }
-
-  console.log(image[0])
 
   const uploadedFile =
     document[0] && document[0] !== '' ? (
@@ -238,6 +241,9 @@ export const CreateArticleForm = ({ createArticle }) => {
 
 CreateArticleForm.propTypes = {
   createArticle: PropTypes.func.isRequired,
+  userDetails: PropTypes.object.isRequired,
+  username: PropTypes.string.isRequired,
+  campaignCode: PropTypes.string.isRequired,
 }
 
 export default CreateArticleForm

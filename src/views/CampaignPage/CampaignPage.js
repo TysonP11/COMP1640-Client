@@ -10,6 +10,7 @@ import {
 } from '../../redux/actions/campaign'
 import CampaignTable from '../../components/Campaign/CampaignTable'
 import CreateCampaignForm from '../../components/Campaign/CreateCampaignForm'
+import CampaignBreadcrumbs from '../../components/Campaign/CampaignBreadcrumbs'
 import { Button, makeStyles } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
 import Spinner from '../../components/common/Spinner'
@@ -49,6 +50,7 @@ export const CampaignPage = ({
     <Spinner />
   ) : (
     <>
+      <CampaignBreadcrumbs />
       <Button
         variant='outlined'
         size='large'
@@ -72,7 +74,7 @@ export const CampaignPage = ({
         getCampaign={getCampaign}
         updateCampaign={updateCampaign}
         campaign={campaign && campaign}
-        adminUsername={auth.user.username}
+        user={auth.user}
       />
     </>
   )

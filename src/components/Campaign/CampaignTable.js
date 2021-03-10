@@ -17,6 +17,7 @@ import moment from 'moment'
 import { IconButton } from '@material-ui/core'
 import EditLocationTwoToneIcon from '@material-ui/icons/EditLocationTwoTone'
 import UpdateCampaignForm from './UpdateCampaignForm'
+import CreateNewFolderOutlinedIcon from '@material-ui/icons/CreateNewFolderOutlined'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -72,7 +73,13 @@ function stableSort(array, comparator) {
   return stabilizedThis.map((el) => el[0])
 }
 
-export const CampaignTable = ({ campaigns, getCampaign, campaign, updateCampaign, adminUsername }) => {
+export const CampaignTable = ({
+  campaigns,
+  getCampaign,
+  campaign,
+  updateCampaign,
+  user,
+}) => {
   const classes = useStyles()
   const [order, setOrder] = useState('desc')
   const [orderBy, setOrderBy] = useState('start_date')
@@ -156,7 +163,7 @@ export const CampaignTable = ({ campaigns, getCampaign, campaign, updateCampaign
         handleClose={handleCloseUpdateForm}
         campaign={campaign}
         updateCampaign={updateCampaign}
-        adminUsername={adminUsername}
+        username={user.username}
       />
       <div className={classes.root}>
         <Paper className={classes.paper}>
@@ -219,6 +226,16 @@ export const CampaignTable = ({ campaigns, getCampaign, campaign, updateCampaign
                           >
                             <EditLocationTwoToneIcon />
                           </IconButton>
+
+                          {user.authorities.includes('ROLE_STUDENT') && (
+                            <IconButton
+                              aria-label='update'
+                              className={classes.editIcon}
+                              href={`/article/${row.code}/create`}
+                            >
+                              <CreateNewFolderOutlinedIcon />
+                            </IconButton>
+                          )}
                         </TableCell>
                       </TableRow>
                     )
@@ -255,7 +272,7 @@ CampaignTable.propTypes = {
   getCampaign: PropTypes.func.isRequired,
   campaign: PropTypes.object.isRequired,
   updateCampaign: PropTypes.func.isRequired,
-  adminUsername: PropTypes.string.isRequired,
+  user: PropTypes.object.isRequired,
 }
 
 export default CampaignTable
