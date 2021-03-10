@@ -9,6 +9,7 @@ import LoginPage from './views/LoginPage/LoginPage'
 import HomePage from './views/HomePage/HomePage'
 import CampaignPage from './views/CampaignPage/CampaignPage'
 import CreateArticlePage from './views/ArticlePage/CreateArticlePage'
+import AllArticlesPage from './views/ArticlePage/AllArticlesPage'
 
 import Alert from './components/Alert/Alert'
 import PrivateRoute from './components/Routing/PrivateRoute'
@@ -51,8 +52,14 @@ const App = () => {
             />
             <PrivateRoute
               exact
-              path='/article/create'
+              path='/article/:campaignCode/create'
               component={CreateArticlePage}
+              expectedAuthorities={['ROLE_STUDENT']}
+            />
+            <PrivateRoute
+              exact
+              path='/article'
+              component={AllArticlesPage}
               expectedAuthorities={['ROLE_STUDENT']}
             />
           </Switch>

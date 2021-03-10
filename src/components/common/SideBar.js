@@ -72,7 +72,11 @@ const SideBar = ({ window, mobileOpen, handleSideBarToggle }) => {
         </Typography>
       </MenuItem>
       <MenuItem onClick={handleClose}>
-        <Typography>All Articles</Typography>
+        <Typography>
+          <Link href='/article' color='inherit'>
+            All Articles
+          </Link>
+        </Typography>
       </MenuItem>
       <MenuItem onClick={handleClose}>
         <Typography>Submitted Articles</Typography>

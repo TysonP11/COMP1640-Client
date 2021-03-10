@@ -37,7 +37,7 @@ export const UpdateCampaignForm = ({
   showUpdateForm,
   handleClose,
   updateCampaign,
-  adminUsername,
+  username,
   campaign,
 }) => {
   const classes = useStyles()
@@ -96,7 +96,7 @@ export const UpdateCampaignForm = ({
       submit_deadline: submitDeadlineInputValue,
       edit_deadline: editDeadlineInputValue,
       start_date: startDateInputValue,
-      admin_username: adminUsername,
+      admin_username: username,
     }
 
     updateCampaign(formData, campaign.code)
@@ -192,7 +192,7 @@ export const UpdateCampaignForm = ({
 UpdateCampaignForm.propTypes = {
   showUpdateForm: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
-  adminUsername: PropTypes.string.isRequired,
+  username: PropTypes.string.isRequired,
   updateCampaign: PropTypes.func.isRequired,
   campaign: PropTypes.object.isRequired,
 }
