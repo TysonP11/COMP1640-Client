@@ -16,8 +16,9 @@ import {
   faFileAlt,
 } from '@fortawesome/free-regular-svg-icons'
 import Avatar from '@material-ui/core/Avatar'
-import defaultImage from '../Common/DefaultImage.png'
+import defaultImage from '../common/DefaultImage.png'
 import { BASE_URL } from '../../environment/dev.env'
+import emailjs from 'emailjs-com';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -104,8 +105,22 @@ export const CreateArticleForm = ({ createArticle }) => {
       document_url: document[0],
       user_username: 'admin',
       faculty_code: 'COMP',
-      campaign_code: 'FALL_2020',
+      campaign_code: 'SPRING_2020',
     }
+
+    const emailData = {
+      reply_to: 'phamthaison11@gmail.com',
+      from_name: 'G_mag',
+      to_name: 'Coordinator',
+      message: 'This is a test message'
+    }
+
+    emailjs.send('coordinator_contact', 'coordinator_contact_form', emailData, 'user_b3WPLwZ5Bam6FFUi3vfVF')
+      .then((result) => {
+          console.log(result.text);
+      }, (error) => {
+          console.log(error.text);
+      });
 
     createArticle(formData)
   }
