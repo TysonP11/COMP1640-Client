@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import AllArticles from '../../components/Article/AllArticles'
 import { getAllArticles, getArticlesByProps } from '../../redux/actions/article'
 import { getCampaigns } from '../../redux/actions/campaign'
-import Spinner from '../../components/Common/Spinner'
+import Spinner from '../../components/common/Spinner'
 import ArticleToolbar from '../../components/Article/ArticleToolbar'
 import ArticleBreadcrumbs from '../../components/Article/ArticleBreadcrumbs'
 

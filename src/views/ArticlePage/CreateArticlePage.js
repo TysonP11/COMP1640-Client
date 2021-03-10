@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import CreateArticleForm from '../../components/Article/CreateArticleForm'
 import CreateArticleBreadcrumbs from '../../components/Article/CreateArticleBreadcrumbs'
 import { createArticle } from '../../redux/actions/article'
-import Spinner from '../../components/Common/Spinner'
+import Spinner from '../../components/common/Spinner'
 
 export const CreateArticlePage = ({
   createArticle,
