@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const ArticleToolbar = ({ campaigns, getArticlesByProps }) => {
+const ArticleToolbar = ({ campaigns, getArticlesByProps, facultyCode }) => {
   const classes = useStyles()
 
   const [username, setUsername] = useState('')
@@ -37,22 +37,28 @@ const ArticleToolbar = ({ campaigns, getArticlesByProps }) => {
   const [status, setStatus] = useState('')
 
   useEffect(() => {
-    getArticlesByProps({
-      username: username,
-      campaignCode: campaignCode,
-      status: status,
-    })
+    getArticlesByProps(
+      {
+        username: username,
+        campaignCode: campaignCode,
+        status: status,
+      },
+      facultyCode,
+    )
     // eslint-disable-next-line
   }, [campaignCode, status])
 
   const handleSubmit = (e) => {
     e.preventDefault()
     if (username.trim() !== '') {
-      getArticlesByProps({
-        username: username,
-        campaignCode: campaignCode,
-        status: status,
-      })
+      getArticlesByProps(
+        {
+          username: username,
+          campaignCode: campaignCode,
+          status: status,
+        },
+        facultyCode,
+      )
     }
   }
 
@@ -75,10 +81,13 @@ const ArticleToolbar = ({ campaigns, getArticlesByProps }) => {
   const handleCancelUserFilter = (e) => {
     setUsername('')
     e.preventDefault()
-    getArticlesByProps({
-      campaignCode: campaignCode,
-      status: status,
-    })
+    getArticlesByProps(
+      {
+        campaignCode: campaignCode,
+        status: status,
+      },
+      facultyCode,
+    )
   }
 
   return (
@@ -208,6 +217,7 @@ const ArticleToolbar = ({ campaigns, getArticlesByProps }) => {
 ArticleToolbar.propTypes = {
   campaigns: PropTypes.array.isRequired,
   getArticlesByProps: PropTypes.func.isRequired,
+  facultyCode: PropTypes.string.isRequired,
 }
 
 export default ArticleToolbar

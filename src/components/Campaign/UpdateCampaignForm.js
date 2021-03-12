@@ -59,16 +59,16 @@ export const UpdateCampaignForm = ({
 
   useEffect(() => {
     if (campaign) {
-      setSubmitDeadline(moment(campaign.submit_deadline))
+      setSubmitDeadline(moment.unix(campaign.submit_deadline))
       setSubmitDeadlineInputValue(
-        moment(campaign.submit_deadline).format('yyyy-MM-DD'),
+        moment.unix(campaign.submit_deadline).format('yyyy-MM-DD'),
       )
-      setEditDeadline(moment(campaign.edit_deadline))
+      setEditDeadline(moment.unix(campaign.edit_deadline))
       setEditDeadlineInputValue(
-        moment(campaign.edit_deadline).format('yyyy-MM-DD'),
+        moment.unix(campaign.edit_deadline).format('yyyy-MM-DD'),
       )
-      setStartDate(moment(campaign.start_date))
-      setStartDateInputValue(moment(campaign.start_date).format('yyyy-MM-DD'))
+      setStartDate(moment.unix(campaign.start_date))
+      setStartDateInputValue(moment.unix(campaign.start_date).format('yyyy-MM-DD'))
     }
   }, [campaign])
 
@@ -128,7 +128,7 @@ export const UpdateCampaignForm = ({
               label='Submit Deadline'
               value={submitDeadline || moment()}
               inputValue={
-                submitDeadlineInputValue || moment().format('yyyy-MM-DD')
+                submitDeadlineInputValue || moment.format('yyyy-MM-DD')
               }
               onChange={handleOnChangeSubmitDeadline}
               KeyboardButtonProps={{

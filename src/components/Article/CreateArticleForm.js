@@ -122,10 +122,14 @@ export const CreateArticleForm = ({
           <FontAwesomeIcon icon={faFileWord} size='2x' color='#2196f3' />{' '}
           {document[0].slice(8)}
         </Typography>
-      ) : (
+      ) : document[0].endsWith('.pdf') ? (
         <Typography>
           <FontAwesomeIcon icon={faFilePdf} size='2x' color='#d50000' />{' '}
           {document[0].slice(8)}
+        </Typography>
+      ) : (
+        <Typography>
+          <FontAwesomeIcon icon={faFileAlt} size='2x' /> {document[0].slice(8)}
         </Typography>
       )
     ) : (

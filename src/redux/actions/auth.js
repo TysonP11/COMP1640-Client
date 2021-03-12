@@ -1,4 +1,10 @@
-import { SIGNIN_SUCCESS, SIGNIN_ERROR, USER_LOADED, AUTH_ERROR } from '../actions/types'
+import {
+  SIGNIN_SUCCESS,
+  SIGNIN_ERROR,
+  USER_LOADED,
+  AUTH_ERROR,
+  SIGNOUT,
+} from '../actions/types'
 import axios from '../../api/axios'
 import setAuthToken from '../../utils/setAuthToken'
 import { setAlert } from './alert'
@@ -33,24 +39,27 @@ export const signin = (formData, history) => async (dispatch) => {
 // Load User
 export const loadUser = () => async (dispatch) => {
   if (localStorage.token) {
-    setAuthToken(localStorage.token);
+    setAuthToken(localStorage.token)
   }
 
   try {
-
-    const res = await axios.get('/api/auth/load-user');
+    const res = await axios.get('/api/auth/load-user')
 
     dispatch({
       type: USER_LOADED,
       payload: res.data.data,
-    });
-
-    
+    })
   } catch (err) {
-    
     dispatch({
       type: AUTH_ERROR,
-    });
-    
+    })
   }
-};
+}
+
+// sign out
+// logout
+export const signout = () => (dispatch) => {
+  dispatch({
+    type: SIGNOUT,
+  })
+}

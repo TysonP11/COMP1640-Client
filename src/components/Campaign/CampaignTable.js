@@ -209,13 +209,15 @@ export const CampaignTable = ({
                         </TableCell>
                         <TableCell align='left'>{row.code}</TableCell>
                         <TableCell align='left'>
-                          {moment(row.submit_deadline).format('yyyy-MM-DD')}
+                          {moment
+                            .unix(row.submit_deadline)
+                            .format('yyyy-MM-DD')}
                         </TableCell>
                         <TableCell align='left'>
-                          {moment(row.edit_deadline).format('yyyy-MM-DD')}
+                          {moment.unix(row.edit_deadline).format('yyyy-MM-DD')}
                         </TableCell>
                         <TableCell align='left'>
-                          {moment(row.start_date).format('yyyy-MM-DD')}
+                          {moment.unix(row.start_date).format('yyyy-MM-DD')}
                         </TableCell>
                         <TableCell align='left'>{row.admin_username}</TableCell>
                         <TableCell align='left'>
@@ -227,15 +229,17 @@ export const CampaignTable = ({
                             <EditLocationTwoToneIcon />
                           </IconButton>
 
-                          {user.authorities.includes('ROLE_STUDENT') && (
-                            <IconButton
-                              aria-label='update'
-                              className={classes.editIcon}
-                              href={`/article/${row.code}/create`}
-                            >
-                              <CreateNewFolderOutlinedIcon />
-                            </IconButton>
-                          )}
+                          {user.authorities.includes('ROLE_STUDENT') &&
+                            new Date().valueOf() / 1000 < row.submit_deadline &&
+                            row.status === 'ACTIVE' && (
+                              <IconButton
+                                aria-label='update'
+                                className={classes.editIcon}
+                                href={`/article/create`}
+                              >
+                                <CreateNewFolderOutlinedIcon />
+                              </IconButton>
+                            )}
                         </TableCell>
                       </TableRow>
                     )

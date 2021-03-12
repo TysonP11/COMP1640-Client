@@ -2,7 +2,11 @@ import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import AllArticles from '../../components/Article/AllArticles'
-import { getAllArticles, getArticlesByProps } from '../../redux/actions/article'
+import {
+  getAllArticles,
+  getArticlesByProps,
+  getArticlesByFaculty,
+} from '../../redux/actions/article'
 import { getCampaigns } from '../../redux/actions/campaign'
 import Spinner from '../../components/Common/Spinner'
 import ArticleToolbar from '../../components/Article/ArticleToolbar'
@@ -14,14 +18,25 @@ export const AllArticlesPage = ({
   campaign,
   getCampaigns,
   getArticlesByProps,
+  auth,
+  getArticlesByFaculty,
 }) => {
   useEffect(() => {
-    getAllArticles()
+    // if (auth.user.authorities.includes('ROLE_ADMIN')) {
+    //   getAllArticles()
+    // } else {
+    getArticlesByFaculty(auth.user.details.faculty_code)
+    // }
     getCampaigns()
     // eslint-disable-next-line
   }, [])
 
-  return loading || !campaign || campaign.loading ? (
+  return loading ||
+    !campaign ||
+    campaign.loading ||
+    auth.loading ||
+    !auth ||
+    !auth.user ? (
     <Spinner />
   ) : (
     <>
@@ -29,8 +44,9 @@ export const AllArticlesPage = ({
       <ArticleToolbar
         campaigns={campaign.campaigns}
         getArticlesByProps={getArticlesByProps}
+        facultyCode={auth.user.details.faculty_code}
       />
-      <AllArticles articles={articles} />
+      <AllArticles articles={articles.reverse()} />
     </>
   )
 }
@@ -41,15 +57,19 @@ AllArticlesPage.propTypes = {
   campaign: PropTypes.object.isRequired,
   getCampaigns: PropTypes.func.isRequired,
   getArticlesByProps: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  getArticlesByFaculty: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) => ({
   article: state.article,
   campaign: state.campaign,
+  auth: state.auth,
 })
 
 export default connect(mapStateToProps, {
   getAllArticles,
   getCampaigns,
   getArticlesByProps,
+  getArticlesByFaculty,
 })(AllArticlesPage)

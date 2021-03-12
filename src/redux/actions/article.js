@@ -189,9 +189,15 @@ export const getArticlesByStatus = (status) => async (dispatch) => {
 }
 
 // get articles by props
-export const getArticlesByProps = (props) => async (dispatch) => {
+export const getArticlesByProps = (props, code) => async (dispatch) => {
   try {
-    const res = await axios.get('/api/article')
+    const config = {
+      params: {
+        code: code,
+      },
+    }
+
+    const res = await axios.get('/api/article/get-by-faculty', config)
 
     const articles = res.data.data
 

@@ -91,3 +91,24 @@ export const updateCampaign = (formData, code) => async (dispatch) => {
     dispatch(setAlert('Update campaign error', 'error'))
   }
 }
+
+// get current campaign
+export const getCurrentCampaign = () => async (dispatch) => {
+  try {
+    const res = await axios.get('/api/campaign/get-current-campaign')
+
+    dispatch({
+      type: GET_CAMPAIGN,
+      payload: res.data.data,
+    })
+  } catch (err) {
+    console.error(err.message)
+    dispatch({
+      type: CAMPAIGN_ERROR,
+      payload: { msg: err.message },
+    })
+    dispatch(setAlert('Get campaign error', 'error'))
+  }
+}
+
+

@@ -33,7 +33,7 @@ const App = () => {
         <Alert />
         <Route exact path='/' component={LandingPage} />
         <Route exact path='/login' component={LoginPage} />
-        <Container maxWidth='lg' style={{ marginTop: 70 }}>
+        <Container maxWidth='md' style={{ marginTop: 70 }}>
           <Switch>
             <PrivateRoute
               exact
@@ -52,7 +52,7 @@ const App = () => {
             />
             <PrivateRoute
               exact
-              path='/article/:campaignCode/create'
+              path='/article/create'
               component={CreateArticlePage}
               expectedAuthorities={['ROLE_STUDENT']}
             />

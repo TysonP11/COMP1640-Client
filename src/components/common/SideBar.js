@@ -12,6 +12,8 @@ import {
   Typography,
   useTheme,
   MenuItem,
+  Card,
+  Avatar,
 } from '@material-ui/core'
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
@@ -19,8 +21,11 @@ import AppsIcon from '@material-ui/icons/Apps'
 import AssignmentIcon from '@material-ui/icons/Assignment'
 import PostAddIcon from '@material-ui/icons/PostAdd'
 import AccountBoxIcon from '@material-ui/icons/AccountBox'
+import ProfileAvatar from './ProfileAvatar.jpg'
+import ProfileBackground from './ProfileBackground.jpg'
+import moment from 'moment'
 
-const sideBarWidth = 240
+const sideBarWidth = 260
 const appBarHeight = 64
 const useStyles = makeStyles((theme) => ({
   sidebar: {
@@ -37,9 +42,24 @@ const useStyles = makeStyles((theme) => ({
   sideBarPaperDrawer: {
     width: sideBarWidth,
   },
+  profileCard: {
+    padding: 8,
+    background: `url(${ProfileBackground}) no-repeat center center/cover`,
+    zIndex: 1,
+    boxShadow: 'inset 20px 16px 150px #000000, inset -20px -16px 150px #000000',
+  },
+  profileAvt: {
+    width: theme.spacing(10),
+    height: theme.spacing(10),
+    margin: '10px auto',
+  },
+  centerItems: {
+    textAlign: 'center',
+    marginBottom: theme.spacing(2),
+  },
 }))
 
-const SideBar = ({ window, mobileOpen, handleSideBarToggle }) => {
+const SideBar = ({ window, mobileOpen, handleSideBarToggle, user }) => {
   const classes = useStyles()
   const theme = useTheme()
 
@@ -128,6 +148,34 @@ const SideBar = ({ window, mobileOpen, handleSideBarToggle }) => {
     </div>
   )
 
+  const profile = (
+    <div>
+      <Card className={classes.profileCard}>
+        <div className={classes.centerItems}>
+          <Avatar
+            alt='Profile Avt'
+            src={ProfileAvatar}
+            className={classes.profileAvt}
+          />
+          <Typography variant='h5' style={{ color: '#fff' }}>
+            {user.details.first_name} {user.details.last_name}
+          </Typography>
+        </div>
+        <Typography style={{ color: '#fff' }}>Role:</Typography>
+        {user.authorities.map((a, idx) => (
+          <Typography key={idx} style={{ color: '#fff' }}>- {a.slice(5)}</Typography>
+        ))}
+        <Typography style={{ color: '#fff' }}>
+          Date of Birth:{' '}
+          {moment.unix(user.details.date_of_birth).format('yyyy-MM-DD')}
+        </Typography>
+        <Typography style={{ color: '#fff' }}>
+          Faculty: {user.details.faculty_code}
+        </Typography>
+      </Card>
+    </div>
+  )
+
   return (
     <nav className={classes.sidebar}>
       <Hidden smUp implementation='css'>
@@ -144,15 +192,17 @@ const SideBar = ({ window, mobileOpen, handleSideBarToggle }) => {
             keepMounted: true, // Better open performance on mobile.
           }}
         >
+          {profile}
           {sideBar}
         </Drawer>
       </Hidden>
-      <Hidden lgDown implementation='css'>
+      <Hidden mdDown implementation='css'>
         <Drawer
           classes={{ paper: classes.sideBarPaper }}
           variant='permanent'
           open
         >
+          {profile}
           {sideBar}
         </Drawer>
       </Hidden>

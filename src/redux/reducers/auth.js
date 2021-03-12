@@ -3,6 +3,7 @@ import {
   SIGNIN_ERROR,
   AUTH_ERROR,
   USER_LOADED,
+  SIGNOUT
 } from '../actions/types'
 
 const initialState = {
@@ -44,6 +45,16 @@ export default function authReducer(state = initialState, action) {
           details: payload.details,
           authorities: payload.authorities.map((a) => a.authority),
         },
+      }
+
+    case SIGNOUT:
+      localStorage.removeItem('token')
+      return {
+        ...state,
+        isAuthenticated: false,
+        loading: false,
+        user: {},
+        error: {},
       }
 
     default:
