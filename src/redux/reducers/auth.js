@@ -1,4 +1,10 @@
-import { SIGNIN_SUCCESS, SIGNIN_ERROR, AUTH_ERROR, USER_LOADED } from '../actions/types'
+import {
+  SIGNIN_SUCCESS,
+  SIGNIN_ERROR,
+  AUTH_ERROR,
+  USER_LOADED,
+  SIGNOUT
+} from '../actions/types'
 
 const initialState = {
   isAuthenticated: false,
@@ -19,7 +25,7 @@ export default function authReducer(state = initialState, action) {
         loading: false,
         error: {},
       }
-      case AUTH_ERROR:
+    case AUTH_ERROR:
     case SIGNIN_ERROR:
       localStorage.removeItem('token')
       return {
@@ -34,7 +40,21 @@ export default function authReducer(state = initialState, action) {
         ...state,
         isAuthenticated: true,
         loading: false,
-        user: payload
+        user: {
+          username: payload.username,
+          details: payload.details,
+          authorities: payload.authorities.map((a) => a.authority),
+        },
+      }
+
+    case SIGNOUT:
+      localStorage.removeItem('token')
+      return {
+        ...state,
+        isAuthenticated: false,
+        loading: false,
+        user: {},
+        error: {},
       }
 
     default:
