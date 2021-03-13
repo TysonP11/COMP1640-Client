@@ -76,6 +76,7 @@ export const CreateArticleForm = ({
   userDetails,
   username,
   campaignCode,
+  coordinatorEmail
 }) => {
   const classes = useStyles()
   const [name, setName] = useState('')
@@ -117,7 +118,8 @@ export const CreateArticleForm = ({
       reply_to: 'phamthaison11@gmail.com',
       from_name: 'G_mag',
       to_name: 'Coordinator',
-      message: 'This is a test message'
+      message: 'This is a test message',
+      to_email: coordinatorEmail
     }
 
     emailjs.send('coordinator_contact', 'coordinator_contact_form', emailData, 'user_b3WPLwZ5Bam6FFUi3vfVF')
