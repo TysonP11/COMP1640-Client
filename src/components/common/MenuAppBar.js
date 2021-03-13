@@ -1,24 +1,48 @@
-import React, { Fragment } from 'react'
-import { fade, makeStyles } from '@material-ui/core/styles'
+import React, { useState } from 'react'
+import { fade, makeStyles, withStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
 import InputBase from '@material-ui/core/InputBase'
-
-import MenuItem from '@material-ui/core/MenuItem'
-import Menu from '@material-ui/core/Menu'
+import Link from '@material-ui/core/Link'
 import MenuIcon from '@material-ui/icons/Menu'
 import SearchIcon from '@material-ui/icons/Search'
-import AccountCircle from '@material-ui/icons/AccountCircle'
-
 import DashboardIcon from '@material-ui/icons/Dashboard'
-import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary'
-import MoreIcon from '@material-ui/icons/MoreVert'
+import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined'
+import { signout } from '../../redux/actions/auth'
+import Menu from '@material-ui/core/Menu'
+import MenuItem from '@material-ui/core/MenuItem'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import ListItemText from '@material-ui/core/ListItemText'
+import PostAddIcon from '@material-ui/icons/PostAdd'
+import DraftsIcon from '@material-ui/icons/Drafts'
+import GrainIcon from '@material-ui/icons/Grain'
+import Tooltip from '@material-ui/core/Tooltip'
 
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import _ from 'lodash'
+import SideBar from './SideBar'
+
+const StyledMenu = withStyles({
+  paper: {
+    border: '1px solid #d3d4d5',
+  },
+})((props) => (
+  <Menu
+    elevation={0}
+    getContentAnchorEl={null}
+    anchorOrigin={{
+      vertical: 'bottom',
+      horizontal: 'center',
+    }}
+    transformOrigin={{
+      vertical: 'top',
+      horizontal: 'center',
+    }}
+    {...props}
+  />
+))
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -84,117 +108,63 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export const PrimarySearchAppBar = ({ auth }) => {
-  const { user, loading, isAuthenticated } = auth
+export const PrimarySearchAppBar = ({
+  auth: { isAuthenticated, loading, user },
+  signout
+}) => {
   const classes = useStyles()
+
+  const [mobileOpen, setMobileOpen] = useState(false)
+
+  const handleSideBarToggle = () => {
+    setMobileOpen(!mobileOpen)
+  }
+
   const [anchorEl, setAnchorEl] = React.useState(null)
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null)
 
-  const isMenuOpen = Boolean(anchorEl)
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
-
-  const handleProfileMenuOpen = (event) => {
+  const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
   }
 
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null)
-  }
-
-  const handleMenuClose = () => {
+  const handleClose = () => {
     setAnchorEl(null)
-    handleMobileMenuClose()
   }
 
-  const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget)
+  const handleSignout = () => {
+    signout()
   }
-
-  const menuId = 'primary-search-account-menu'
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      {!loading && isAuthenticated && _.isEmpty(user) && (
-        <Fragment>
-          {_.get(user, 'authorities[0]') === 'ROLE_MARKETING_MANAGER' ? (
-            <Fragment>
-              <MenuItem onClick={handleMenuClose}>Manage Campaigns</MenuItem>
-              <MenuItem onClick={handleMenuClose}>Sign Out</MenuItem>
-            </Fragment>
-          ) : _.get(user, 'authorities[0]') === 'ROLE_MARKETING_COORDINATOR' ? (
-            <Fragment>
-              <MenuItem onClick={handleMenuClose}>Manage Submissions</MenuItem>
-              <MenuItem onClick={handleMenuClose}>Sign Out</MenuItem>
-            </Fragment>
-          ) : _.get(user, 'authorities[0]') === 'ROLE_STUDENT' ? (
-            <Fragment>
-              <MenuItem onClick={handleMenuClose}>My Submissions</MenuItem>
-              <MenuItem onClick={handleMenuClose}>Sign Out</MenuItem>
-            </Fragment>
-          ) : (
-            <MenuItem onClick={handleMenuClose}>Sign Out</MenuItem>
-          )}
-        </Fragment>
-      )}
-    </Menu>
-  )
-
-  const mobileMenuId = 'primary-search-account-menu-mobile'
-  const renderMobileMenu = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      id={mobileMenuId}
-      keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
-      <MenuItem>
-        <IconButton color='inherit'>
-          <DashboardIcon />
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton color='inherit'>
-          <PhotoLibraryIcon />
-        </IconButton>
-        <p>View All Submissions</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          aria-label='account of current user'
-          aria-controls='primary-search-account-menu'
-          aria-haspopup='true'
-          color='inherit'
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
-    </Menu>
-  )
 
   return (
     <div className={classes.grow}>
-      <AppBar position='static'>
+      {!loading && isAuthenticated && user && user.details && (
+        <SideBar
+          mobileOpen={mobileOpen}
+          handleSideBarToggle={handleSideBarToggle}
+          user={user}
+        />
+      )}
+
+      <AppBar position='fixed'>
         <Toolbar>
-          <IconButton
-            edge='start'
-            className={classes.menuButton}
-            color='inherit'
-            aria-label='open drawer'
-          >
-            <MenuIcon />
-          </IconButton>
+          {loading || !isAuthenticated || !user ? (
+            <IconButton
+              edge='start'
+              className={classes.menuButton}
+              color='inherit'
+            >
+              <MenuIcon />
+            </IconButton>
+          ) : (
+            <IconButton
+              edge='start'
+              className={classes.menuButton}
+              color='inherit'
+              aria-label='open drawer'
+              onClick={handleSideBarToggle}
+            >
+              <MenuIcon />
+            </IconButton>
+          )}
           <Typography className={classes.title} variant='h6' noWrap>
             G - Mag
           </Typography>
@@ -213,48 +183,69 @@ export const PrimarySearchAppBar = ({ auth }) => {
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <IconButton color='inherit'>
-              <DashboardIcon />
-            </IconButton>
-            <IconButton color='inherit'>
-              <PhotoLibraryIcon />
-            </IconButton>
-            <IconButton
-              edge='end'
-              aria-label='account of current user'
-              aria-controls={menuId}
-              aria-haspopup='true'
-              onClick={handleProfileMenuOpen}
-              color='inherit'
-            >
-              <AccountCircle />
-            </IconButton>
-          </div>
-          <div className={classes.sectionMobile}>
-            <IconButton
-              aria-label='show more'
-              aria-controls={mobileMenuId}
-              aria-haspopup='true'
-              onClick={handleMobileMenuOpen}
-              color='inherit'
-            >
-              <MoreIcon />
-            </IconButton>
+            {loading || !isAuthenticated || !user ? (
+              <Tooltip title='Signin'>
+                <IconButton color='inherit' href='/login'>
+                  <ExitToAppOutlinedIcon />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              <>
+                <Tooltip title='Article'>
+                  <IconButton color='inherit' onClick={handleClick}>
+                    <PostAddIcon />
+                  </IconButton>
+                </Tooltip>
+                <StyledMenu
+                  id='customized-menu'
+                  anchorEl={anchorEl}
+                  keepMounted
+                  open={Boolean(anchorEl)}
+                  onClose={handleClose}
+                >
+                  <MenuItem>
+                    <ListItemIcon>
+                      <GrainIcon fontSize='small' />
+                    </ListItemIcon>
+                    <Link href='/article' color='inherit'>
+                      <ListItemText primary='All Articles' />
+                    </Link>
+                  </MenuItem>
+                  <MenuItem>
+                    <ListItemIcon>
+                      <DraftsIcon fontSize='small' />
+                    </ListItemIcon>
+                    <Link href='/campaign' color='inherit'>
+                      <ListItemText primary='Create Article' />
+                    </Link>
+                  </MenuItem>
+                </StyledMenu>
+                <Tooltip title='Campaign'>
+                  <IconButton color='inherit' href='/campaign'>
+                    <DashboardIcon />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title='Signout'>
+                  <IconButton color='inherit' onClick={(e) => handleSignout()}>
+                    <ExitToAppOutlinedIcon />
+                  </IconButton>
+                </Tooltip>
+              </>
+            )}
           </div>
         </Toolbar>
       </AppBar>
-      {renderMobileMenu}
-      {renderMenu}
     </div>
   )
 }
 
 PrimarySearchAppBar.propTypes = {
   auth: PropTypes.object.isRequired,
+  signout: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
 })
 
-export default connect(mapStateToProps)(PrimarySearchAppBar)
+export default connect(mapStateToProps, { signout })(PrimarySearchAppBar)

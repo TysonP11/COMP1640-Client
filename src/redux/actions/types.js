@@ -12,3 +12,17 @@ export const SIGNIN_ERROR = 'SIGNIN_ERROR'
 export const SIGNUP_ERROR = 'SIGNUP_ERROR'
 export const SIGNOUT = 'SIGNOUT'
 export const REFRESH_TOKEN = 'REFRESH_TOKEN'
+
+// campaign types
+export const GET_CAMPAIGNS = 'GET_CAMPAIGNS'
+export const GET_CAMPAIGN = 'GET_CAMPAIGN'
+export const CREATE_CAMPAIGN = 'CREATE_CAMPAIGN'
+export const UPDATE_CAMPAIGN = 'CAMPAIGN'
+export const CAMPAIGN_ERROR = 'CAMPAIGN_ERROR'
+
+// article types
+export const GET_ARTICLES = 'GET_ARTICLES'
+export const GET_ARTICLE = 'GET_ARTICLE'
+export const CREATE_ARTICLE = 'CREATE_ARTICLE'
+export const UPDATE_ARTICLE = 'ARTICLE'
+export const ARTICLE_ERROR = 'ARTICLE_ERROR'
