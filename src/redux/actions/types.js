@@ -26,3 +26,7 @@ export const GET_ARTICLE = 'GET_ARTICLE'
 export const CREATE_ARTICLE = 'CREATE_ARTICLE'
 export const UPDATE_ARTICLE = 'ARTICLE'
 export const ARTICLE_ERROR = 'ARTICLE_ERROR'
+
+// faculty types
+export const GET_FACULTY = 'GET_FACULTY'
+export const FACULTY_ERROR = 'FACULTY_ERROR'

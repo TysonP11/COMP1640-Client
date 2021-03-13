@@ -7,25 +7,30 @@ import { createArticle } from '../../redux/actions/article'
 import Spinner from '../../components/Common/Spinner'
 import { getCurrentCampaign } from '../../redux/actions/campaign'
 
+import { getFaculty } from '../../redux/actions/faculty'
+
 export const CreateArticlePage = ({
   createArticle,
+  getFaculty,
   auth: { loading, user },
   getCurrentCampaign,
   campaign,
+  match,
+  faculty
 }) => {
   useEffect(() => {
     getCurrentCampaign()
+    if(!loading) {
+      getFaculty(user.details.faculty_code);
+    }
     // eslint-disable-next-line
   }, [loading])
+  
 
   return (
     <div>
       <CreateArticleBreadcrumbs />
-      {loading ||
-      !user ||
-      !user.details ||
-      !user.username ||
-      campaign.loading ||
+      {loading || !user || !user.details || !user.username || faculty.loading || !faculty.faculty || campaign.loading ||
       !campaign.campaign ? (
         <Spinner />
       ) : (
@@ -34,6 +39,7 @@ export const CreateArticlePage = ({
           userDetails={user.details}
           username={user.username}
           campaignCode={campaign.campaign.code}
+          
         />
       )}
     </div>
@@ -44,13 +50,19 @@ CreateArticlePage.propTypes = {
   createArticle: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   getCurrentCampaign: PropTypes.func.isRequired,
+  faculty: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
   campaign: state.campaign,
+  faculty: state.faculty
 })
 
-export default connect(mapStateToProps, { createArticle, getCurrentCampaign })(
+export default connect(mapStateToProps, { createArticle, getFaculty, getCurrentCampaign })(
   CreateArticlePage,
 )
+ 
+
+
+

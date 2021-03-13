@@ -9,7 +9,7 @@ export const HomePage = ({ auth }) => {
     !auth.user.authorities ? null : auth.user.authorities
       .map((authority) => authority.authority)
       .indexOf('ROLE_MARKETING_MANAGER') >= 0 ? (
-    <Redirect to='/marketing-manager-home' />
+    <Redirect to='/dashboard' />
   ) : auth.user.authorities
       .map((authority) => authority.authority)
       .indexOf('ROLE_MARKETING_COORDINATOR') >= 0 ? (
