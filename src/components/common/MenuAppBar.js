@@ -45,6 +45,10 @@ const StyledMenu = withStyles({
 ))
 
 const useStyles = makeStyles((theme) => ({
+  appBar: {
+    backgroundColor: '#eeeeee',
+    color: '#333'
+  },
   grow: {
     flexGrow: 1,
   },
@@ -99,13 +103,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('md')]: {
       display: 'flex',
     },
-  },
-  sectionMobile: {
-    display: 'flex',
-    [theme.breakpoints.up('md')]: {
-      display: 'none',
-    },
-  },
+  }
 }))
 
 export const PrimarySearchAppBar = ({
@@ -144,7 +142,7 @@ export const PrimarySearchAppBar = ({
         />
       )}
 
-      <AppBar position='fixed'>
+      <AppBar position='fixed' className={classes.appBar}>
         <Toolbar>
           {loading || !isAuthenticated || !user ? (
             <IconButton

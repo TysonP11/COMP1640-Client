@@ -234,3 +234,57 @@ export const getArticlesByProps = (props, code) => async (dispatch) => {
     dispatch(setAlert('Get articles by props error', 'error'))
   }
 }
+
+// get articles by faculty and status
+export const getArticlesByFacultyAndStatus = (code, status) => async (dispatch) => {
+  try {
+    const config = {
+      params: {
+        code: code,
+        status: status
+      },
+    }
+
+    const res = await axios.get('/api/article/get-by-faculty-status', config)
+
+    dispatch({
+      type: GET_ARTICLES,
+      payload: res.data.data,
+    })
+  } catch (err) {
+    console.error(err.message)
+    dispatch({
+      type: ARTICLE_ERROR,
+      payload: { msg: err.message },
+    })
+    dispatch(setAlert('Get articles by faculty and status error', 'error'))
+  }
+}
+
+// get articles by faculty and status and campaign
+export const getArticlesByFacultyAndStatusAndCampaign = (facultyCode, status, campaignCode) => async (dispatch) => {
+  try {
+    const config = {
+      params: {
+        faculty_code: facultyCode,
+        status: status,
+        campaign_code: campaignCode
+      },
+    }
+
+    const res = await axios.get('/api/article/get-by-faculty-status-campaign', config)
+
+    dispatch({
+      type: GET_ARTICLES,
+      payload: res.data.data,
+    })
+  } catch (err) {
+    console.error(err.message)
+    dispatch({
+      type: ARTICLE_ERROR,
+      payload: { msg: err.message },
+    })
+    dispatch(setAlert('Get articles by faculty and status error', 'error'))
+  }
+}
+

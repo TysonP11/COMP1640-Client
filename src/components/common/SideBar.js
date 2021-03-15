@@ -12,7 +12,6 @@ import {
   Typography,
   useTheme,
   MenuItem,
-  Card,
   Avatar,
 } from '@material-ui/core'
 import React, { useState } from 'react'
@@ -23,7 +22,6 @@ import PostAddIcon from '@material-ui/icons/PostAdd'
 import AccountBoxIcon from '@material-ui/icons/AccountBox'
 import ProfileAvatar from './ProfileAvatar.jpg'
 import ProfileBackground from './ProfileBackground.jpg'
-import moment from 'moment'
 
 const sideBarWidth = 260
 const appBarHeight = 64
@@ -38,25 +36,26 @@ const useStyles = makeStyles((theme) => ({
   sideBarPaper: {
     width: sideBarWidth,
     marginTop: appBarHeight,
+    backgroundColor: '#eeeeee'
   },
   sideBarPaperDrawer: {
     width: sideBarWidth,
   },
   profileCard: {
-    padding: 8,
+    paddingTop: theme.spacing(10),
+    paddingBottom: theme.spacing(10),
     background: `url(${ProfileBackground}) no-repeat center center/cover`,
     zIndex: 1,
     boxShadow: 'inset 20px 16px 150px #000000, inset -20px -16px 150px #000000',
   },
   profileAvt: {
-    width: theme.spacing(10),
-    height: theme.spacing(10),
+    width: theme.spacing(16),
+    height: theme.spacing(16),
     margin: '10px auto',
   },
   centerItems: {
     textAlign: 'center',
-    marginBottom: theme.spacing(2),
-  },
+  }
 }))
 
 const SideBar = ({ window, mobileOpen, handleSideBarToggle, user }) => {
@@ -150,18 +149,18 @@ const SideBar = ({ window, mobileOpen, handleSideBarToggle, user }) => {
 
   const profile = (
     <div>
-      <Card className={classes.profileCard}>
+      <div className={classes.profileCard}>
         <div className={classes.centerItems}>
           <Avatar
             alt='Profile Avt'
             src={ProfileAvatar}
             className={classes.profileAvt}
           />
-          <Typography variant='h5' style={{ color: '#fff' }}>
+          <Typography variant='h4' style={{ color: '#fff' }}>
             {user.details.first_name} {user.details.last_name}
           </Typography>
         </div>
-        <Typography style={{ color: '#fff' }}>Role:</Typography>
+        {/* <Typography style={{ color: '#fff' }}>Role:</Typography>
         {user.authorities.map((a, idx) => (
           <Typography key={idx} style={{ color: '#fff' }}>- {a.slice(5)}</Typography>
         ))}
@@ -171,8 +170,8 @@ const SideBar = ({ window, mobileOpen, handleSideBarToggle, user }) => {
         </Typography>
         <Typography style={{ color: '#fff' }}>
           Faculty: {user.details.faculty_code}
-        </Typography>
-      </Card>
+        </Typography> */}
+      </div>
     </div>
   )
 

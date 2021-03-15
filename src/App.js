@@ -15,7 +15,7 @@ import Alert from './components/Alert/Alert'
 import PrivateRoute from './components/Routing/PrivateRoute'
 import { loadUser } from './redux/actions/auth'
 import MenuAppBar from './components/Common/MenuAppBar'
-import { Container } from '@material-ui/core'
+import { Container, Grid } from '@material-ui/core'
 
 if (localStorage.token) {
   setAuthToken(localStorage.token)
@@ -33,37 +33,43 @@ const App = () => {
         <Alert />
         <Route exact path='/' component={LandingPage} />
         <Route exact path='/login' component={LoginPage} />
-        <Container maxWidth='md' style={{ marginTop: 70 }}>
-          <Switch>
-            <PrivateRoute
-              exact
-              path='/home'
-              component={HomePage}
-              expectedAuthorities={[
-                'ROLE_STUDENT',
-                'ROLE_MARKETING_COORDINATOR',
-              ]}
-            />
-            <PrivateRoute
-              exact
-              path='/campaign'
-              component={CampaignPage}
-              expectedAuthorities={['ROLE_ADMIN']}
-            />
-            <PrivateRoute
-              exact
-              path='/article/create'
-              component={CreateArticlePage}
-              expectedAuthorities={['ROLE_STUDENT']}
-            />
-            <PrivateRoute
-              exact
-              path='/article'
-              component={AllArticlesPage}
-              expectedAuthorities={['ROLE_STUDENT']}
-            />
-          </Switch>
-        </Container>
+        <Grid container spacing={3}>
+          <Grid item lg={2}></Grid>
+
+          <Grid item lg={9}>
+            <Container maxWidth='lg' style={{ marginTop: 70 }}>
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path='/home'
+                  component={HomePage}
+                  expectedAuthorities={[
+                    'ROLE_STUDENT',
+                    'ROLE_MARKETING_COORDINATOR',
+                  ]}
+                />
+                <PrivateRoute
+                  exact
+                  path='/campaign'
+                  component={CampaignPage}
+                  expectedAuthorities={['ROLE_ADMIN']}
+                />
+                <PrivateRoute
+                  exact
+                  path='/article/create'
+                  component={CreateArticlePage}
+                  expectedAuthorities={['ROLE_STUDENT']}
+                />
+                <PrivateRoute
+                  exact
+                  path='/article'
+                  component={AllArticlesPage}
+                  expectedAuthorities={['ROLE_STUDENT']}
+                />
+              </Switch>
+            </Container>
+          </Grid>
+        </Grid>
       </Router>
     </Provider>
   )

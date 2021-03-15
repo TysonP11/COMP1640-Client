@@ -1,38 +1,67 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
+import HomePageComponent from '../../components/Home/HomePageComponent'
+import Spinner from '../../components/Common/Spinner'
+import {
+  getArticlesByFacultyAndStatus,
+  getArticlesByFacultyAndStatusAndCampaign,
+} from '../../redux/actions/article'
 
-export const HomePage = ({ auth }) => {
-  return auth.loading ||
-    !auth.user ||
-    !auth.user.authorities ? null : auth.user.authorities
-      .map((authority) => authority.authority)
-      .indexOf('ROLE_MARKETING_MANAGER') >= 0 ? (
-    <Redirect to='/marketing-manager-home' />
-  ) : auth.user.authorities
-      .map((authority) => authority.authority)
-      .indexOf('ROLE_MARKETING_COORDINATOR') >= 0 ? (
-    <Redirect to='/marketing-coordinator-home' />
-  ) : auth.user.authorities
-      .map((authority) => authority.authority)
-      .indexOf('ROLE_STUDENT') >= 0 ? (
-    <Redirect to='/student-home' />
-  ) : auth.user.authorities
-      .map((authority) => authority.authority)
-      .indexOf('ROLE_GUEST') >= 0 ? (
-    <Redirect to='/guest-home' />
-  ) : null
+import { getCampaigns } from '../../redux/actions/campaign'
+
+export const HomePage = ({
+  auth: { loading, user },
+  article,
+  getArticlesByFacultyAndStatus,
+  getArticlesByFacultyAndStatusAndCampaign,
+  getCampaigns,
+  campaign,
+}) => {
+  useEffect(() => {
+    if (user && user.details) {
+      getArticlesByFacultyAndStatus(user.details.faculty_code, 'ACCEPTED')
+    }
+
+    getCampaigns()
+    // eslint-disable-next-line
+  }, [])
+
+  const handleGetArtcsByCampaign = (campaignCode) => {
+    getArticlesByFacultyAndStatusAndCampaign(
+      user.details.faculty_code,
+      'ACCEPTED',
+      campaignCode,
+    )
+  }
+
+  return loading || !user || article.loading || campaign.loading ? (
+    <Spinner />
+  ) : (
+    <HomePageComponent
+      articles={article.articles}
+      getArtcsByCampaign={handleGetArtcsByCampaign}
+      campaigns={campaign.campaigns}
+    />
+  )
 }
 
 HomePage.propTypes = {
   auth: PropTypes.object.isRequired,
+  article: PropTypes.object.isRequired,
+  getArticlesByFacultyAndStatus: PropTypes.func.isRequired,
+  getArticlesByFacultyAndStatusAndCampaign: PropTypes.func.isRequired,
+  getCampaigns: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  article: state.article,
+  campaign: state.campaign,
 })
 
-const mapDispatchToProps = {}
-
-export default connect(mapStateToProps, mapDispatchToProps)(HomePage)
+export default connect(mapStateToProps, {
+  getArticlesByFacultyAndStatus,
+  getArticlesByFacultyAndStatusAndCampaign,
+  getCampaigns,
+})(HomePage)
