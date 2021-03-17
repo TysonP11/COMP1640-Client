@@ -8,6 +8,7 @@ import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import Hidden from '@material-ui/core/Hidden'
 import { BASE_URL } from '../../environment/dev.env'
+import moment from 'moment'
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -34,7 +35,7 @@ export default function FeaturedPost({ article }) {
               {article.name}
             </Typography>
             <Typography variant='subtitle1' color='textSecondary'>
-              Date
+              {moment.unix(article.updated_at).format('yyyy-MM-DD')}
             </Typography>
             <Typography variant='subtitle1' paragraph>
               {article.message}

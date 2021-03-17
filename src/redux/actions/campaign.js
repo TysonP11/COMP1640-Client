@@ -134,6 +134,6 @@ export const updateCampaignStatus = (code) => async (dispatch) => {
       type: CAMPAIGN_ERROR,
       payload: { msg: err.message },
     })
-    dispatch(setAlert('Get campaign error', 'error'))
+    dispatch(setAlert('Update campaign error', 'error'))
   }
 }

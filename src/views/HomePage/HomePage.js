@@ -35,13 +35,21 @@ export const HomePage = ({
     )
   }
 
-  return loading || !user || article.loading || campaign.loading ? (
+  return loading ||
+    !user ||
+    !user.authorities ||
+    !user.details ||
+    article.loading ||
+    campaign.loading ? (
     <Spinner />
   ) : (
     <HomePageComponent
       articles={article.articles}
       getArtcsByCampaign={handleGetArtcsByCampaign}
       campaigns={campaign.campaigns}
+      pagination={article.pagination}
+      getArtcsByFaculty={getArticlesByFacultyAndStatus}
+      userDetails={user.details}
     />
   )
 }

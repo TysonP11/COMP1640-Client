@@ -57,9 +57,10 @@ export const loadUser = () => async (dispatch) => {
 }
 
 // sign out
-// logout
 export const signout = () => (dispatch) => {
   dispatch({
     type: SIGNOUT,
   })
+
+ 
 }

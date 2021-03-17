@@ -39,19 +39,6 @@ const sidebar = {
   title: 'About',
   description:
     'Etiam porta sem malesuada magna mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.',
-  archives: [
-    { title: 'March 2020', url: '#' },
-    { title: 'February 2020', url: '#' },
-    { title: 'January 2020', url: '#' },
-    { title: 'November 1999', url: '#' },
-    { title: 'October 1999', url: '#' },
-    { title: 'September 1999', url: '#' },
-    { title: 'August 1999', url: '#' },
-    { title: 'July 1999', url: '#' },
-    { title: 'June 1999', url: '#' },
-    { title: 'May 1999', url: '#' },
-    { title: 'April 1999', url: '#' },
-  ],
   social: [
     {
       name: 'GitHub',
@@ -71,6 +58,9 @@ export default function HomePageComponent({
   articles,
   getArtcsByCampaign,
   campaigns,
+  pagination,
+  getArtcsByFaculty,
+  userDetails,
 }) {
   const classes = useStyles()
 
@@ -94,8 +84,14 @@ export default function HomePageComponent({
                     ))}
                   </div>
                   <Pagination
-                    count={10}
-                    onChange={(e, val) => console.log(val)}
+                    count={pagination.totalPages}
+                    onChange={(e, val) =>
+                      getArtcsByFaculty(
+                        userDetails.faculty_code,
+                        'ACCEPTED',
+                        val - 1,
+                      )
+                    }
                   />
                 </Grid>
               </>
@@ -121,4 +117,6 @@ export default function HomePageComponent({
 HomePageComponent.propTypes = {
   articles: PropTypes.array.isRequired,
   getArtcsByCampaign: PropTypes.func.isRequired,
+  getArtcsByFaculty: PropTypes.func.isRequired,
+  userDetails: PropTypes.object.isRequired,
 }

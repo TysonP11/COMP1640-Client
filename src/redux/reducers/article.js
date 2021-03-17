@@ -4,10 +4,14 @@ import {
   GET_ARTICLES,
   GET_ARTICLE,
   UPDATE_ARTICLE,
+  CLEAR_ARTICLE,
+  SET_ARTICLE_FILTER_PROPS
 } from '../actions/types'
 
 const initialState = {
-  article: {},
+  filterProps: {},
+  article: null,
+  pagination: {},
   articles: [],
   loading: true,
   error: {},
@@ -17,6 +21,14 @@ export default function articleReducer(state = initialState, action) {
   const { type, payload } = action
 
   switch (type) {
+    case SET_ARTICLE_FILTER_PROPS:
+      return {
+        ...state,
+        filterProps: payload,
+        loading: false,
+        error: {}
+      }
+
     case CREATE_ARTICLE:
       return {
         ...state,
@@ -28,7 +40,8 @@ export default function articleReducer(state = initialState, action) {
     case GET_ARTICLES:
       return {
         ...state,
-        articles: payload,
+        pagination: payload.pagination,
+        articles: payload.page_data,
         loading: false,
         error: {},
       }
@@ -54,6 +67,15 @@ export default function articleReducer(state = initialState, action) {
         ...state,
         loading: false,
         error: payload,
+      }
+    }
+
+    case CLEAR_ARTICLE: {
+      return {
+        ...state,
+        article: {},
+        loading: false,
+        error: {},
       }
     }
 

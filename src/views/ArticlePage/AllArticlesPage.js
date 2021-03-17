@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import AllArticles from '../../components/Article/AllArticles'
@@ -6,20 +6,26 @@ import {
   getAllArticles,
   getArticlesByProps,
   getArticlesByFaculty,
+  updateArticle,
+  getArticle,
+  setFilterProps,
 } from '../../redux/actions/article'
 import { getCampaigns } from '../../redux/actions/campaign'
 import Spinner from '../../components/Common/Spinner'
 import ArticleToolbar from '../../components/Article/ArticleToolbar'
 import ArticleBreadcrumbs from '../../components/Article/ArticleBreadcrumbs'
+import { Pagination } from '@material-ui/lab'
 
 export const AllArticlesPage = ({
-  getAllArticles,
-  article: { articles, loading },
+  article: { articles, loading, pagination, article, filterProps },
   campaign,
   getCampaigns,
   getArticlesByProps,
   auth,
   getArticlesByFaculty,
+  getArticle,
+  updateArticle,
+  setFilterProps,
 }) => {
   useEffect(() => {
     // if (auth.user.authorities.includes('ROLE_ADMIN')) {
@@ -30,6 +36,8 @@ export const AllArticlesPage = ({
     getCampaigns()
     // eslint-disable-next-line
   }, [])
+
+  const [page, setPage] = useState(0)
 
   return loading ||
     !campaign ||
@@ -45,8 +53,23 @@ export const AllArticlesPage = ({
         campaigns={campaign.campaigns}
         getArticlesByProps={getArticlesByProps}
         facultyCode={auth.user.details.faculty_code}
+        page={page}
+        setFilterProps={setFilterProps}
       />
-      <AllArticles articles={articles.reverse()} />
+      <AllArticles
+        articles={articles}
+        updateArticle={updateArticle}
+        getArticle={getArticle}
+        article={article}
+        loading={loading}
+        filterProps={filterProps}
+        facultyCode={auth.user.details.faculty_code}
+        page={page}
+      />
+      <Pagination
+        count={pagination.totalPages}
+        onChange={(e, val) => setPage(val)}
+      />
     </>
   )
 }
@@ -59,6 +82,9 @@ AllArticlesPage.propTypes = {
   getArticlesByProps: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   getArticlesByFaculty: PropTypes.func.isRequired,
+  getArticle: PropTypes.func.isRequired,
+  updateArticle: PropTypes.func.isRequired,
+  setFilterProps: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) => ({
@@ -72,4 +98,7 @@ export default connect(mapStateToProps, {
   getCampaigns,
   getArticlesByProps,
   getArticlesByFaculty,
+  getArticle,
+  updateArticle,
+  setFilterProps,
 })(AllArticlesPage)

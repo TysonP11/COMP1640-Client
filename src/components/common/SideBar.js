@@ -22,6 +22,7 @@ import PostAddIcon from '@material-ui/icons/PostAdd'
 import AccountBoxIcon from '@material-ui/icons/AccountBox'
 import ProfileAvatar from './ProfileAvatar.jpg'
 import ProfileBackground from './ProfileBackground.jpg'
+import HomeIcon from '@material-ui/icons/Home'
 
 const sideBarWidth = 260
 const appBarHeight = 64
@@ -36,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
   sideBarPaper: {
     width: sideBarWidth,
     marginTop: appBarHeight,
-    backgroundColor: '#eeeeee'
+    backgroundColor: '#eeeeee',
   },
   sideBarPaperDrawer: {
     width: sideBarWidth,
@@ -55,10 +56,15 @@ const useStyles = makeStyles((theme) => ({
   },
   centerItems: {
     textAlign: 'center',
-  }
+  },
 }))
 
-const SideBar = ({ window, mobileOpen, handleSideBarToggle, user }) => {
+const SideBar = ({
+  window,
+  mobileOpen,
+  handleSideBarToggle,
+  user,
+}) => {
   const classes = useStyles()
   const theme = useTheme()
 
@@ -107,6 +113,18 @@ const SideBar = ({ window, mobileOpen, handleSideBarToggle, user }) => {
     <div>
       <div className={classes.toolbar}>
         <List>
+          <ListItem button>
+            <ListItemIcon>
+              <HomeIcon />
+            </ListItemIcon>
+            <ListItemText>
+              <Link href='/home' color='inherit'>
+                Home
+              </Link>
+            </ListItemText>
+          </ListItem>
+          <Divider />
+
           <ListItem button>
             <ListItemIcon>
               <AppsIcon />
