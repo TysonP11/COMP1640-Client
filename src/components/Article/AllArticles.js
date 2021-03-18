@@ -18,6 +18,7 @@ import {
   faFileAlt,
 } from '@fortawesome/free-regular-svg-icons'
 import { Link } from '@material-ui/core'
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   cardGrid: {
@@ -43,6 +44,8 @@ const useStyles = makeStyles((theme) => ({
 
 export const AllArtilces = ({ articles }) => {
   const classes = useStyles()
+
+  const history = useHistory()
 
   return !articles || articles.length === 0 ? (
     <Typography>There is no article here!!!</Typography>
@@ -113,7 +116,7 @@ export const AllArtilces = ({ articles }) => {
                   )}
                 </CardContent>
                 <CardActions>
-                  <Button size='small' color='primary'>
+                  <Button size='small' color='primary' onClick={() => history.push(`article/${article.id}`)}>
                     View
                   </Button>
                   <Button size='small' color='primary'>

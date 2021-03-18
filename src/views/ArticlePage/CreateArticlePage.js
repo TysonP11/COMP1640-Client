@@ -31,7 +31,7 @@ export const CreateArticlePage = ({
     <div>
       <CreateArticleBreadcrumbs />
       {loading || !user || !user.details || !user.username || faculty.loading || !faculty.faculty || campaign.loading ||
-      !campaign.campaign ? (
+      !campaign.campaign || !faculty.faculty.coordinator ? (
         <Spinner />
       ) : (
         <CreateArticleForm
@@ -39,7 +39,7 @@ export const CreateArticlePage = ({
           userDetails={user.details}
           username={user.username}
           campaignCode={campaign.campaign.code}
-          
+          coordinatorEmail={faculty.faculty.coordinator.email}
         />
       )}
     </div>

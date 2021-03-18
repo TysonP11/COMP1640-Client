@@ -8,7 +8,7 @@ import {
   getArticlesByFaculty,
 } from '../../redux/actions/article'
 import { getCampaigns } from '../../redux/actions/campaign'
-import Spinner from '../../components/common/Spinner'
+import Spinner from '../../components/Common/Spinner'
 import ArticleToolbar from '../../components/Article/ArticleToolbar'
 import ArticleBreadcrumbs from '../../components/Article/ArticleBreadcrumbs'
 
