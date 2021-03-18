@@ -29,36 +29,38 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const ArticleToolbar = ({ campaigns, getArticlesByProps, facultyCode }) => {
+const ArticleToolbar = ({
+  campaigns,
+  getArticlesByProps,
+  facultyCode,
+  page,
+  setFilterProps,
+}) => {
   const classes = useStyles()
 
   const [username, setUsername] = useState('')
   const [campaignCode, setCampaignCode] = useState('')
   const [status, setStatus] = useState('')
 
+  const props = {
+    username: username,
+    campaignCode: campaignCode,
+    status: status,
+  }
+
   useEffect(() => {
-    getArticlesByProps(
-      {
-        username: username,
-        campaignCode: campaignCode,
-        status: status,
-      },
-      facultyCode,
-    )
+    getArticlesByProps(props, facultyCode, page === 0 ? page : page - 1)
+
+    setFilterProps(props)
     // eslint-disable-next-line
-  }, [campaignCode, status])
+  }, [campaignCode, status, page])
 
   const handleSubmit = (e) => {
     e.preventDefault()
     if (username.trim() !== '') {
-      getArticlesByProps(
-        {
-          username: username,
-          campaignCode: campaignCode,
-          status: status,
-        },
-        facultyCode,
-      )
+      getArticlesByProps(props, facultyCode, page === 0 ? page : page - 1)
+
+      setFilterProps(props)
     }
   }
 
@@ -83,6 +85,7 @@ const ArticleToolbar = ({ campaigns, getArticlesByProps, facultyCode }) => {
     e.preventDefault()
     getArticlesByProps(
       {
+        username: username,
         campaignCode: campaignCode,
         status: status,
       },
@@ -218,6 +221,7 @@ ArticleToolbar.propTypes = {
   campaigns: PropTypes.array.isRequired,
   getArticlesByProps: PropTypes.func.isRequired,
   facultyCode: PropTypes.string.isRequired,
+  setFilterProps: PropTypes.func.isRequired,
 }
 
 export default ArticleToolbar

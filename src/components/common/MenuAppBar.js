@@ -16,9 +16,9 @@ import MenuItem from '@material-ui/core/MenuItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import PostAddIcon from '@material-ui/icons/PostAdd'
-import DraftsIcon from '@material-ui/icons/Drafts'
 import GrainIcon from '@material-ui/icons/Grain'
 import Tooltip from '@material-ui/core/Tooltip'
+import ControlPointIcon from '@material-ui/icons/ControlPoint'
 
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -45,6 +45,10 @@ const StyledMenu = withStyles({
 ))
 
 const useStyles = makeStyles((theme) => ({
+  appBar: {
+    backgroundColor: '#eeeeee',
+    color: '#333',
+  },
   grow: {
     flexGrow: 1,
   },
@@ -100,17 +104,11 @@ const useStyles = makeStyles((theme) => ({
       display: 'flex',
     },
   },
-  sectionMobile: {
-    display: 'flex',
-    [theme.breakpoints.up('md')]: {
-      display: 'none',
-    },
-  },
 }))
 
 export const PrimarySearchAppBar = ({
   auth: { isAuthenticated, loading, user },
-  signout
+  signout,
 }) => {
   const classes = useStyles()
 
@@ -144,7 +142,7 @@ export const PrimarySearchAppBar = ({
         />
       )}
 
-      <AppBar position='fixed'>
+      <AppBar position='fixed' className={classes.appBar}>
         <Toolbar>
           {loading || !isAuthenticated || !user ? (
             <IconButton
@@ -213,7 +211,7 @@ export const PrimarySearchAppBar = ({
                   </MenuItem>
                   <MenuItem>
                     <ListItemIcon>
-                      <DraftsIcon fontSize='small' />
+                      <ControlPointIcon fontSize='small' />
                     </ListItemIcon>
                     <Link href='/campaign' color='inherit'>
                       <ListItemText primary='Create Article' />
@@ -226,7 +224,10 @@ export const PrimarySearchAppBar = ({
                   </IconButton>
                 </Tooltip>
                 <Tooltip title='Signout'>
-                  <IconButton color='inherit' onClick={(e) => handleSignout()}>
+                  <IconButton
+                    color='inherit'
+                    onClick={(e) => handleSignout()}
+                  >
                     <ExitToAppOutlinedIcon />
                   </IconButton>
                 </Tooltip>

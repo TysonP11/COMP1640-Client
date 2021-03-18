@@ -7,6 +7,7 @@ import {
   createCampaign,
   getCampaign,
   updateCampaign,
+  updateCampaignStatus
 } from '../../redux/actions/campaign'
 import CampaignTable from '../../components/Campaign/CampaignTable'
 import CreateCampaignForm from '../../components/Campaign/CreateCampaignForm'
@@ -28,6 +29,7 @@ export const CampaignPage = ({
   createCampaign,
   updateCampaign,
   getCampaign,
+  updateCampaignStatus
 }) => {
   const classes = useStyles()
 
@@ -75,6 +77,7 @@ export const CampaignPage = ({
         updateCampaign={updateCampaign}
         campaign={campaign && campaign}
         user={auth.user}
+        updateStatus={updateCampaignStatus}
       />
     </>
   )
@@ -87,6 +90,7 @@ CampaignPage.propTypes = {
   createCampaign: PropTypes.func.isRequired,
   getCampaign: PropTypes.func.isRequired,
   updateCampaign: PropTypes.func.isRequired,
+  updateCampaignStatus: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) => ({
@@ -99,4 +103,5 @@ export default connect(mapStateToProps, {
   createCampaign,
   getCampaign,
   updateCampaign,
+  updateCampaignStatus
 })(CampaignPage)

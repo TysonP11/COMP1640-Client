@@ -111,4 +111,29 @@ export const getCurrentCampaign = () => async (dispatch) => {
   }
 }
 
+// update campaign status
+export const updateCampaignStatus = (code) => async (dispatch) => {
+  try {
+    const config = {
+      params: {
+        code: code,
+      },
+    }
 
+    const res = await axios.get('/api/campaign/update-status', config)
+
+    dispatch({
+      type: GET_CAMPAIGN,
+      payload: res.data.data,
+    })
+
+    dispatch(getCampaigns())
+  } catch (err) {
+    console.error(err.message)
+    dispatch({
+      type: CAMPAIGN_ERROR,
+      payload: { msg: err.message },
+    })
+    dispatch(setAlert('Update campaign error', 'error'))
+  }
+}

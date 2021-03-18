@@ -71,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export const CreateArticleForm = ({
+const CreateArticleForm = ({
   createArticle,
   userDetails,
   username,

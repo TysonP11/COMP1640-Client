@@ -26,7 +26,7 @@ function CampaignBreadcrumbs() {
 
   return (
     <Breadcrumbs aria-label='breadcrumb' className={classes.root}>
-      <Link color='inherit' href='/' className={classes.link}>
+      <Link color='inherit' href='/home' className={classes.link}>
         <HomeIcon className={classes.icon} />
         Home
       </Link>

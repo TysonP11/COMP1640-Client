@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Redirect, Route } from 'react-router-dom'
 
 import { connect } from 'react-redux'
+import Spinner from '../Common/Spinner'
 
 const PrivateRoute = ({
   component: Component,
@@ -10,26 +11,23 @@ const PrivateRoute = ({
   expectedAuthorities,
   ...rest
 }) => {
-  const [hasAccess, setHasAccess] = useState(true)
-  useEffect(() => {
-    if (!loading && user.authorities) {
-      setHasAccess(
-        user.authorities.some(
-          (element) => expectedAuthorities.indexOf(element.authority) >= 0,
-        ),
-      )
-    }
-  // eslint-disable-next-line
-  }, [])
-  return (
+  return loading ? (
+    <Spinner />
+  ) : (
     <Route
       {...rest}
       render={(props) =>
-        !isAuthenticated && !loading ? (
+        !isAuthenticated ? (
           <Redirect to='/login' />
-        ) : isAuthenticated && hasAccess && !loading ? (
+        ) : user &&
+          user.authorities &&
+          expectedAuthorities.filter((exptAuth) =>
+            user.authorities.includes(exptAuth),
+          ).length === 0 ? (
+          <Redirect to='/403error' />
+        ) : (
           <Component {...props} />
-        ) : null
+        )
       }
     />
   )
