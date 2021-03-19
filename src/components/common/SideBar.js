@@ -17,14 +17,15 @@ import {
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import AppsIcon from '@material-ui/icons/Apps'
-import AssignmentIcon from '@material-ui/icons/Assignment'
 import PostAddIcon from '@material-ui/icons/PostAdd'
 import AccountBoxIcon from '@material-ui/icons/AccountBox'
 import ProfileAvatar from './ProfileAvatar.jpg'
 import ProfileBackground from './ProfileBackground.jpg'
 import HomeIcon from '@material-ui/icons/Home'
+import LineStyleIcon from '@material-ui/icons/LineStyle'
+import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined'
 
-const sideBarWidth = 260
+const sideBarWidth = '13vw'
 const appBarHeight = 64
 const useStyles = makeStyles((theme) => ({
   sidebar: {
@@ -40,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#eeeeee',
   },
   sideBarPaperDrawer: {
-    width: sideBarWidth,
+    width: 260,
   },
   profileCard: {
     paddingTop: theme.spacing(10),
@@ -64,6 +65,7 @@ const SideBar = ({
   mobileOpen,
   handleSideBarToggle,
   user,
+  handleSignout,
 }) => {
   const classes = useStyles()
   const theme = useTheme()
@@ -81,6 +83,62 @@ const SideBar = ({
   const container =
     window !== undefined ? () => window().document.body : undefined
 
+  const guestMenu = (
+    <>
+      <ListItem button>
+        <ListItemIcon>
+          <HomeIcon />
+        </ListItemIcon>
+        <ListItemText>
+          <Link href='/home' color='inherit'>
+            Home
+          </Link>
+        </ListItemText>
+      </ListItem>
+      <Divider />
+    </>
+  )
+
+  const managerMenu = (
+    <>
+      <ListItem button>
+        <ListItemIcon>
+          <HomeIcon />
+        </ListItemIcon>
+        <ListItemText>
+          <Link href='/home' color='inherit'>
+            Home
+          </Link>
+        </ListItemText>
+      </ListItem>
+      <Divider />
+
+      <ListItem button>
+        <ListItemIcon>
+          <LineStyleIcon />
+        </ListItemIcon>
+        <ListItemText>
+          <Link href='/dashboard' color='inherit'>
+            Dashboard
+          </Link>
+        </ListItemText>
+      </ListItem>
+      <Divider />
+
+      <ListItem button>
+        <ListItemIcon>
+          <AppsIcon />
+        </ListItemIcon>
+        <ListItemText>
+          <Link href='/campaign' color='inherit'>
+            Campaign
+          </Link>
+        </ListItemText>
+      </ListItem>
+      <Divider />
+    </>
+  )
+
   const articleMenu = (
     <Menu
       id='simple-menu'
@@ -96,69 +154,79 @@ const SideBar = ({
           </Link>
         </Typography>
       </MenuItem>
-      <MenuItem onClick={handleClose}>
-        <Typography>
-          <Link href='/article' color='inherit'>
-            All Articles
-          </Link>
-        </Typography>
-      </MenuItem>
-      <MenuItem onClick={handleClose}>
-        <Typography>Submitted Articles</Typography>
-      </MenuItem>
+      {user.authorities.includes('ROLE_MARKETING_COORDINATOR') ? (
+        <MenuItem onClick={handleClose}>
+          <Typography>
+            <Link href='/article' color='inherit'>
+              All Articles
+            </Link>
+          </Typography>
+        </MenuItem>
+      ) : (
+        <MenuItem onClick={handleClose}>
+          <Typography>
+            <Link href='/article' color='inherit'>
+              Submitted Articles
+            </Link>
+          </Typography>
+        </MenuItem>
+      )}
     </Menu>
+  )
+
+  const stucoorMenu = (
+    <>
+      <ListItem button>
+        <ListItemIcon>
+          <HomeIcon />
+        </ListItemIcon>
+        <ListItemText>
+          <Link href='/home' color='inherit'>
+            Home
+          </Link>
+        </ListItemText>
+      </ListItem>
+      <Divider />
+
+      <ListItem button>
+        <ListItemIcon>
+          <PostAddIcon />
+        </ListItemIcon>
+        <ListItemText primary={'Article'} onClick={handleClick} />
+        {articleMenu}
+      </ListItem>
+      <Divider />
+    </>
   )
 
   const sideBar = (
     <div>
       <div className={classes.toolbar}>
         <List>
-          <ListItem button>
-            <ListItemIcon>
-              <HomeIcon />
-            </ListItemIcon>
-            <ListItemText>
-              <Link href='/home' color='inherit'>
-                Home
-              </Link>
-            </ListItemText>
-          </ListItem>
-          <Divider />
+          {user.authorities.includes('ROLE_MARKETING_MANAGER') && (
+            <>{managerMenu}</>
+          )}
 
-          <ListItem button>
-            <ListItemIcon>
-              <AppsIcon />
-            </ListItemIcon>
-            <ListItemText>
-              <Link href='/campaign' color='inherit'>
-                Campaign
-              </Link>
-            </ListItemText>
-          </ListItem>
-          <Divider />
+          {user.authorities.includes('ROLE_GUEST') && <>{guestMenu}</>}
 
-          <ListItem button>
-            <ListItemIcon>
-              <AssignmentIcon />
-            </ListItemIcon>
-            <ListItemText primary={'Faculty'} />
-          </ListItem>
-          <Divider />
+          {user.authorities.includes('ROLE_MARKETING_COORDINATOR') && (
+            <>{stucoorMenu}</>
+          )}
 
-          <ListItem button>
-            <ListItemIcon>
-              <PostAddIcon />
-            </ListItemIcon>
-            <ListItemText primary={'Article'} onClick={handleClick} />
-            {articleMenu}
-          </ListItem>
-          <Divider />
+          {user.authorities.includes('ROLE_STUDENT') && <>{stucoorMenu}</>}
 
           <ListItem button>
             <ListItemIcon>
               <AccountBoxIcon />
             </ListItemIcon>
             <ListItemText primary={'Profile'} />
+          </ListItem>
+
+          <ListItem button onClick={(e) => handleSignout()}>
+            <ListItemIcon>
+              <ExitToAppOutlinedIcon />
+            </ListItemIcon>
+            <ListItemText primary={'Signout'} />
           </ListItem>
         </List>
       </div>
@@ -229,6 +297,10 @@ const SideBar = ({
 
 SideBar.propTypes = {
   window: PropTypes.func,
+  handleSignout: PropTypes.func.isRequired,
+  handleSideBarToggle: PropTypes.func,
+  user: PropTypes.object.isRequired,
+  mobileOpen: PropTypes.bool.isRequired,
 }
 
 export default SideBar

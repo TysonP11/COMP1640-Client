@@ -37,7 +37,9 @@ export const AllArtilces = ({
   article,
   filterProps,
   facultyCode,
-  page
+  page,
+  user,
+  campaign,
 }) => {
   const classes = useStyles()
 
@@ -52,7 +54,9 @@ export const AllArtilces = ({
   }
 
   return !articles || articles.length === 0 ? (
-    <Typography>There is no article here!!!</Typography>
+    <Typography style={{ marginTop: 10, marginBottom: 10 }} variant='h5'>
+      There is no article here!!!
+    </Typography>
   ) : (
     <React.Fragment>
       <CssBaseline />
@@ -76,6 +80,8 @@ export const AllArtilces = ({
               key={article.id}
               handleOpenUpdtForm={handleOpenUpdtForm}
               getArticle={getArticle}
+              user={user}
+              campaign={campaign}
             />
           ))}
         </Grid>
@@ -91,6 +97,8 @@ AllArtilces.propTypes = {
   article: PropTypes.object,
   filterProps: PropTypes.object.isRequired,
   facultyCode: PropTypes.string.isRequired,
+  user: PropTypes.object.isRequired,
+  campaign: PropTypes.object.isRequired,
 }
 
 export default AllArtilces

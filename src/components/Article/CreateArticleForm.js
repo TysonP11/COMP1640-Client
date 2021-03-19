@@ -75,6 +75,7 @@ const CreateArticleForm = ({
   userDetails,
   username,
   campaignCode,
+  history,
 }) => {
   const classes = useStyles()
   const [name, setName] = useState('')
@@ -112,7 +113,7 @@ const CreateArticleForm = ({
       campaign_code: campaignCode,
     }
 
-    createArticle(formData)
+    createArticle(formData, history)
   }
 
   const uploadedFile =

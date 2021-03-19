@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export const LoginPage = ({ signin, history, isAuthenticated, loading }) => {
+export const LoginPage = ({ signin, isAuthenticated, loading }) => {
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -82,7 +82,7 @@ export const LoginPage = ({ signin, history, isAuthenticated, loading }) => {
     if (username.trim() === '' || password.trim() === '') {
       setHasError(true)
     } else {
-      signin(formData, history)
+      signin(formData)
 
       setFormData({
         username: '',

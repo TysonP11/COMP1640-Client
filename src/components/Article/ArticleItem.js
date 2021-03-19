@@ -42,7 +42,9 @@ const useStyles = makeStyles((theme) => ({
 export const ArticleItem = ({
   article,
   handleOpenUpdtForm,
-  getArticle
+  getArticle,
+  user,
+  campaign,
 }) => {
   const classes = useStyles()
 
@@ -101,13 +103,16 @@ export const ArticleItem = ({
           <Button size='small' color='primary'>
             View
           </Button>
-          <Button
-            size='small'
-            color='primary'
-            onClick={(e) => handleOpUpdtForm(e, article.id)}
-          >
-            Edit
-          </Button>
+          {user.authorities.includes('ROLE_STUDENT') &&
+            new Date().valueOf() / 1000 < campaign.edit_deadline && (
+              <Button
+                size='small'
+                color='primary'
+                onClick={(e) => handleOpUpdtForm(e, article.id)}
+              >
+                Edit
+              </Button>
+            )}
         </CardActions>
       </Card>
     </Grid>
@@ -116,6 +121,10 @@ export const ArticleItem = ({
 
 ArticleItem.propTypes = {
   article: PropTypes.object.isRequired,
+  handleOpenUpdtForm: PropTypes.func.isRequired,
+  getArticle: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+  campaign: PropTypes.object.isRequired,
 }
 
 export default ArticleItem

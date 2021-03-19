@@ -12,6 +12,7 @@ export const CreateArticlePage = ({
   auth: { loading, user },
   getCurrentCampaign,
   campaign,
+  history
 }) => {
   useEffect(() => {
     getCurrentCampaign()
@@ -34,6 +35,7 @@ export const CreateArticlePage = ({
           userDetails={user.details}
           username={user.username}
           campaignCode={campaign.campaign.code}
+          history={history}
         />
       )}
     </div>

@@ -10,7 +10,7 @@ import setAuthToken from '../../utils/setAuthToken'
 import { setAlert } from './alert'
 
 // login
-export const signin = (formData, history) => async (dispatch) => {
+export const signin = (formData) => async (dispatch) => {
   try {
     const res = await axios.post('/api/auth/login', formData)
 

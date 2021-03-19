@@ -139,6 +139,7 @@ export const PrimarySearchAppBar = ({
           mobileOpen={mobileOpen}
           handleSideBarToggle={handleSideBarToggle}
           user={user}
+          handleSignout={handleSignout}
         />
       )}
 

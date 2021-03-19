@@ -9,6 +9,9 @@ import {
   updateCampaign,
   updateCampaignStatus
 } from '../../redux/actions/campaign'
+import {
+  downloadAllArticl
+} from '../../redux/actions/article'
 import CampaignTable from '../../components/Campaign/CampaignTable'
 import CreateCampaignForm from '../../components/Campaign/CreateCampaignForm'
 import CampaignBreadcrumbs from '../../components/Campaign/CampaignBreadcrumbs'
@@ -29,7 +32,8 @@ export const CampaignPage = ({
   createCampaign,
   updateCampaign,
   getCampaign,
-  updateCampaignStatus
+  updateCampaignStatus,
+  downloadAllArticl
 }) => {
   const classes = useStyles()
 
@@ -78,6 +82,7 @@ export const CampaignPage = ({
         campaign={campaign && campaign}
         user={auth.user}
         updateStatus={updateCampaignStatus}
+        downloadAllArticl={downloadAllArticl}
       />
     </>
   )
@@ -91,6 +96,7 @@ CampaignPage.propTypes = {
   getCampaign: PropTypes.func.isRequired,
   updateCampaign: PropTypes.func.isRequired,
   updateCampaignStatus: PropTypes.func.isRequired,
+  downloadAllArticl: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) => ({
@@ -103,5 +109,6 @@ export default connect(mapStateToProps, {
   createCampaign,
   getCampaign,
   updateCampaign,
-  updateCampaignStatus
+  updateCampaignStatus,
+  downloadAllArticl
 })(CampaignPage)

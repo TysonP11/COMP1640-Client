@@ -20,6 +20,7 @@ import UpdateCampaignForm from './UpdateCampaignForm'
 import CreateNewFolderOutlinedIcon from '@material-ui/icons/CreateNewFolderOutlined'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faToggleOff, faToggleOn } from '@fortawesome/free-solid-svg-icons'
+import SystemUpdateAltIcon from '@material-ui/icons/SystemUpdateAlt'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -82,6 +83,7 @@ export const CampaignTable = ({
   updateCampaign,
   user,
   updateStatus,
+  downloadAllArticl,
 }) => {
   const classes = useStyles()
   const [order, setOrder] = useState('desc')
@@ -254,6 +256,19 @@ export const CampaignTable = ({
                               </IconButton>
                             ))}
 
+                          {user.authorities.includes(
+                            'ROLE_MARKETING_MANAGER',
+                          ) && (
+                              <IconButton
+                                aria-label='update'
+                                onClick={(e) => downloadAllArticl(row.code)}
+                              >
+                                <SystemUpdateAltIcon
+                                  style={{ color: '#00a152' }}
+                                />
+                              </IconButton>
+                            )}
+
                           {user.authorities.includes('ROLE_STUDENT') &&
                             new Date().valueOf() / 1000 < row.submit_deadline &&
                             row.status === 'ACTIVE' && (
@@ -303,6 +318,7 @@ CampaignTable.propTypes = {
   updateCampaign: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
   updateStatus: PropTypes.func.isRequired,
+  downloadAllArticl: PropTypes.func.isRequired,
 }
 
 export default CampaignTable

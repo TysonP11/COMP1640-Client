@@ -6,9 +6,69 @@ import {
   UPDATE_ARTICLE,
   CLEAR_ARTICLE,
   SET_ARTICLE_FILTER_PROPS,
+  DOWNLOAD_ALL_ARTICLES,
 } from './types'
 import axios from '../../api/axios'
 import { setAlert } from './alert'
+import JSZip from 'jszip'
+import FileSaver from 'file-saver'
+import JSZipUtils from 'jszip-utils'
+import { BASE_URL } from '../../environment/dev.env'
+const zip = new JSZip()
+const zipFilename = `${new Date().valueOf()}_All_Articles.zip`
+let count = 0
+
+export const downloadAllArticl = (campaignCode) => async (dispatch) => {
+  let filePaths
+
+  try {
+    const config = {
+      params: {
+        code: campaignCode,
+      },
+    }
+
+    const res = await axios.get('/api/article/get-all-by-campaign', config)
+
+    filePaths = res.data.data.map((articl) => articl.document_url)
+  } catch (err) {
+    console.error(err.message)
+    dispatch({
+      type: ARTICLE_ERROR,
+      payload: { msg: err.message },
+    })
+    dispatch(setAlert('Get campaigns error', 'error'))
+  }
+
+  if (filePaths && filePaths.length > 0) {
+    filePaths.forEach(async (filePath) => {
+      try {
+        const fileName = `${filePath.slice(8)}`
+        const data = await JSZipUtils.getBinaryContent(
+          `${BASE_URL}/${filePath}`,
+        )
+
+        zip.file(fileName, data, { binary: true })
+
+        console.log('before increment')
+
+        count = count + 1
+
+        console.log('after increment')
+
+        if (count === filePaths.length) {
+          const content = await zip.generateAsync({ type: 'blob' })
+          FileSaver.saveAs(content, zipFilename)
+        }
+      } catch (err) {
+        console.error(err.message)
+      }
+    })
+    dispatch({
+      type: DOWNLOAD_ALL_ARTICLES,
+    })
+  } else dispatch(setAlert('Download all articles error', 'error'))
+}
 
 // set filter props
 export const setFilterProps = (props) => (dispatch) => {
@@ -19,7 +79,7 @@ export const setFilterProps = (props) => (dispatch) => {
 }
 
 // create article
-export const createArticle = (formData) => async (dispatch) => {
+export const createArticle = (formData, history) => async (dispatch) => {
   try {
     const res = await axios.post('/api/article', formData)
 
@@ -29,6 +89,8 @@ export const createArticle = (formData) => async (dispatch) => {
     })
 
     dispatch(setAlert('Create article successfully', 'success'))
+
+    history.push('/article')
   } catch (err) {
     console.error(err.message)
     dispatch({

@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'row',
   },
   sidebarSpace: {
-    width: 260,
+    width: '13vw',
   },
   '@media (max-width: 1280px)': {
     sidebarSpace: {
@@ -77,6 +77,7 @@ const App = () => {
                   'ROLE_GUEST',
                   'ROLE_STUDENT',
                   'ROLE_MARKETING_COORDINATOR',
+                  'ROLE_MARKETING_MANAGER',
                 ]}
               />
               <PrivateRoute
