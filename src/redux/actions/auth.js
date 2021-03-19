@@ -22,8 +22,6 @@ export const signin = (formData, history) => async (dispatch) => {
     })
 
     dispatch(loadUser())
-
-    history.push('/home')
   } catch (err) {
     console.error(err)
 

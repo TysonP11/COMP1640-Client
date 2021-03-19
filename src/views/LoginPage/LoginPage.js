@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export const LoginPage = ({ signin, history, isAuthenticated }) => {
+export const LoginPage = ({ signin, history, isAuthenticated, loading }) => {
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -95,7 +95,7 @@ export const LoginPage = ({ signin, history, isAuthenticated }) => {
 
   const classes = useStyles()
 
-  if (isAuthenticated) {
+  if (isAuthenticated && !loading) {
     return <Redirect to='/home' />
   }
 
@@ -184,6 +184,7 @@ LoginPage.propTypes = {
 
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
+  loading: state.auth.loading,
 })
 
 const mapDispatchToProps = { signin }

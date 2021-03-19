@@ -26,7 +26,7 @@ const PrivateRoute = ({
           ).length === 0 ? (
           <Redirect to='/403error' />
         ) : (
-          <Component {...props} />
+          user && user.authorities && user.details && <Component {...props} />
         )
       }
     />
