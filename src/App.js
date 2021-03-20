@@ -105,7 +105,12 @@ const App = () => {
                 exact
                 path='/article/:id'
                 component={ArticleDetailPage}
-                expectedAuthorities={['ROLE_STUDENT']}
+                expectedAuthorities={[
+                  'ROLE_STUDENT',
+                  'ROLE_MARKETING_COORDINATOR',
+                  'ROLE_MARKETING_MANAGER',
+                  'ROLE_GUEST',
+                ]}
               />
             </Switch>
           </Container>

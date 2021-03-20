@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import HomePageComponent from '../../components/Home/HomePageComponent';
@@ -24,8 +24,9 @@ export const HomePage = ({
     }
 
     getCampaigns();
+
     // eslint-disable-next-line
-  }, []);
+  }, [loading, user]);
 
   const handleGetArtcsByCampaign = (campaignCode) => {
     getArticlesByFacultyAndStatusAndCampaign(

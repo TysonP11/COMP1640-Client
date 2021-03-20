@@ -4,63 +4,59 @@ import {
   USER_LOADED,
   AUTH_ERROR,
   SIGNOUT,
-} from '../actions/types'
-import axios from '../../api/axios'
-import setAuthToken from '../../utils/setAuthToken'
-import { setAlert } from './alert'
+} from '../actions/types';
+import axios from '../../api/axios';
+import setAuthToken from '../../utils/setAuthToken';
+import { setAlert } from './alert';
 
 // login
 export const signin = (formData, history) => async (dispatch) => {
   try {
-    const res = await axios.post('/api/auth/login', formData)
+    const res = await axios.post('/api/auth/login', formData);
 
-    const payload = res.data.data
+    const payload = res.data.data;
 
     dispatch({
       type: SIGNIN_SUCCESS,
       payload: payload,
-    })
+    });
 
-    dispatch(loadUser())
-
-    history.push('/home')
+    dispatch(loadUser());
   } catch (err) {
-    console.error(err)
+    console.error(err);
 
     dispatch({
       type: SIGNIN_ERROR,
       payload: { msg: err.message },
-    })
+    });
 
-    dispatch(setAlert('Authentication error!', 'error'))
+    dispatch(setAlert('Authentication error!', 'error'));
   }
-}
+};
 
 // Load User
 export const loadUser = () => async (dispatch) => {
   if (localStorage.token) {
-    setAuthToken(localStorage.token)
+    setAuthToken(localStorage.token);
   }
 
   try {
-    const res = await axios.get('/api/auth/load-user')
+    const res = await axios.get('/api/auth/load-user');
 
     dispatch({
       type: USER_LOADED,
       payload: res.data.data,
-    })
+    });
   } catch (err) {
     dispatch({
       type: AUTH_ERROR,
-    })
+    });
   }
-}
+};
 
 // sign out
 export const signout = () => (dispatch) => {
   dispatch({
     type: SIGNOUT,
-  })
-
- 
-}
+  });
+};

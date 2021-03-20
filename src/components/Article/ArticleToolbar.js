@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
-import { Grid, makeStyles, Paper, TextField } from '@material-ui/core'
-import FormControl from '@material-ui/core/FormControl'
-import NativeSelect from '@material-ui/core/NativeSelect'
-import IconButton from '@material-ui/core/IconButton'
-import CloseIcon from '@material-ui/icons/Close'
-import SearchIcon from '@material-ui/icons/Search'
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { Grid, makeStyles, Paper, TextField } from '@material-ui/core';
+import FormControl from '@material-ui/core/FormControl';
+import NativeSelect from '@material-ui/core/NativeSelect';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import SearchIcon from '@material-ui/icons/Search';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-around',
     alignItems: 'center',
   },
-}))
+}));
 
 const ArticleToolbar = ({
   campaigns,
@@ -36,62 +36,62 @@ const ArticleToolbar = ({
   page,
   setFilterProps,
 }) => {
-  const classes = useStyles()
+  const classes = useStyles();
 
-  const [username, setUsername] = useState('')
-  const [campaignCode, setCampaignCode] = useState('')
-  const [status, setStatus] = useState('')
+  const [username, setUsername] = useState('');
+  const [campaignCode, setCampaignCode] = useState('');
+  const [status, setStatus] = useState('');
 
   const props = {
     username: username,
     campaignCode: campaignCode,
     status: status,
-  }
+  };
 
   useEffect(() => {
-    getArticlesByProps(props, facultyCode, page === 0 ? page : page - 1)
+    getArticlesByProps(props, facultyCode, page === 0 ? page : page - 1);
 
-    setFilterProps(props)
+    setFilterProps(props);
     // eslint-disable-next-line
-  }, [campaignCode, status, page])
+  }, [campaignCode, status, page]);
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (username.trim() !== '') {
-      getArticlesByProps(props, facultyCode, page === 0 ? page : page - 1)
+      getArticlesByProps(props, facultyCode, page === 0 ? page : page - 1);
 
-      setFilterProps(props)
+      setFilterProps(props);
     }
-  }
+  };
 
   const handleCampaignCodeOnChange = (e) => {
-    setCampaignCode(e.target.value)
-  }
+    setCampaignCode(e.target.value);
+  };
 
   const handleStatusOnChange = (e) => {
-    setStatus(e.target.value)
-  }
+    setStatus(e.target.value);
+  };
 
   const handleCancelCampaignFilter = () => {
-    setCampaignCode('')
-  }
+    setCampaignCode('');
+  };
 
   const handleCancelStatusFilter = () => {
-    setStatus('')
-  }
+    setStatus('');
+  };
 
   const handleCancelUserFilter = (e) => {
-    setUsername('')
-    e.preventDefault()
+    setUsername('');
+    e.preventDefault();
     getArticlesByProps(
       {
         username: username,
         campaignCode: campaignCode,
         status: status,
       },
-      facultyCode,
-    )
-  }
+      facultyCode
+    );
+  };
 
   return (
     <Paper elevation={0} variant='outlined' className={classes.root}>
@@ -214,14 +214,14 @@ const ArticleToolbar = ({
         </Grid>
       </Grid>
     </Paper>
-  )
-}
+  );
+};
 
 ArticleToolbar.propTypes = {
   campaigns: PropTypes.array.isRequired,
   getArticlesByProps: PropTypes.func.isRequired,
   facultyCode: PropTypes.string.isRequired,
   setFilterProps: PropTypes.func.isRequired,
-}
+};
 
-export default ArticleToolbar
+export default ArticleToolbar;

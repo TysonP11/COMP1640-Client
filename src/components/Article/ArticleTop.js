@@ -40,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     paddingLeft: theme.spacing(2),
+    marginTop: theme.spacing(2),
   },
   summary: {
     textAlign: 'justify',
@@ -103,7 +104,7 @@ const ArticleTop = ({ article }) => {
             alignItems='flex-start'
             className={classes.title}
           >
-            <Typography variant='h4'>{article.name}</Typography>
+            <Typography variant='h3'>{article.name}</Typography>
             <GrayTextTypography>
               {article.user_username} • Feb 17
             </GrayTextTypography>
