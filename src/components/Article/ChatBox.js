@@ -1,7 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, makeStyles, Paper, Typography } from '@material-ui/core';
+import {
+  Button,
+  Divider,
+  makeStyles,
+  Paper,
+  Typography,
+} from '@material-ui/core';
 import CommentForm from './CommentForm';
+import AllComments from './AllComments';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -10,17 +17,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ChatBox = (props) => {
+const ChatBox = ({ comments, postComment, username, articleId }) => {
   const classes = useStyles();
   return (
     <Paper elevation={1} className={classes.root}>
       <Typography variant='h5'>Join the discussion</Typography>
-      <CommentForm />
-      <Button variant='contained'>Post</Button>
-
-      <Typography variant='body1' className='comment-count'>
-        View Comments
-      </Typography>
+      <CommentForm
+        postComment={postComment}
+        username={username}
+        articleId={articleId}
+      />
+      <Divider variant='middle' />
+      <AllComments comments={comments} />
     </Paper>
   );
 };
