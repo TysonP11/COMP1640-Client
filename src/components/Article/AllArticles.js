@@ -1,23 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-import Button from '@material-ui/core/Button'
-import Card from '@material-ui/core/Card'
-import CardActions from '@material-ui/core/CardActions'
-import CardContent from '@material-ui/core/CardContent'
-import CardMedia from '@material-ui/core/CardMedia'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
-import { BASE_URL } from '../../environment/dev.env'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  faFileWord,
-  faFilePdf,
-  faFileAlt,
-} from '@fortawesome/free-regular-svg-icons'
-import { Link } from '@material-ui/core'
+import ArticleItem from './ArticleItem'
+import UpdateArticleForm from './UpdateArticleForm'
 
 const useStyles = makeStyles((theme) => ({
   cardGrid: {
@@ -41,87 +30,59 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export const AllArtilces = ({ articles }) => {
+export const AllArtilces = ({
+  articles,
+  updateArticle,
+  getArticle,
+  article,
+  filterProps,
+  facultyCode,
+  page,
+  user,
+  campaign,
+}) => {
   const classes = useStyles()
 
+  const [showUpdateForm, setShowUpdateForm] = useState(false)
+
+  const handleOpenUpdtForm = (e) => {
+    setShowUpdateForm(true)
+  }
+
+  const handleCloseUpdtForm = (e) => {
+    setShowUpdateForm(false)
+  }
+
   return !articles || articles.length === 0 ? (
-    <Typography>There is no article here!!!</Typography>
+    <Typography style={{ marginTop: 10, marginBottom: 10 }} variant='h5'>
+      There is no article here!!!
+    </Typography>
   ) : (
     <React.Fragment>
       <CssBaseline />
+
+      <UpdateArticleForm
+        showUpdateForm={showUpdateForm}
+        handleCloseUpdtForm={handleCloseUpdtForm}
+        updateArticle={updateArticle}
+        article={article}
+        filterProps={filterProps}
+        facultyCode={facultyCode}
+        page={page}
+      />
+
       <main className={classes.cardGrid}>
         {/* End hero unit */}
         <Grid container spacing={4}>
           {articles.map((article) => (
-            <Grid item key={article.id} xs={12} sm={6} md={4}>
-              <Card className={classes.card}>
-                <CardMedia
-                  className={classes.cardMedia}
-                  image={`${BASE_URL}/${article.image_url}`}
-                  title='Image title'
-                />
-                <CardContent className={classes.cardContent}>
-                  <Typography gutterBottom variant='h5' component='h2' noWrap>
-                    {article.name}
-                  </Typography>
-                  <Typography style={{ marginBottom: 8 }} noWrap>
-                    {article.message}
-                  </Typography>
-                  {!article.status || article.status === 'PENDING' ? (
-                    <Typography style={{ marginBottom: 8 }}>
-                      {article.status}
-                    </Typography>
-                  ) : article.status === 'ACCEPTED' ? (
-                    <Typography style={{ marginBottom: 8, color: '#00a152' }}>
-                      {article.status}
-                    </Typography>
-                  ) : (
-                    <Typography style={{ marginBottom: 8, color: '#f44336' }}>
-                      {article.status}
-                    </Typography>
-                  )}
-                  {article.document_url.endsWith('.docx') ||
-                  article.document_url.endsWith('.doc') ? (
-                    <Typography>
-                      <FontAwesomeIcon
-                        icon={faFileWord}
-                        size='2x'
-                        color='#2196f3'
-                      />{' '}
-                      <Link href={`${BASE_URL}/${article.document_url}`}>
-                        Document
-                      </Link>
-                    </Typography>
-                  ) : article.document_url.endsWith('.pdf') ? (
-                    <Typography>
-                      <FontAwesomeIcon
-                        icon={faFilePdf}
-                        size='2x'
-                        color='#d50000'
-                      />{' '}
-                      <Link href={`${BASE_URL}/${article.document_url}`}>
-                        Document
-                      </Link>
-                    </Typography>
-                  ) : (
-                    <Typography>
-                      <FontAwesomeIcon icon={faFileAlt} size='2x' />{' '}
-                      <Link href={`${BASE_URL}/${article.document_url}`}>
-                        Document
-                      </Link>
-                    </Typography>
-                  )}
-                </CardContent>
-                <CardActions>
-                  <Button size='small' color='primary'>
-                    View
-                  </Button>
-                  <Button size='small' color='primary'>
-                    Edit
-                  </Button>
-                </CardActions>
-              </Card>
-            </Grid>
+            <ArticleItem
+              article={article}
+              key={article.id}
+              handleOpenUpdtForm={handleOpenUpdtForm}
+              getArticle={getArticle}
+              user={user}
+              campaign={campaign}
+            />
           ))}
         </Grid>
       </main>
@@ -131,6 +92,13 @@ export const AllArtilces = ({ articles }) => {
 
 AllArtilces.propTypes = {
   articles: PropTypes.array.isRequired,
+  updateArticle: PropTypes.func.isRequired,
+  getArticle: PropTypes.func.isRequired,
+  article: PropTypes.object,
+  filterProps: PropTypes.object.isRequired,
+  facultyCode: PropTypes.string.isRequired,
+  user: PropTypes.object.isRequired,
+  campaign: PropTypes.object.isRequired,
 }
 
 export default AllArtilces

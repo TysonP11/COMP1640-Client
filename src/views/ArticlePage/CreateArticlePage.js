@@ -15,23 +15,29 @@ export const CreateArticlePage = ({
   auth: { loading, user },
   getCurrentCampaign,
   campaign,
-  match,
-  faculty
+  faculty,
+  history,
 }) => {
   useEffect(() => {
     getCurrentCampaign()
-    if(!loading) {
-      getFaculty(user.details.faculty_code);
-    }
+
+    getFaculty(user.details.faculty_code)
+
     // eslint-disable-next-line
   }, [loading])
-  
 
   return (
     <div>
       <CreateArticleBreadcrumbs />
-      {loading || !user || !user.details || !user.username || faculty.loading || !faculty.faculty || campaign.loading ||
-      !campaign.campaign ? (
+      {loading ||
+      !user ||
+      !user.details ||
+      !user.username ||
+      faculty.loading ||
+      !faculty.faculty ||
+      campaign.loading ||
+      !campaign.campaign ||
+      !faculty.faculty.coordinator ? (
         <Spinner />
       ) : (
         <CreateArticleForm
@@ -39,7 +45,8 @@ export const CreateArticlePage = ({
           userDetails={user.details}
           username={user.username}
           campaignCode={campaign.campaign.code}
-          
+          coordinatorEmail={faculty.faculty.coordinator.email}
+          history={history}
         />
       )}
     </div>
@@ -51,18 +58,17 @@ CreateArticlePage.propTypes = {
   auth: PropTypes.object.isRequired,
   getCurrentCampaign: PropTypes.func.isRequired,
   faculty: PropTypes.object.isRequired,
+  getFaculty: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
   campaign: state.campaign,
-  faculty: state.faculty
+  faculty: state.faculty,
 })
 
-export default connect(mapStateToProps, { createArticle, getFaculty, getCurrentCampaign })(
-  CreateArticlePage,
-)
- 
-
-
-
+export default connect(mapStateToProps, {
+  createArticle,
+  getCurrentCampaign,
+  getFaculty,
+})(CreateArticlePage)

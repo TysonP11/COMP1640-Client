@@ -10,7 +10,7 @@ import setAuthToken from '../../utils/setAuthToken'
 import { setAlert } from './alert'
 
 // login
-export const signin = (formData, history) => async (dispatch) => {
+export const signin = (formData) => async (dispatch) => {
   try {
     const res = await axios.post('/api/auth/login', formData)
 
@@ -22,8 +22,6 @@ export const signin = (formData, history) => async (dispatch) => {
     })
 
     dispatch(loadUser())
-
-    history.push('/home')
   } catch (err) {
     console.error(err)
 
@@ -57,7 +55,6 @@ export const loadUser = () => async (dispatch) => {
 }
 
 // sign out
-// logout
 export const signout = () => (dispatch) => {
   dispatch({
     type: SIGNOUT,

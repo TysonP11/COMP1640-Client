@@ -7,12 +7,12 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme) => ({
   alert: {
-    position: 'absolute',
+    position: 'fixed',
     bottom: '2%',
     right: '2%',
     width: '30%',
     '@media (max-width: 768px)': {
-      position: 'absolute',
+      position: 'fixed',
       bottom: '2%',
       width: '90%',
       left: '50%',

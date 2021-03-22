@@ -7,13 +7,17 @@ import {
   createCampaign,
   getCampaign,
   updateCampaign,
+  updateCampaignStatus
 } from '../../redux/actions/campaign'
+import {
+  downloadAllArticl
+} from '../../redux/actions/article'
 import CampaignTable from '../../components/Campaign/CampaignTable'
 import CreateCampaignForm from '../../components/Campaign/CreateCampaignForm'
 import CampaignBreadcrumbs from '../../components/Campaign/CampaignBreadcrumbs'
 import { Button, makeStyles } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
-import Spinner from '../../components/common/Spinner'
+import Spinner from '../../components/Common/Spinner'
 
 const useStyles = makeStyles((theme) => ({
   createButton: {
@@ -28,6 +32,8 @@ export const CampaignPage = ({
   createCampaign,
   updateCampaign,
   getCampaign,
+  updateCampaignStatus,
+  downloadAllArticl
 }) => {
   const classes = useStyles()
 
@@ -75,6 +81,8 @@ export const CampaignPage = ({
         updateCampaign={updateCampaign}
         campaign={campaign && campaign}
         user={auth.user}
+        updateStatus={updateCampaignStatus}
+        downloadAllArticl={downloadAllArticl}
       />
     </>
   )
@@ -87,6 +95,8 @@ CampaignPage.propTypes = {
   createCampaign: PropTypes.func.isRequired,
   getCampaign: PropTypes.func.isRequired,
   updateCampaign: PropTypes.func.isRequired,
+  updateCampaignStatus: PropTypes.func.isRequired,
+  downloadAllArticl: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) => ({
@@ -99,4 +109,6 @@ export default connect(mapStateToProps, {
   createCampaign,
   getCampaign,
   updateCampaign,
+  updateCampaignStatus,
+  downloadAllArticl
 })(CampaignPage)

@@ -16,7 +16,7 @@ import {
   faFileAlt,
 } from '@fortawesome/free-regular-svg-icons'
 import Avatar from '@material-ui/core/Avatar'
-import defaultImage from '../common/DefaultImage.png'
+import defaultImage from '../Common/DefaultImage.png'
 import { BASE_URL } from '../../environment/dev.env'
 import emailjs from 'emailjs-com';
 
@@ -71,11 +71,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export const CreateArticleForm = ({
+const CreateArticleForm = ({
   createArticle,
   userDetails,
   username,
   campaignCode,
+  history,
   coordinatorEmail
 }) => {
   const classes = useStyles()
@@ -129,7 +130,7 @@ export const CreateArticleForm = ({
           console.log(error.text);
       });
 
-    createArticle(formData)
+    createArticle(formData, history)
   }
 
   const uploadedFile =

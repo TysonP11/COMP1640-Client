@@ -12,20 +12,21 @@ import {
   Typography,
   useTheme,
   MenuItem,
-  Card,
   Avatar,
 } from '@material-ui/core'
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import AppsIcon from '@material-ui/icons/Apps'
-import AssignmentIcon from '@material-ui/icons/Assignment'
 import PostAddIcon from '@material-ui/icons/PostAdd'
 import AccountBoxIcon from '@material-ui/icons/AccountBox'
 import ProfileAvatar from './ProfileAvatar.jpg'
 import ProfileBackground from './ProfileBackground.jpg'
-import moment from 'moment'
+import HomeIcon from '@material-ui/icons/Home'
+import LineStyleIcon from '@material-ui/icons/LineStyle'
+import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined'
+import { useHistory } from 'react-router-dom'
 
-const sideBarWidth = 260
+const sideBarWidth = '13vw'
 const appBarHeight = 64
 const useStyles = makeStyles((theme) => ({
   sidebar: {
@@ -38,30 +39,38 @@ const useStyles = makeStyles((theme) => ({
   sideBarPaper: {
     width: sideBarWidth,
     marginTop: appBarHeight,
+    backgroundColor: '#eeeeee',
   },
   sideBarPaperDrawer: {
-    width: sideBarWidth,
+    width: 260,
   },
   profileCard: {
-    padding: 8,
+    paddingTop: theme.spacing(10),
+    paddingBottom: theme.spacing(10),
     background: `url(${ProfileBackground}) no-repeat center center/cover`,
     zIndex: 1,
     boxShadow: 'inset 20px 16px 150px #000000, inset -20px -16px 150px #000000',
   },
   profileAvt: {
-    width: theme.spacing(10),
-    height: theme.spacing(10),
+    width: theme.spacing(16),
+    height: theme.spacing(16),
     margin: '10px auto',
   },
   centerItems: {
     textAlign: 'center',
-    marginBottom: theme.spacing(2),
   },
 }))
 
-const SideBar = ({ window, mobileOpen, handleSideBarToggle, user }) => {
+const SideBar = ({
+  window,
+  mobileOpen,
+  handleSideBarToggle,
+  user,
+  handleSignout,
+}) => {
   const classes = useStyles()
   const theme = useTheme()
+  const history = useHistory()
 
   const [anchorEl, setAnchorEl] = useState(null)
 
@@ -76,6 +85,34 @@ const SideBar = ({ window, mobileOpen, handleSideBarToggle, user }) => {
   const container =
     window !== undefined ? () => window().document.body : undefined
 
+  const managerMenu = (
+    <>
+      <ListItem button>
+        <ListItemIcon>
+          <LineStyleIcon />
+        </ListItemIcon>
+        <ListItemText>
+          <Link href='/dashboard' color='inherit'>
+            Dashboard
+          </Link>
+        </ListItemText>
+      </ListItem>
+      <Divider />
+
+      <ListItem button>
+        <ListItemIcon>
+          <AppsIcon />
+        </ListItemIcon>
+        <ListItemText>
+          <Link href='/campaign' color='inherit'>
+            Campaign
+          </Link>
+        </ListItemText>
+      </ListItem>
+      <Divider />
+    </>
+  )
+
   const articleMenu = (
     <Menu
       id='simple-menu'
@@ -84,64 +121,82 @@ const SideBar = ({ window, mobileOpen, handleSideBarToggle, user }) => {
       open={Boolean(anchorEl)}
       onClose={handleClose}
     >
-      <MenuItem onClick={handleClose}>
-        <Typography>
-          <Link href='/article/create' color='inherit'>
-            Create Article
-          </Link>
-        </Typography>
-      </MenuItem>
-      <MenuItem onClick={handleClose}>
-        <Typography>
-          <Link href='/article' color='inherit'>
-            All Articles
-          </Link>
-        </Typography>
-      </MenuItem>
-      <MenuItem onClick={handleClose}>
-        <Typography>Submitted Articles</Typography>
-      </MenuItem>
+      {user.authorities.includes('ROLE_MARKETING_COORDINATOR') ? (
+        <MenuItem onClick={handleClose}>
+          <Typography>
+            <Link href='/article' color='inherit'>
+              All Articles
+            </Link>
+          </Typography>
+        </MenuItem>
+      ) : (
+        <div>
+          <MenuItem onClick={handleClose}>
+            <Typography>
+              <Link href='/article/create' color='inherit'>
+                Create Article
+              </Link>
+            </Typography>
+          </MenuItem>
+          <MenuItem onClick={handleClose}>
+            <Typography>
+              <Link href='/article' color='inherit'>
+                Submitted Articles
+              </Link>
+            </Typography>
+          </MenuItem>
+        </div>
+      )}
     </Menu>
+  )
+
+  const stucoorMenu = (
+    <>
+      <ListItem button>
+        <ListItemIcon>
+          <PostAddIcon />
+        </ListItemIcon>
+        <ListItemText primary={'Article'} onClick={handleClick} />
+        {articleMenu}
+      </ListItem>
+      <Divider />
+    </>
   )
 
   const sideBar = (
     <div>
       <div className={classes.toolbar}>
         <List>
-          <ListItem button>
+          <ListItem button onClick={e => history.push('/home')}>
             <ListItemIcon>
-              <AppsIcon />
+              <HomeIcon />
             </ListItemIcon>
-            <ListItemText>
-              <Link href='/campaign' color='inherit'>
-                Campaign
-              </Link>
-            </ListItemText>
+            <ListItemText>Home</ListItemText>
           </ListItem>
           <Divider />
+          {user.authorities.includes('ROLE_MARKETING_MANAGER') && (
+            <>{managerMenu}</>
+          )}
 
-          <ListItem button>
-            <ListItemIcon>
-              <AssignmentIcon />
-            </ListItemIcon>
-            <ListItemText primary={'Faculty'} />
-          </ListItem>
-          <Divider />
+          {user.authorities.includes('ROLE_MARKETING_COORDINATOR') && (
+            <>{stucoorMenu}</>
+          )}
 
-          <ListItem button>
-            <ListItemIcon>
-              <PostAddIcon />
-            </ListItemIcon>
-            <ListItemText primary={'Article'} onClick={handleClick} />
-            {articleMenu}
-          </ListItem>
-          <Divider />
+          {user.authorities.includes('ROLE_STUDENT') && <>{stucoorMenu}</>}
 
           <ListItem button>
             <ListItemIcon>
               <AccountBoxIcon />
             </ListItemIcon>
             <ListItemText primary={'Profile'} />
+          </ListItem>
+          <Divider />
+
+          <ListItem button onClick={(e) => handleSignout()}>
+            <ListItemIcon>
+              <ExitToAppOutlinedIcon />
+            </ListItemIcon>
+            <ListItemText primary={'Signout'} />
           </ListItem>
         </List>
       </div>
@@ -150,18 +205,18 @@ const SideBar = ({ window, mobileOpen, handleSideBarToggle, user }) => {
 
   const profile = (
     <div>
-      <Card className={classes.profileCard}>
+      <div className={classes.profileCard}>
         <div className={classes.centerItems}>
           <Avatar
             alt='Profile Avt'
             src={ProfileAvatar}
             className={classes.profileAvt}
           />
-          <Typography variant='h5' style={{ color: '#fff' }}>
+          <Typography variant='h4' style={{ color: '#fff' }}>
             {user.details.first_name} {user.details.last_name}
           </Typography>
         </div>
-        <Typography style={{ color: '#fff' }}>Role:</Typography>
+        {/* <Typography style={{ color: '#fff' }}>Role:</Typography>
         {user.authorities.map((a, idx) => (
           <Typography key={idx} style={{ color: '#fff' }}>- {a.slice(5)}</Typography>
         ))}
@@ -171,14 +226,14 @@ const SideBar = ({ window, mobileOpen, handleSideBarToggle, user }) => {
         </Typography>
         <Typography style={{ color: '#fff' }}>
           Faculty: {user.details.faculty_code}
-        </Typography>
-      </Card>
+        </Typography> */}
+      </div>
     </div>
   )
 
   return (
     <nav className={classes.sidebar}>
-      <Hidden smUp implementation='css'>
+      <Hidden xsUp implementation='css'>
         <Drawer
           container={container}
           variant='temporary'
@@ -212,6 +267,10 @@ const SideBar = ({ window, mobileOpen, handleSideBarToggle, user }) => {
 
 SideBar.propTypes = {
   window: PropTypes.func,
+  handleSignout: PropTypes.func.isRequired,
+  handleSideBarToggle: PropTypes.func,
+  user: PropTypes.object.isRequired,
+  mobileOpen: PropTypes.bool.isRequired,
 }
 
 export default SideBar

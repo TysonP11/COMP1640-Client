@@ -27,7 +27,7 @@ function ArticleBreadcrumbs() {
 
   return (
     <Breadcrumbs aria-label='breadcrumb' className={classes.root}>
-      <Link color='inherit' href='/home' className={classes.link}>
+      <Link color='inherit' href='/' className={classes.link}>
         <HomeIcon className={classes.icon} />
         Home
       </Link>
@@ -35,9 +35,13 @@ function ArticleBreadcrumbs() {
         <PostAddIcon className={classes.icon} />
         Article
       </Link>
-      <Typography color='textPrimary' className={classes.link}>
+      {/* <Typography color='textPrimary' className={classes.link}>
         <GrainIcon className={classes.icon} />
         All Articles
+      </Typography> */}
+      <Typography color='textPrimary' className={classes.link}>
+        <GrainIcon className={classes.icon} />
+        Article Details
       </Typography>
     </Breadcrumbs>
   )

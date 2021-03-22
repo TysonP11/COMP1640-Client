@@ -18,6 +18,9 @@ import { IconButton } from '@material-ui/core'
 import EditLocationTwoToneIcon from '@material-ui/icons/EditLocationTwoTone'
 import UpdateCampaignForm from './UpdateCampaignForm'
 import CreateNewFolderOutlinedIcon from '@material-ui/icons/CreateNewFolderOutlined'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faToggleOff, faToggleOn } from '@fortawesome/free-solid-svg-icons'
+import SystemUpdateAltIcon from '@material-ui/icons/SystemUpdateAlt'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -79,6 +82,8 @@ export const CampaignTable = ({
   campaign,
   updateCampaign,
   user,
+  updateStatus,
+  downloadAllArticl,
 }) => {
   const classes = useStyles()
   const [order, setOrder] = useState('desc')
@@ -229,6 +234,41 @@ export const CampaignTable = ({
                             <EditLocationTwoToneIcon />
                           </IconButton>
 
+                          {user.authorities.includes(
+                            'ROLE_MARKETING_MANAGER',
+                          ) &&
+                            (row.status === 'ACTIVE' ? (
+                              <IconButton
+                                aria-label='update'
+                                onClick={(e) => updateStatus(row.code)}
+                              >
+                                <FontAwesomeIcon
+                                  icon={faToggleOn}
+                                  style={{ color: '#00a152' }}
+                                />
+                              </IconButton>
+                            ) : (
+                              <IconButton
+                                aria-label='update'
+                                onClick={(e) => updateStatus(row.code)}
+                              >
+                                <FontAwesomeIcon icon={faToggleOff} />
+                              </IconButton>
+                            ))}
+
+                          {user.authorities.includes(
+                            'ROLE_MARKETING_MANAGER',
+                          ) && (
+                              <IconButton
+                                aria-label='update'
+                                onClick={(e) => downloadAllArticl(row.code)}
+                              >
+                                <SystemUpdateAltIcon
+                                  style={{ color: '#00a152' }}
+                                />
+                              </IconButton>
+                            )}
+
                           {user.authorities.includes('ROLE_STUDENT') &&
                             new Date().valueOf() / 1000 < row.submit_deadline &&
                             row.status === 'ACTIVE' && (
@@ -277,6 +317,8 @@ CampaignTable.propTypes = {
   campaign: PropTypes.object.isRequired,
   updateCampaign: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
+  updateStatus: PropTypes.func.isRequired,
+  downloadAllArticl: PropTypes.func.isRequired,
 }
 
 export default CampaignTable

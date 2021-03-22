@@ -6,6 +6,7 @@ import NativeSelect from '@material-ui/core/NativeSelect'
 import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
 import SearchIcon from '@material-ui/icons/Search'
+import Spinner from '../../components/Common/Spinner'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,36 +30,43 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const ArticleToolbar = ({ campaigns, getArticlesByProps, facultyCode }) => {
+const ArticleToolbar = ({
+  campaigns,
+  getArticlesByProps,
+  facultyCode,
+  page,
+  setFilterProps,
+  user,
+  currentCampaignCode,
+  loading,
+}) => {
   const classes = useStyles()
 
   const [username, setUsername] = useState('')
-  const [campaignCode, setCampaignCode] = useState('')
+  const [campaignCode, setCampaignCode] = useState(currentCampaignCode ? currentCampaignCode : '')
   const [status, setStatus] = useState('')
 
+  const props = {
+    username: user.authorities.includes('ROLE_STUDENT')
+      ? user.username
+      : username,
+    campaignCode: campaignCode,
+    status: status,
+  }
+
   useEffect(() => {
-    getArticlesByProps(
-      {
-        username: username,
-        campaignCode: campaignCode,
-        status: status,
-      },
-      facultyCode,
-    )
+    getArticlesByProps(props, facultyCode, page === 0 ? page : page - 1)
+
+    setFilterProps(props)
     // eslint-disable-next-line
-  }, [campaignCode, status])
+  }, [campaignCode, status, page])
 
   const handleSubmit = (e) => {
     e.preventDefault()
     if (username.trim() !== '') {
-      getArticlesByProps(
-        {
-          username: username,
-          campaignCode: campaignCode,
-          status: status,
-        },
-        facultyCode,
-      )
+      getArticlesByProps(props, facultyCode, page === 0 ? page : page - 1)
+
+      setFilterProps(props)
     }
   }
 
@@ -83,6 +91,7 @@ const ArticleToolbar = ({ campaigns, getArticlesByProps, facultyCode }) => {
     e.preventDefault()
     getArticlesByProps(
       {
+        username: username,
         campaignCode: campaignCode,
         status: status,
       },
@@ -90,51 +99,55 @@ const ArticleToolbar = ({ campaigns, getArticlesByProps, facultyCode }) => {
     )
   }
 
-  return (
+  return loading ? (
+    <Spinner />
+  ) : (
     <Paper elevation={0} variant='outlined' className={classes.root}>
       <Grid container spacing={4} direction='row' alignItems='center'>
-        <Grid item md={4}>
-          <form
-            noValidate
-            autoComplete='off'
-            className={classes.formControl}
-            onSubmit={handleSubmit}
-          >
-            <Grid
-              container
-              direction='row'
-              justify='center'
-              alignItems='center'
-              spacing={2}
+        {user.authorities.includes('ROLE_MARKETING_COORDINATOR') && (
+          <Grid item md={4}>
+            <form
+              noValidate
+              autoComplete='off'
+              className={classes.formControl}
+              onSubmit={handleSubmit}
             >
-              <Grid item md={9}>
-                <TextField
-                  name='username'
-                  label='Search by username'
-                  className={classes.textInput}
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                />
-              </Grid>
-              <Grid item md={3}>
-                <div className={classes.buttonGroup}>
-                  <IconButton aria-label='delete' type='submit'>
-                    <SearchIcon fontSize='default' />
-                  </IconButton>
+              <Grid
+                container
+                direction='row'
+                justify='center'
+                alignItems='center'
+                spacing={2}
+              >
+                <Grid item md={9}>
+                  <TextField
+                    name='username'
+                    label='Search by username'
+                    className={classes.textInput}
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                  />
+                </Grid>
+                <Grid item md={3}>
+                  <div className={classes.buttonGroup}>
+                    <IconButton aria-label='delete' type='submit'>
+                      <SearchIcon fontSize='default' />
+                    </IconButton>
 
-                  <IconButton
-                    aria-label='delete'
-                    onClick={handleCancelUserFilter}
-                  >
-                    <CloseIcon fontSize='default' />
-                  </IconButton>
-                </div>
+                    <IconButton
+                      aria-label='delete'
+                      onClick={handleCancelUserFilter}
+                    >
+                      <CloseIcon fontSize='default' />
+                    </IconButton>
+                  </div>
+                </Grid>
               </Grid>
-            </Grid>
-          </form>
-        </Grid>
+            </form>
+          </Grid>
+        )}
 
-        <Grid item md={4}>
+        <Grid item md={user.authorities.includes('ROLE_STUDENT') ? 6 : 4}>
           <Grid
             container
             direction='row'
@@ -172,7 +185,7 @@ const ArticleToolbar = ({ campaigns, getArticlesByProps, facultyCode }) => {
           </Grid>
         </Grid>
 
-        <Grid item md={4}>
+        <Grid item md={user.authorities.includes('ROLE_STUDENT') ? 6 : 4}>
           <Grid
             container
             direction='row'
@@ -218,6 +231,10 @@ ArticleToolbar.propTypes = {
   campaigns: PropTypes.array.isRequired,
   getArticlesByProps: PropTypes.func.isRequired,
   facultyCode: PropTypes.string.isRequired,
+  setFilterProps: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+  currentCampaignCode: PropTypes.string,
+  loading: PropTypes.bool.isRequired,
 }
 
 export default ArticleToolbar
