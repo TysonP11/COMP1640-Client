@@ -31,7 +31,7 @@ export const AllArticlesPage = ({
 
     getCampaigns()
     // eslint-disable-next-line
-  }, [loading])
+  }, [loading, campaign.loading, auth.loading])
 
   const [page, setPage] = useState(0)
 
