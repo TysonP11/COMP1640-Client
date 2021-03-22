@@ -14,7 +14,7 @@ import AllArticlesPage from './views/ArticlePage/AllArticlesPage'
 import Alert from './components/Alert/Alert'
 import PrivateRoute from './components/Routing/PrivateRoute'
 import { loadUser } from './redux/actions/auth'
-import MenuAppBar from './components/Common/MenuAppBar'
+import MenuAppBar from './components/common/MenuAppBar'
 import { Container } from '@material-ui/core'
 
 if (localStorage.token) {
