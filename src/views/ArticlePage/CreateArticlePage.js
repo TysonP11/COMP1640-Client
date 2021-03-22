@@ -9,6 +9,7 @@ import { getCurrentCampaign } from '../../redux/actions/campaign'
 
 export const CreateArticlePage = ({
   createArticle,
+  getFaculty,
   auth: { loading, user },
   getCurrentCampaign,
   campaign,

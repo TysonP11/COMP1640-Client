@@ -18,6 +18,7 @@ import {
 import Avatar from '@material-ui/core/Avatar'
 import defaultImage from '../Common/DefaultImage.png'
 import { BASE_URL } from '../../environment/dev.env'
+import emailjs from 'emailjs-com';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -76,6 +77,7 @@ const CreateArticleForm = ({
   username,
   campaignCode,
   history,
+  coordinatorEmail
 }) => {
   const classes = useStyles()
   const [name, setName] = useState('')
@@ -114,6 +116,22 @@ const CreateArticleForm = ({
     }
 
     createArticle(formData, history)
+    const emailData = {
+      reply_to: 'phamthaison11@gmail.com',
+      from_name: 'G_mag',
+      to_name: 'Coordinator',
+      message: 'This is a test message',
+      to_email: coordinatorEmail
+    }
+
+    emailjs.send('coordinator_contact', 'coordinator_contact_form', emailData, 'user_b3WPLwZ5Bam6FFUi3vfVF')
+      .then((result) => {
+          console.log(result.text);
+      }, (error) => {
+          console.log(error.text);
+      });
+
+    createArticle(formData)
   }
 
   const uploadedFile =
