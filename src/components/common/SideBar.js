@@ -281,7 +281,7 @@ const SideBar = ({
           {sideBar}
         </Drawer>
       </Hidden>
-      <Hidden mdDown implementation='css'>
+      <Hidden lgDown implementation='css'>
         <Drawer
           classes={{ paper: classes.sideBarPaper }}
           variant='permanent'

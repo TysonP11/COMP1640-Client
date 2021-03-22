@@ -115,7 +115,6 @@ const CreateArticleForm = ({
       campaign_code: campaignCode,
     }
 
-    createArticle(formData, history)
     const emailData = {
       reply_to: 'phamthaison11@gmail.com',
       from_name: 'G_mag',
@@ -131,7 +130,7 @@ const CreateArticleForm = ({
           console.log(error.text);
       });
 
-    createArticle(formData)
+    createArticle(formData, history)
   }
 
   const uploadedFile =
