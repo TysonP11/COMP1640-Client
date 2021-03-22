@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Spinner from '../../components/Common/Spinner';
 import { Fragment } from 'react';
@@ -19,10 +19,26 @@ const ArticleDetailPage = ({
   match,
   auth,
 }) => {
+  const [isCoordinator, setIsCoordinator] = useState(false);
+
   useEffect(() => {
     getArticle(match.params.id);
     getComments(match.params.id);
-  }, [getArticle, match.params.id, getComments, postComment]);
+    if (
+      auth.user.authorities.filter((el) => el === 'ROLE_MARKETING_COORDINATOR')
+        .length > 0
+    ) {
+      setIsCoordinator(true);
+    }
+  }, [
+    getArticle,
+    match.params.id,
+    getComments,
+    postComment,
+    auth,
+    auth.user,
+    auth.user.authorities,
+  ]);
 
   return auth.loading || !auth.user || loading || article === null || !match ? (
     <Spinner></Spinner>
@@ -31,7 +47,7 @@ const ArticleDetailPage = ({
       <ArticleDetailsBreadcrumb />
       <Grid container spacing={4} direction='row' alignItems='flex-start'>
         <Grid item lg={9} md={12}>
-          <ArticleTop article={article} />
+          <ArticleTop article={article} isCoordinator={isCoordinator} />
         </Grid>
         <Grid item lg={3} md={12}>
           {comment.loading ? (

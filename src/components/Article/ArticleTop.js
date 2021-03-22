@@ -63,7 +63,7 @@ const options = {
   cMapPacked: true,
 };
 
-const ArticleTop = ({ article }) => {
+const ArticleTop = ({ article, isCoordinator }) => {
   const classes = useStyles();
 
   const [numPages, setNumPages] = useState(null);
@@ -111,18 +111,20 @@ const ArticleTop = ({ article }) => {
           </Grid>
         </Grid>
         <Grid item>
-          <Paper
-            elevation={1}
-            className={
-              article.status === 'PENDING'
-                ? classes.pending
-                : article.status === 'DENIED'
-                ? classes.denied
-                : classes.approved
-            }
-          >
-            <Typography>{article.status}</Typography>
-          </Paper>
+          {!isCoordinator ? (
+            <Paper
+              elevation={1}
+              className={
+                article.status === 'PENDING'
+                  ? classes.pending
+                  : article.status === 'DENIED'
+                  ? classes.denied
+                  : classes.approved
+              }
+            >
+              <Typography>{article.status}</Typography>
+            </Paper>
+          ) : null}
         </Grid>
       </Grid>
       <Card className={classes.card}>
