@@ -59,6 +59,4 @@ export const signout = () => (dispatch) => {
   dispatch({
     type: SIGNOUT,
   })
-
- 
 }

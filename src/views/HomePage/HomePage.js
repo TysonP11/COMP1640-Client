@@ -24,8 +24,9 @@ export const HomePage = ({
     }
 
     getCampaigns()
+
     // eslint-disable-next-line
-  }, [])
+  }, [loading, user])
 
   const handleGetArtcsByCampaign = (campaignCode) => {
     getArticlesByFacultyAndStatusAndCampaign(

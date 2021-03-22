@@ -27,7 +27,7 @@ export default function FeaturedPost({ article }) {
   const classes = useStyles()
 
   return (
-    <CardActionArea component='a' href='#'>
+    <CardActionArea component='a' href={`/article/${article.id}`}>
       <Card className={classes.card}>
         <div className={classes.cardDetails}>
           <CardContent>
@@ -39,9 +39,6 @@ export default function FeaturedPost({ article }) {
             </Typography>
             <Typography variant='subtitle1' paragraph>
               {article.message}
-            </Typography>
-            <Typography variant='subtitle1' color='primary'>
-              View Details
             </Typography>
           </CardContent>
         </div>
