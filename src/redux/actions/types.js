@@ -30,7 +30,11 @@ export const CLEAR_ARTICLE = 'CLEAR_ARTICLE'
 export const SET_ARTICLE_FILTER_PROPS = 'SET_ARTICLE_FILTER_PROPS'
 export const DOWNLOAD_ALL_ARTICLES = 'DOWNLOAD_ALL_ARTICLES'
 
-
 // faculty types
 export const GET_FACULTY = 'GET_FACULTY'
 export const FACULTY_ERROR = 'FACULTY_ERROR'
+
+// comment types
+export const GET_COMMENTS = 'GET_COMMENTS'
+export const ADD_COMMENT = 'ADD_COMMENT'
+export const COMMENT_ERROR = 'COMMENT_ERROR'

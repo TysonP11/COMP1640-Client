@@ -43,7 +43,7 @@ const ArticleToolbar = ({
   const classes = useStyles()
 
   const [username, setUsername] = useState('')
-  const [campaignCode, setCampaignCode] = useState(currentCampaignCode)
+  const [campaignCode, setCampaignCode] = useState(currentCampaignCode ? currentCampaignCode : '')
   const [status, setStatus] = useState('')
 
   const props = {
@@ -233,7 +233,7 @@ ArticleToolbar.propTypes = {
   facultyCode: PropTypes.string.isRequired,
   setFilterProps: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
-  currentCampaignCode: PropTypes.string.isRequired,
+  currentCampaignCode: PropTypes.string,
   loading: PropTypes.bool.isRequired,
 }
 

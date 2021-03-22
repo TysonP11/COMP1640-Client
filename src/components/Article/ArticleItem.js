@@ -16,6 +16,7 @@ import { Link } from '@material-ui/core'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
+import { useHistory } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
   cardGrid: {
@@ -47,6 +48,8 @@ export const ArticleItem = ({
   campaign,
 }) => {
   const classes = useStyles()
+
+  const history = useHistory()
 
   const handleOpUpdtForm = (e, id) => {
     handleOpenUpdtForm(e)
@@ -100,7 +103,11 @@ export const ArticleItem = ({
           )}
         </CardContent>
         <CardActions>
-          <Button size='small' color='primary'>
+          <Button
+            size='small'
+            color='primary'
+            onClick={() => history.push(`/article/${article.id}`)}
+          >
             View
           </Button>
           {user.authorities.includes('ROLE_STUDENT') &&

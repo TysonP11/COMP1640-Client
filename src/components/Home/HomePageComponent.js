@@ -68,7 +68,7 @@ export default function HomePageComponent({
     <React.Fragment>
       <CssBaseline />
       <Container maxWidth='lg'>
-        <Header title='G - Mag NEWS' sections={sections} />
+        <Header title='G-MAG NEWS' sections={sections} />
         <main>
           <MainFeaturedPost post={mainFeaturedPost} />
           {/* <Grid container spacing={4}>

@@ -165,7 +165,9 @@ export const PrimarySearchAppBar = ({
             </IconButton>
           )}
           <Typography className={classes.title} variant='h6' noWrap>
-            G - Mag
+            <Link href='/home' underline='none' color='inherit'>
+              G - Mag
+            </Link>
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -225,10 +227,7 @@ export const PrimarySearchAppBar = ({
                   </IconButton>
                 </Tooltip>
                 <Tooltip title='Signout'>
-                  <IconButton
-                    color='inherit'
-                    onClick={(e) => handleSignout()}
-                  >
+                  <IconButton color='inherit' onClick={(e) => handleSignout()}>
                     <ExitToAppOutlinedIcon />
                   </IconButton>
                 </Tooltip>

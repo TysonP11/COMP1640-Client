@@ -24,6 +24,7 @@ import ProfileBackground from './ProfileBackground.jpg'
 import HomeIcon from '@material-ui/icons/Home'
 import LineStyleIcon from '@material-ui/icons/LineStyle'
 import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined'
+import { useHistory } from 'react-router-dom'
 
 const sideBarWidth = '13vw'
 const appBarHeight = 64
@@ -69,6 +70,7 @@ const SideBar = ({
 }) => {
   const classes = useStyles()
   const theme = useTheme()
+  const history = useHistory()
 
   const [anchorEl, setAnchorEl] = useState(null)
 
@@ -83,36 +85,8 @@ const SideBar = ({
   const container =
     window !== undefined ? () => window().document.body : undefined
 
-  const guestMenu = (
-    <>
-      <ListItem button>
-        <ListItemIcon>
-          <HomeIcon />
-        </ListItemIcon>
-        <ListItemText>
-          <Link href='/home' color='inherit'>
-            Home
-          </Link>
-        </ListItemText>
-      </ListItem>
-      <Divider />
-    </>
-  )
-
   const managerMenu = (
     <>
-      <ListItem button>
-        <ListItemIcon>
-          <HomeIcon />
-        </ListItemIcon>
-        <ListItemText>
-          <Link href='/home' color='inherit'>
-            Home
-          </Link>
-        </ListItemText>
-      </ListItem>
-      <Divider />
-
       <ListItem button>
         <ListItemIcon>
           <LineStyleIcon />
@@ -147,13 +121,6 @@ const SideBar = ({
       open={Boolean(anchorEl)}
       onClose={handleClose}
     >
-      <MenuItem onClick={handleClose}>
-        <Typography>
-          <Link href='/article/create' color='inherit'>
-            Create Article
-          </Link>
-        </Typography>
-      </MenuItem>
       {user.authorities.includes('ROLE_MARKETING_COORDINATOR') ? (
         <MenuItem onClick={handleClose}>
           <Typography>
@@ -163,31 +130,28 @@ const SideBar = ({
           </Typography>
         </MenuItem>
       ) : (
-        <MenuItem onClick={handleClose}>
-          <Typography>
-            <Link href='/article' color='inherit'>
-              Submitted Articles
-            </Link>
-          </Typography>
-        </MenuItem>
+        <div>
+          <MenuItem onClick={handleClose}>
+            <Typography>
+              <Link href='/article/create' color='inherit'>
+                Create Article
+              </Link>
+            </Typography>
+          </MenuItem>
+          <MenuItem onClick={handleClose}>
+            <Typography>
+              <Link href='/article' color='inherit'>
+                Submitted Articles
+              </Link>
+            </Typography>
+          </MenuItem>
+        </div>
       )}
     </Menu>
   )
 
   const stucoorMenu = (
     <>
-      <ListItem button>
-        <ListItemIcon>
-          <HomeIcon />
-        </ListItemIcon>
-        <ListItemText>
-          <Link href='/home' color='inherit'>
-            Home
-          </Link>
-        </ListItemText>
-      </ListItem>
-      <Divider />
-
       <ListItem button>
         <ListItemIcon>
           <PostAddIcon />
@@ -203,11 +167,16 @@ const SideBar = ({
     <div>
       <div className={classes.toolbar}>
         <List>
+          <ListItem button onClick={e => history.push('/home')}>
+            <ListItemIcon>
+              <HomeIcon />
+            </ListItemIcon>
+            <ListItemText>Home</ListItemText>
+          </ListItem>
+          <Divider />
           {user.authorities.includes('ROLE_MARKETING_MANAGER') && (
             <>{managerMenu}</>
           )}
-
-          {user.authorities.includes('ROLE_GUEST') && <>{guestMenu}</>}
 
           {user.authorities.includes('ROLE_MARKETING_COORDINATOR') && (
             <>{stucoorMenu}</>
@@ -221,6 +190,7 @@ const SideBar = ({
             </ListItemIcon>
             <ListItemText primary={'Profile'} />
           </ListItem>
+          <Divider />
 
           <ListItem button onClick={(e) => handleSignout()}>
             <ListItemIcon>
@@ -263,7 +233,7 @@ const SideBar = ({
 
   return (
     <nav className={classes.sidebar}>
-      <Hidden smUp implementation='css'>
+      <Hidden xsUp implementation='css'>
         <Drawer
           container={container}
           variant='temporary'
@@ -281,7 +251,7 @@ const SideBar = ({
           {sideBar}
         </Drawer>
       </Hidden>
-      <Hidden lgDown implementation='css'>
+      <Hidden mdDown implementation='css'>
         <Drawer
           classes={{ paper: classes.sideBarPaper }}
           variant='permanent'

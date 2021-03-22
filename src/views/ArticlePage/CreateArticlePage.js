@@ -15,8 +15,8 @@ export const CreateArticlePage = ({
   auth: { loading, user },
   getCurrentCampaign,
   campaign,
-  history,
   faculty,
+  history,
 }) => {
   useEffect(() => {
     getCurrentCampaign()
@@ -33,8 +33,11 @@ export const CreateArticlePage = ({
       !user ||
       !user.details ||
       !user.username ||
+      faculty.loading ||
+      !faculty.faculty ||
       campaign.loading ||
-      !campaign.campaign ? (
+      !campaign.campaign ||
+      !faculty.faculty.coordinator ? (
         <Spinner />
       ) : (
         <CreateArticleForm
@@ -42,8 +45,8 @@ export const CreateArticlePage = ({
           userDetails={user.details}
           username={user.username}
           campaignCode={campaign.campaign.code}
-          history={history}
           coordinatorEmail={faculty.faculty.coordinator.email}
+          history={history}
         />
       )}
     </div>

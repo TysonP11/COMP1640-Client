@@ -1,24 +1,25 @@
-import React, { useEffect } from 'react'
-import { Route, Switch, BrowserRouter as Router } from 'react-router-dom'
-import { Provider } from 'react-redux'
-import store from './store'
+import React, { useEffect } from 'react';
+import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import store from './store';
 
-import setAuthToken from './utils/setAuthToken'
-import LandingPage from './views/LandingPage/LandingPage'
-import LoginPage from './views/LoginPage/LoginPage'
-import HomePage from './views/HomePage/HomePage'
-import CampaignPage from './views/CampaignPage/CampaignPage'
-import CreateArticlePage from './views/ArticlePage/CreateArticlePage'
-import AllArticlesPage from './views/ArticlePage/AllArticlesPage'
+import setAuthToken from './utils/setAuthToken';
+import LandingPage from './views/LandingPage/LandingPage';
+import LoginPage from './views/LoginPage/LoginPage';
+import HomePage from './views/HomePage/HomePage';
+import CampaignPage from './views/CampaignPage/CampaignPage';
+import CreateArticlePage from './views/ArticlePage/CreateArticlePage';
+import AllArticlesPage from './views/ArticlePage/AllArticlesPage';
 
-import Alert from './components/Alert/Alert'
-import PrivateRoute from './components/Routing/PrivateRoute'
-import { loadUser } from './redux/actions/auth'
-import MenuAppBar from './components/Common/MenuAppBar'
-import UnauthorizationPage from './components/Common/UnauthorizationPage'
-import { Container } from '@material-ui/core'
+import Alert from './components/Alert/Alert';
+import PrivateRoute from './components/Routing/PrivateRoute';
+import { loadUser } from './redux/actions/auth';
+import MenuAppBar from './components/Common/MenuAppBar';
+import UnauthorizationPage from './components/Common/UnauthorizationPage';
+import { Container } from '@material-ui/core';
+import ArticleDetailPage from './views/ArticlePage/ArticleDetailPage';
 
-import { makeStyles } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   appContainer: {
@@ -33,18 +34,18 @@ const useStyles = makeStyles((theme) => ({
       width: 0,
     },
   },
-}))
+}));
 
 if (localStorage.token) {
-  setAuthToken(localStorage.token)
+  setAuthToken(localStorage.token);
 }
 
 const App = () => {
   useEffect(() => {
-    store.dispatch(loadUser())
-  }, [])
+    store.dispatch(loadUser());
+  }, []);
 
-  const classes = useStyles()
+  const classes = useStyles();
 
   return (
     <Provider store={store}>
@@ -101,12 +102,23 @@ const App = () => {
                   'ROLE_MARKETING_COORDINATOR',
                 ]}
               />
+              <PrivateRoute
+                exact
+                path='/article/:id'
+                component={ArticleDetailPage}
+                expectedAuthorities={[
+                  'ROLE_STUDENT',
+                  'ROLE_MARKETING_COORDINATOR',
+                  'ROLE_MARKETING_MANAGER',
+                  'ROLE_GUEST',
+                ]}
+              />
             </Switch>
           </Container>
         </div>
       </Router>
     </Provider>
-  )
-}
+  );
+};
 
-export default App
+export default App;
