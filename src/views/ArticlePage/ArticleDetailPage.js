@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Spinner from '../../components/Common/Spinner';
 import { Fragment } from 'react';
-import { getArticle } from '../../redux/actions/article';
+import { getArticle, updateArticleStatus } from '../../redux/actions/article';
 import { getComments, postComment } from '../../redux/actions/comment';
 import ArticleDetailsBreadcrumb from '../../components/Article/ArticleDetailsBreadcrumb';
 import { connect } from 'react-redux';
@@ -18,6 +18,7 @@ const ArticleDetailPage = ({
   comment,
   match,
   auth,
+  updateArticleStatus,
 }) => {
   useEffect(() => {
     getArticle(match.params.id);
@@ -31,7 +32,11 @@ const ArticleDetailPage = ({
       <ArticleDetailsBreadcrumb />
       <Grid container spacing={4} direction='row' alignItems='flex-start'>
         <Grid item lg={9} md={12}>
-          <ArticleTop article={article} />
+          <ArticleTop
+            article={article}
+            updateArticleStatus={updateArticleStatus}
+            user={auth.user}
+          />
         </Grid>
         <Grid item lg={3} md={12}>
           {comment.loading ? (
@@ -57,6 +62,7 @@ ArticleDetailPage.propTypes = {
   comment: PropTypes.object.isRequired,
   postComment: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
+  updateArticleStatus: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -69,4 +75,5 @@ export default connect(mapStateToProps, {
   getArticle,
   getComments,
   postComment,
+  updateArticleStatus,
 })(ArticleDetailPage);

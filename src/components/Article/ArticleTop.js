@@ -1,14 +1,17 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
-import { makeStyles, Paper, Typography, Grid } from '@material-ui/core'
-import { Fragment } from 'react'
-import { BASE_URL } from '../../environment/dev.env'
-import { withStyles } from '@material-ui/core/styles'
-import CardMedia from '@material-ui/core/CardMedia'
-import Card from '@material-ui/core/Card'
-import Button from '@material-ui/core/Button'
-import { Document, Page } from 'react-pdf/dist/esm/entry.webpack'
-import 'react-pdf/dist/esm/Page/AnnotationLayer.css'
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { makeStyles, Paper, Typography, Grid } from '@material-ui/core';
+import { Fragment } from 'react';
+import { BASE_URL } from '../../environment/dev.env';
+import { withStyles } from '@material-ui/core/styles';
+import CardMedia from '@material-ui/core/CardMedia';
+import Card from '@material-ui/core/Card';
+import Button from '@material-ui/core/Button';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import { Document, Page } from 'react-pdf/dist/esm/entry.webpack';
+import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
+import { updateCampaignStatus } from '../../redux/actions/campaign';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,41 +53,57 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(1),
     },
   },
-}))
+}));
 
 const GrayTextTypography = withStyles({
   root: {
     color: '#b1b2b3',
   },
-})(Typography)
+})(Typography);
 
 const options = {
   cMapUrl: 'cmaps/',
   cMapPacked: true,
-}
+};
 
-const ArticleTop = ({ article }) => {
-  const classes = useStyles()
+const ArticleTop = ({ article, user, updateArticleStatus }) => {
+  const classes = useStyles();
 
-  const [numPages, setNumPages] = useState(null)
-  const [pageNumber, setPageNumber] = useState(1)
+  const [numPages, setNumPages] = useState(null);
+  const [pageNumber, setPageNumber] = useState(1);
 
   const onDocumentLoadSuccess = ({ numPages: nextNumPages }) => {
-    setNumPages(nextNumPages)
-    setPageNumber(1)
-  }
+    setNumPages(nextNumPages);
+    setPageNumber(1);
+  };
 
   const changePage = (offset) => {
-    setPageNumber((prevPageNumber) => prevPageNumber + offset)
-  }
+    setPageNumber((prevPageNumber) => prevPageNumber + offset);
+  };
 
   const previousPage = () => {
-    changePage(-1)
-  }
+    changePage(-1);
+  };
 
   const nextPage = () => {
-    changePage(1)
-  }
+    changePage(1);
+  };
+
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleGrade = (status) => {
+    updateArticleStatus(status, article.id);
+
+    handleClose();
+  };
 
   return (
     <Fragment>
@@ -111,18 +130,48 @@ const ArticleTop = ({ article }) => {
           </Grid>
         </Grid>
         <Grid item>
-          <Paper
-            elevation={1}
-            className={
-              article.status === 'PENDING'
-                ? classes.pending
-                : article.status === 'DENIED'
-                ? classes.denied
-                : classes.approved
-            }
-          >
-            <Typography>{article.status}</Typography>
-          </Paper>
+          {user.authorities.filter((el) => el === 'ROLE_MARKETING_COORDINATOR')
+            .length >= 0 ? (
+            <div>
+              <Button
+                aria-controls='simple-menu'
+                aria-haspopup='true'
+                onClick={handleClick}
+              >
+                {article.status}
+              </Button>
+              <Menu
+                id='simple-menu'
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={() => handleGrade('ACCEPTED')}>
+                  ACCEPTED
+                </MenuItem>
+                <MenuItem onClick={() => handleGrade('PENDING')}>
+                  PENDING
+                </MenuItem>
+                <MenuItem onClick={() => handleGrade('DENIED')}>
+                  DENIED
+                </MenuItem>
+              </Menu>
+            </div>
+          ) : (
+            <Paper
+              elevation={1}
+              className={
+                article.status === 'PENDING'
+                  ? classes.pending
+                  : article.status === 'DENIED'
+                  ? classes.denied
+                  : classes.approved
+              }
+            >
+              <Typography>{article.status}</Typography>
+            </Paper>
+          )}
         </Grid>
       </Grid>
       <Card className={classes.card}>
@@ -169,11 +218,11 @@ const ArticleTop = ({ article }) => {
         </Button>
       </Grid>
     </Fragment>
-  )
-}
+  );
+};
 
 ArticleTop.propTypes = {
   article: PropTypes.object.isRequired,
-}
+};
 
-export default ArticleTop
+export default ArticleTop;
