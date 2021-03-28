@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import Spinner from '../../components/Common/Spinner';
+import Spinner from '../../components/common/Spinner';
 import { Fragment } from 'react';
 import { getArticle, updateArticleStatus } from '../../redux/actions/article';
 import { getComments, postComment } from '../../redux/actions/comment';

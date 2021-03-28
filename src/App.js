@@ -14,8 +14,8 @@ import AllArticlesPage from './views/ArticlePage/AllArticlesPage';
 import Alert from './components/Alert/Alert';
 import PrivateRoute from './components/Routing/PrivateRoute';
 import { loadUser } from './redux/actions/auth';
-import MenuAppBar from './components/Common/MenuAppBar';
-import UnauthorizationPage from './components/Common/UnauthorizationPage';
+import MenuAppBar from './components/common/MenuAppBar';
+import UnauthorizationPage from './components/common/UnauthorizationPage';
 import { Container } from '@material-ui/core';
 import ArticleDetailPage from './views/ArticlePage/ArticleDetailPage';
 

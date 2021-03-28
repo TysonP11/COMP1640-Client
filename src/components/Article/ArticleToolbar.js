@@ -6,7 +6,7 @@ import NativeSelect from '@material-ui/core/NativeSelect';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import SearchIcon from '@material-ui/icons/Search';
-import Spinner from '../../components/Common/Spinner';
+import Spinner from '../common/Spinner';
 
 const useStyles = makeStyles((theme) => ({
   root: {
