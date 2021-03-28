@@ -1,9 +1,9 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Redirect, Route } from 'react-router-dom'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Redirect, Route } from 'react-router-dom';
 
-import { connect } from 'react-redux'
-import Spinner from '../Common/Spinner'
+import { connect } from 'react-redux';
+import Spinner from '../common/Spinner';
 
 const PrivateRoute = ({
   component: Component,
@@ -22,7 +22,7 @@ const PrivateRoute = ({
         ) : user &&
           user.authorities &&
           expectedAuthorities.filter((exptAuth) =>
-            user.authorities.includes(exptAuth),
+            user.authorities.includes(exptAuth)
           ).length === 0 ? (
           <Redirect to='/403error' />
         ) : (
@@ -30,15 +30,15 @@ const PrivateRoute = ({
         )
       }
     />
-  )
-}
+  );
+};
 
 PrivateRoute.propTypes = {
   auth: PropTypes.object.isRequired,
-}
+};
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-})
+});
 
-export default connect(mapStateToProps)(PrivateRoute)
+export default connect(mapStateToProps)(PrivateRoute);

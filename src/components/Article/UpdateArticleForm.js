@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import {
   makeStyles,
   Paper,
@@ -8,18 +8,18 @@ import {
   Button,
   Grid,
   Container,
-} from '@material-ui/core'
-import FileUpload from '../File/FileUpload'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+} from '@material-ui/core';
+import FileUpload from '../File/FileUpload';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faFileWord,
   faFilePdf,
   faFileAlt,
-} from '@fortawesome/free-regular-svg-icons'
-import Avatar from '@material-ui/core/Avatar'
-import defaultImage from '../Common/DefaultImage.png'
-import { BASE_URL } from '../../environment/dev.env'
-import { Modal } from '@material-ui/core'
+} from '@fortawesome/free-regular-svg-icons';
+import Avatar from '@material-ui/core/Avatar';
+import defaultImage from '../common/DefaultImage.png';
+import { BASE_URL } from '../../environment/dev.env';
+import { Modal } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -70,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
     width: 300,
     height: 280,
   },
-}))
+}));
 
 const UpdateArticleForm = ({
   updateArticle,
@@ -82,75 +82,75 @@ const UpdateArticleForm = ({
   facultyCode,
   page,
 }) => {
-  const classes = useStyles()
-  const [name, setName] = useState('')
-  const [message, setMessage] = useState('')
+  const classes = useStyles();
+  const [name, setName] = useState('');
+  const [message, setMessage] = useState('');
 
-  const [document, setDocument] = useState([])
-  const [image, setImage] = useState([])
+  const [document, setDocument] = useState([]);
+  const [image, setImage] = useState([]);
 
   useEffect(() => {
-    console.log('UseEff Running')
+    console.log('UseEff Running');
     if (article) {
       setName(
-        !article.name || article.name === '' || loading ? '' : article.name,
-      )
+        !article.name || article.name === '' || loading ? '' : article.name
+      );
       setMessage(
         !article.message || article.message === '' || loading
           ? ''
-          : article.message,
-      )
+          : article.message
+      );
       setDocument(
         !article.document_url || article.document_url === '' || loading
           ? []
-          : [article.document_url],
-      )
+          : [article.document_url]
+      );
       setImage(
         !article.image_url || article.image_url === '' || loading
           ? []
-          : [article.image_url],
-      )
+          : [article.image_url]
+      );
     }
-  }, [article, loading])
+  }, [article, loading]);
 
   const uploadDocument = (newDocument) => {
-    setDocument(newDocument)
-  }
+    setDocument(newDocument);
+  };
 
   const uploadImage = (newImage) => {
-    setImage(newImage)
-  }
+    setImage(newImage);
+  };
 
   const handleOnChangeName = (e) => {
-    setName(e.target.value)
-  }
+    setName(e.target.value);
+  };
 
   const handleOnChangeMessage = (e) => {
-    setMessage(e.target.value)
-  }
+    setMessage(e.target.value);
+  };
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     const formData = {
       name: name,
       message: message,
       image_url: image[0],
       document_url: document[0],
-    }
+    };
 
     const getArtcsProps = {
       props: filterProps,
       code: facultyCode,
-      page
-    }
+      page,
+    };
 
-    updateArticle(formData, article.id, getArtcsProps)
+    updateArticle(formData, article.id, getArtcsProps);
 
     // getArticlesByProps(filterProps, facultyCode, page)
 
-    handleCloseUpdtForm()
-  }
+    handleCloseUpdtForm();
+  };
 
   const uploadedFile =
     document[0] && document[0] !== '' ? (
@@ -173,7 +173,7 @@ const UpdateArticleForm = ({
       <Typography>
         <FontAwesomeIcon icon={faFileAlt} size='2x' /> File
       </Typography>
-    )
+    );
 
   const uploadedImage =
     image[0] && image[0] !== '' ? (
@@ -189,7 +189,7 @@ const UpdateArticleForm = ({
         alt='default'
         src={defaultImage}
       />
-    )
+    );
 
   return (
     <Modal open={showUpdateForm} onClose={handleCloseUpdtForm}>
@@ -268,8 +268,8 @@ const UpdateArticleForm = ({
         </Paper>
       </Container>
     </Modal>
-  )
-}
+  );
+};
 
 UpdateArticleForm.propTypes = {
   updateArticle: PropTypes.func.isRequired,
@@ -278,6 +278,6 @@ UpdateArticleForm.propTypes = {
   handleCloseUpdtForm: PropTypes.func.isRequired,
   loading: PropTypes.bool,
   filterProps: PropTypes.object.isRequired,
-}
+};
 
-export default UpdateArticleForm
+export default UpdateArticleForm;
