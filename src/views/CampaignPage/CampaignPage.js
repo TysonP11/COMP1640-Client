@@ -15,7 +15,7 @@ import CreateCampaignForm from '../../components/Campaign/CreateCampaignForm';
 import CampaignBreadcrumbs from '../../components/Campaign/CampaignBreadcrumbs';
 import { Button, makeStyles } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
-import Spinner from '../../components/Common/Spinner';
+import Spinner from '../../components/common/Spinner';
 
 const useStyles = makeStyles((theme) => ({
   createButton: {
