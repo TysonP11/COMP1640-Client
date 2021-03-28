@@ -11,7 +11,7 @@ import {
 } from '../../redux/actions/campaign';
 import { downloadAllArticl } from '../../redux/actions/article';
 import CampaignTable from '../../components/Campaign/CampaignTable';
-import CreateCampaign from '../../components/common/Spinnerpaign/CreateCampaignForm';
+import CreateCampaignForm from '../../components/Campaign/CreateCampaignForm';
 import CampaignBreadcrumbs from '../../components/Campaign/CampaignBreadcrumbs';
 import { Button, makeStyles } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
