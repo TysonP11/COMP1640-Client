@@ -70,6 +70,33 @@ export const downloadAllArticl = (campaignCode) => async (dispatch) => {
   } else dispatch(setAlert('Download all articles error', 'error'))
 }
 
+// get all articles
+export const getArticlesWithoutPagin = (code) => async (dispatch) => {
+  try {
+    const config = {
+      params: {
+        code: code,
+      },
+    }
+
+    const res = await axios.get('/api/article/get-all-by-campaign', config)
+
+    dispatch({
+      type: GET_ARTICLES,
+      payload: {
+        page_data: res.data.data,
+      },
+    })
+  } catch (err) {
+    console.error(err.message)
+    dispatch({
+      type: ARTICLE_ERROR,
+      payload: { msg: err.message },
+    })
+    dispatch(setAlert('Get campaigns error', 'error'))
+  }
+}
+
 // set filter props
 export const setFilterProps = (props) => (dispatch) => {
   dispatch({

@@ -27,9 +27,9 @@ const sections = [
 ]
 
 const mainFeaturedPost = {
-  title: 'Title of a longer featured blog post',
+  title: 'Greenwich University',
   description:
-    "Multiple lines of text that form the lede, informing new readers quickly and efficiently about what's most interesting in this post's contents.",
+    "Greenwich University (VN) was formed on the basis of the association between Greenwich University (UK) and FPT Education Organization since 2009",
   image: 'https://source.unsplash.com/random',
   imgText: 'main image description',
   linkText: 'Continue reading…',
@@ -38,7 +38,7 @@ const mainFeaturedPost = {
 const sidebar = {
   title: 'About',
   description:
-    'Etiam porta sem malesuada magna mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.',
+    'Training content, faculty and facilities are accredited and quality recognized by UK experts and the University of Greenwich.',
   social: [
     {
       name: 'GitHub',

@@ -1,25 +1,27 @@
-import React, { useEffect } from 'react';
-import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import store from './store';
+import React, { useEffect } from 'react'
+import { Route, Switch, BrowserRouter as Router } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import store from './store'
 
-import setAuthToken from './utils/setAuthToken';
-import LandingPage from './views/LandingPage/LandingPage';
-import LoginPage from './views/LoginPage/LoginPage';
-import HomePage from './views/HomePage/HomePage';
-import CampaignPage from './views/CampaignPage/CampaignPage';
-import CreateArticlePage from './views/ArticlePage/CreateArticlePage';
-import AllArticlesPage from './views/ArticlePage/AllArticlesPage';
+import setAuthToken from './utils/setAuthToken'
+import LandingPage from './views/LandingPage/LandingPage'
+import LoginPage from './views/LoginPage/LoginPage'
+import HomePage from './views/HomePage/HomePage'
+import CampaignPage from './views/CampaignPage/CampaignPage'
+import CreateArticlePage from './views/ArticlePage/CreateArticlePage'
+import AllArticlesPage from './views/ArticlePage/AllArticlesPage'
 
-import Alert from './components/Alert/Alert';
-import PrivateRoute from './components/Routing/PrivateRoute';
-import { loadUser } from './redux/actions/auth';
-import MenuAppBar from './components/Common/MenuAppBar';
-import UnauthorizationPage from './components/Common/UnauthorizationPage';
-import { Container } from '@material-ui/core';
-import ArticleDetailPage from './views/ArticlePage/ArticleDetailPage';
+import Alert from './components/Alert/Alert'
+import PrivateRoute from './components/Routing/PrivateRoute'
+import { loadUser } from './redux/actions/auth'
+import MenuAppBar from './components/Common/MenuAppBar'
+import UnauthorizationPage from './components/Common/UnauthorizationPage'
+import { Container } from '@material-ui/core'
+import ArticleDetailPage from './views/ArticlePage/ArticleDetailPage'
+import DashboardPage from './views/DashboardPage/DashboardPage'
 
-import { makeStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core'
+import Signup from './views/LoginPage/Signup'
 
 const useStyles = makeStyles((theme) => ({
   appContainer: {
@@ -34,18 +36,18 @@ const useStyles = makeStyles((theme) => ({
       width: 0,
     },
   },
-}));
+}))
 
 if (localStorage.token) {
-  setAuthToken(localStorage.token);
+  setAuthToken(localStorage.token)
 }
 
 const App = () => {
   useEffect(() => {
-    store.dispatch(loadUser());
-  }, []);
+    store.dispatch(loadUser())
+  }, [])
 
-  const classes = useStyles();
+  const classes = useStyles()
 
   return (
     <Provider store={store}>
@@ -58,18 +60,24 @@ const App = () => {
           <div className={classes.sidebarSpace}></div>
 
           <Container maxWidth='lg' style={{ marginTop: 70 }}>
-            <PrivateRoute
-              exact
-              path='/403error'
-              component={UnauthorizationPage}
-              expectedAuthorities={[
-                'ROLE_GUEST',
-                'ROLE_STUDENT',
-                'ROLE_MARKETING_COORDINATOR',
-                'ROLE_MARKETING_MANAGER',
-              ]}
-            />
             <Switch>
+              <PrivateRoute
+                exact
+                path='/signup'
+                component={Signup}
+                expectedAuthorities={['ROLE_MARKETING_MANAGER']}
+              />
+              <PrivateRoute
+                exact
+                path='/signup'
+                component={UnauthorizationPage}
+                expectedAuthorities={[
+                  'ROLE_GUEST',
+                  'ROLE_STUDENT',
+                  'ROLE_MARKETING_COORDINATOR',
+                  'ROLE_MARKETING_MANAGER',
+                ]}
+              />
               <PrivateRoute
                 exact
                 path='/home'
@@ -87,6 +95,14 @@ const App = () => {
                 component={CampaignPage}
                 expectedAuthorities={['ROLE_MARKETING_MANAGER']}
               />
+
+              <PrivateRoute
+                exact
+                path='/dashboard'
+                component={DashboardPage}
+                expectedAuthorities={['ROLE_MARKETING_MANAGER']}
+              />
+
               <PrivateRoute
                 exact
                 path='/article/create'
@@ -118,7 +134,7 @@ const App = () => {
         </div>
       </Router>
     </Provider>
-  );
-};
+  )
+}
 
-export default App;
+export default App

@@ -2,7 +2,6 @@ import {
   Divider,
   Drawer,
   Hidden,
-  Link,
   List,
   ListItem,
   ListItemIcon,
@@ -24,6 +23,7 @@ import ProfileBackground from './ProfileBackground.jpg'
 import HomeIcon from '@material-ui/icons/Home'
 import LineStyleIcon from '@material-ui/icons/LineStyle'
 import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined'
+import AddIcon from '@material-ui/icons/Add'
 import { useHistory } from 'react-router-dom'
 
 const sideBarWidth = '13vw'
@@ -87,27 +87,27 @@ const SideBar = ({
 
   const managerMenu = (
     <>
-      <ListItem button>
+      <ListItem button onClick={(e) => history.push('/dashboard')}>
         <ListItemIcon>
           <LineStyleIcon />
         </ListItemIcon>
-        <ListItemText>
-          <Link href='/dashboard' color='inherit'>
-            Dashboard
-          </Link>
-        </ListItemText>
+        <ListItemText>Dashboard</ListItemText>
       </ListItem>
       <Divider />
 
-      <ListItem button>
+      <ListItem button onClick={(e) => history.push('/signup')}>
+        <ListItemIcon>
+          <AddIcon />
+        </ListItemIcon>
+        <ListItemText>Create User</ListItemText>
+      </ListItem>
+      <Divider />
+
+      <ListItem button onClick={(e) => history.push('/campaign')}>
         <ListItemIcon>
           <AppsIcon />
         </ListItemIcon>
-        <ListItemText>
-          <Link href='/campaign' color='inherit'>
-            Campaign
-          </Link>
-        </ListItemText>
+        <ListItemText>Campaign</ListItemText>
       </ListItem>
       <Divider />
     </>
@@ -123,26 +123,20 @@ const SideBar = ({
     >
       {user.authorities.includes('ROLE_MARKETING_COORDINATOR') ? (
         <MenuItem onClick={handleClose}>
-          <Typography>
-            <Link href='/article' color='inherit'>
-              All Articles
-            </Link>
+          <Typography onClick={(e) => history.push('/article')}>
+            All Articles
           </Typography>
         </MenuItem>
       ) : (
         <div>
           <MenuItem onClick={handleClose}>
-            <Typography>
-              <Link href='/article/create' color='inherit'>
-                Create Article
-              </Link>
+            <Typography onClick={(e) => history.push('/article/create')}>
+              Create Article
             </Typography>
           </MenuItem>
           <MenuItem onClick={handleClose}>
-            <Typography>
-              <Link href='/article' color='inherit'>
-                Submitted Articles
-              </Link>
+            <Typography onClick={(e) => history.push('/article')}>
+              Submitted Articles
             </Typography>
           </MenuItem>
         </div>
@@ -167,7 +161,7 @@ const SideBar = ({
     <div>
       <div className={classes.toolbar}>
         <List>
-          <ListItem button onClick={e => history.push('/home')}>
+          <ListItem button onClick={(e) => history.push('/home')}>
             <ListItemIcon>
               <HomeIcon />
             </ListItemIcon>

@@ -3,7 +3,9 @@ import {
   SIGNIN_ERROR,
   AUTH_ERROR,
   USER_LOADED,
-  SIGNOUT
+  SIGNOUT,
+  GET_USERS,
+  USER_ERROR,
 } from '../actions/types'
 
 const initialState = {
@@ -11,6 +13,7 @@ const initialState = {
   loading: true,
   user: {},
   error: {},
+  users: [],
 }
 
 export default function authReducer(state = initialState, action) {
@@ -46,6 +49,22 @@ export default function authReducer(state = initialState, action) {
           authorities: payload.authorities.map((a) => a.authority),
         },
       }
+
+    case USER_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: payload,
+      }
+
+    case GET_USERS: {
+      return {
+        ...state,
+        loading: false,
+        users: payload,
+        error: {},
+      }
+    }
 
     case SIGNOUT:
       localStorage.removeItem('token')

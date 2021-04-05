@@ -40,7 +40,7 @@ const FileUpload = ({ refreshFunction }) => {
   }
 
   return (
-    <Dropzone onDrop={onDrop} multiple={false} maxSize={1000000000}>
+    <Dropzone onDrop={onDrop} multiple={false} maxSize={5120}>
       {({ getRootProps, getInputProps }) => (
         <div {...getRootProps()}>
           <PublishOutlinedIcon fontSize='large' />

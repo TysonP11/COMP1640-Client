@@ -7,6 +7,8 @@ import {
   TextField,
   Button,
   Grid,
+  FormControlLabel,
+  Checkbox,
 } from '@material-ui/core'
 import FileUpload from '../File/FileUpload'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -18,7 +20,8 @@ import {
 import Avatar from '@material-ui/core/Avatar'
 import defaultImage from '../Common/DefaultImage.png'
 import { BASE_URL } from '../../environment/dev.env'
-import emailjs from 'emailjs-com';
+import emailjs from 'emailjs-com'
+import { Link } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -60,6 +63,7 @@ const useStyles = makeStyles((theme) => ({
   },
   submitButton: {
     marginTop: theme.spacing(2),
+    display: 'block',
   },
   uploadedImage: {
     '@media (max-width: 768px)': {
@@ -77,7 +81,7 @@ const CreateArticleForm = ({
   username,
   campaignCode,
   history,
-  coordinatorEmail
+  coordinatorEmail,
 }) => {
   const classes = useStyles()
   const [name, setName] = useState('')
@@ -120,15 +124,24 @@ const CreateArticleForm = ({
       from_name: 'G_mag',
       to_name: 'Coordinator',
       message: 'This is a test message',
-      to_email: coordinatorEmail
+      to_email: coordinatorEmail,
     }
 
-    emailjs.send('coordinator_contact', 'coordinator_contact_form', emailData, 'user_b3WPLwZ5Bam6FFUi3vfVF')
-      .then((result) => {
-          console.log(result.text);
-      }, (error) => {
-          console.log(error.text);
-      });
+    emailjs
+      .send(
+        'coordinator_contact',
+        'coordinator_contact_form',
+        emailData,
+        'user_b3WPLwZ5Bam6FFUi3vfVF',
+      )
+      .then(
+        (result) => {
+          console.log(result.text)
+        },
+        (error) => {
+          console.log(error.text)
+        },
+      )
 
     createArticle(formData, history)
   }
@@ -232,6 +245,22 @@ const CreateArticleForm = ({
             </Paper>
           </Grid>
         </Grid>
+
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}
+        >
+          <FormControlLabel
+            control={<Checkbox value='allowExtraEmails' color='primary' />}
+            label='I agree with terms and conditions of G-Mag'
+          />
+          <Link to='#'>
+            <Typography>G-Mag Term and Conditions</Typography>
+          </Link>
+        </div>
 
         <Button
           className={classes.submitButton}
