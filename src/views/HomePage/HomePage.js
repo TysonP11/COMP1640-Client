@@ -1,14 +1,14 @@
-import React, { useEffect } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import HomePageComponent from '../../components/Home/HomePageComponent'
-import Spinner from '../../components/Common/Spinner'
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import HomePageComponent from '../../components/Home/HomePageComponent';
+import Spinner from '../../components/common/Spinner';
 import {
   getArticlesByFacultyAndStatus,
   getArticlesByFacultyAndStatusAndCampaign,
-} from '../../redux/actions/article'
+} from '../../redux/actions/article';
 
-import { getCampaigns } from '../../redux/actions/campaign'
+import { getCampaigns } from '../../redux/actions/campaign';
 
 export const HomePage = ({
   auth: { loading, user },
@@ -20,21 +20,21 @@ export const HomePage = ({
 }) => {
   useEffect(() => {
     if (user && user.details) {
-      getArticlesByFacultyAndStatus(user.details.faculty_code, 'ACCEPTED')
+      getArticlesByFacultyAndStatus(user.details.faculty_code, 'ACCEPTED');
     }
 
-    getCampaigns()
+    getCampaigns();
 
     // eslint-disable-next-line
-  }, [loading, user])
+  }, [loading, user]);
 
   const handleGetArtcsByCampaign = (campaignCode) => {
     getArticlesByFacultyAndStatusAndCampaign(
       user.details.faculty_code,
       'ACCEPTED',
-      campaignCode,
-    )
-  }
+      campaignCode
+    );
+  };
 
   return loading ||
     !user ||
@@ -52,8 +52,8 @@ export const HomePage = ({
       getArtcsByFaculty={getArticlesByFacultyAndStatus}
       userDetails={user.details}
     />
-  )
-}
+  );
+};
 
 HomePage.propTypes = {
   auth: PropTypes.object.isRequired,
@@ -61,16 +61,16 @@ HomePage.propTypes = {
   getArticlesByFacultyAndStatus: PropTypes.func.isRequired,
   getArticlesByFacultyAndStatusAndCampaign: PropTypes.func.isRequired,
   getCampaigns: PropTypes.func.isRequired,
-}
+};
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
   article: state.article,
   campaign: state.campaign,
-})
+});
 
 export default connect(mapStateToProps, {
   getArticlesByFacultyAndStatus,
   getArticlesByFacultyAndStatusAndCampaign,
   getCampaigns,
-})(HomePage)
+})(HomePage);
