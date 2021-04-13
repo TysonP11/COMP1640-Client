@@ -1,44 +1,44 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Grid from '@material-ui/core/Grid';
-import Container from '@material-ui/core/Container';
-import GitHubIcon from '@material-ui/icons/GitHub';
-import FacebookIcon from '@material-ui/icons/Facebook';
-import TwitterIcon from '@material-ui/icons/Twitter';
-import Header from './HeaderHomePage';
-import MainFeaturedPost from './MainFeaturedPost';
-import FeaturedPost from './FeaturedPost';
-import Sidebar from './Sidebar';
-import PropTypes from 'prop-types';
-import Spinner from '../common/Spinner';
-import Pagination from '@material-ui/lab/Pagination';
+import React from 'react'
+import { makeStyles } from '@material-ui/core/styles'
+import CssBaseline from '@material-ui/core/CssBaseline'
+import Grid from '@material-ui/core/Grid'
+import Container from '@material-ui/core/Container'
+import GitHubIcon from '@material-ui/icons/GitHub'
+import FacebookIcon from '@material-ui/icons/Facebook'
+import TwitterIcon from '@material-ui/icons/Twitter'
+import Header from './HeaderHomePage'
+import MainFeaturedPost from './MainFeaturedPost'
+import FeaturedPost from './FeaturedPost'
+import Sidebar from './Sidebar'
+import PropTypes from 'prop-types'
+import Spinner from '../Common/Spinner'
+import Pagination from '@material-ui/lab/Pagination'
 
 const useStyles = makeStyles((theme) => ({
   mainGrid: {
     marginTop: theme.spacing(3),
   },
-}));
+}))
 
 const sections = [
   { title: 'Technology', url: '#' },
   { title: 'Design', url: '#' },
   { title: 'Business', url: '#' },
-];
+]
 
 const mainFeaturedPost = {
-  title: 'Title of a longer featured blog post',
+  title: 'Greenwich University',
   description:
-    "Multiple lines of text that form the lede, informing new readers quickly and efficiently about what's most interesting in this post's contents.",
+    'Greenwich University (VN) was formed on the basis of the association between Greenwich University (UK) and FPT Education Organization since 2009',
   image: 'https://source.unsplash.com/random',
   imgText: 'main image description',
   linkText: 'Continue reading…',
-};
+}
 
 const sidebar = {
   title: 'About',
   description:
-    'Etiam porta sem malesuada magna mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.',
+    'Training content, faculty and facilities are accredited and quality recognized by UK experts and the University of Greenwich.',
   social: [
     {
       name: 'GitHub',
@@ -52,7 +52,7 @@ const sidebar = {
       dest: 'https://www.facebook.com/profile.php?id=100009249044059',
     },
   ],
-};
+}
 
 export default function HomePageComponent({
   articles,
@@ -62,7 +62,7 @@ export default function HomePageComponent({
   getArtcsByFaculty,
   userDetails,
 }) {
-  const classes = useStyles();
+  const classes = useStyles()
 
   return (
     <React.Fragment>
@@ -89,7 +89,7 @@ export default function HomePageComponent({
                       getArtcsByFaculty(
                         userDetails.faculty_code,
                         'ACCEPTED',
-                        val - 1
+                        val - 1,
                       )
                     }
                   />
@@ -111,7 +111,7 @@ export default function HomePageComponent({
         </main>
       </Container>
     </React.Fragment>
-  );
+  )
 }
 
 HomePageComponent.propTypes = {
@@ -119,4 +119,4 @@ HomePageComponent.propTypes = {
   getArtcsByCampaign: PropTypes.func.isRequired,
   getArtcsByFaculty: PropTypes.func.isRequired,
   userDetails: PropTypes.object.isRequired,
-};
+}

@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { makeStyles, Paper, Typography, Grid } from '@material-ui/core';
-import { Fragment } from 'react';
-import { BASE_URL } from '../../environment/dev.env';
-import { withStyles } from '@material-ui/core/styles';
-import CardMedia from '@material-ui/core/CardMedia';
-import Card from '@material-ui/core/Card';
-import Button from '@material-ui/core/Button';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import { Document, Page } from 'react-pdf/dist/esm/entry.webpack';
-import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
-import { updateCampaignStatus } from '../../redux/actions/campaign';
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
+import { makeStyles, Paper, Typography, Grid } from '@material-ui/core'
+import { Fragment } from 'react'
+import { BASE_URL } from '../../environment/dev.env'
+import { withStyles } from '@material-ui/core/styles'
+import CardMedia from '@material-ui/core/CardMedia'
+import Card from '@material-ui/core/Card'
+import Button from '@material-ui/core/Button'
+import Menu from '@material-ui/core/Menu'
+import MenuItem from '@material-ui/core/MenuItem'
+import { Document, Page } from 'react-pdf/dist/esm/entry.webpack'
+import 'react-pdf/dist/esm/Page/AnnotationLayer.css'
+import moment from 'moment'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,57 +53,57 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(1),
     },
   },
-}));
+}))
 
 const GrayTextTypography = withStyles({
   root: {
     color: '#b1b2b3',
   },
-})(Typography);
+})(Typography)
 
 const options = {
   cMapUrl: 'cmaps/',
   cMapPacked: true,
-};
+}
 
 const ArticleTop = ({ article, user, updateArticleStatus }) => {
-  const classes = useStyles();
+  const classes = useStyles()
 
-  const [numPages, setNumPages] = useState(null);
-  const [pageNumber, setPageNumber] = useState(1);
+  const [numPages, setNumPages] = useState(null)
+  const [pageNumber, setPageNumber] = useState(1)
 
   const onDocumentLoadSuccess = ({ numPages: nextNumPages }) => {
-    setNumPages(nextNumPages);
-    setPageNumber(1);
-  };
+    setNumPages(nextNumPages)
+    setPageNumber(1)
+  }
 
   const changePage = (offset) => {
-    setPageNumber((prevPageNumber) => prevPageNumber + offset);
-  };
+    setPageNumber((prevPageNumber) => prevPageNumber + offset)
+  }
 
   const previousPage = () => {
-    changePage(-1);
-  };
+    changePage(-1)
+  }
 
   const nextPage = () => {
-    changePage(1);
-  };
+    changePage(1)
+  }
 
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null)
 
   const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+    setAnchorEl(event.currentTarget)
+  }
 
   const handleClose = () => {
-    setAnchorEl(null);
-  };
+    setAnchorEl(null)
+  }
 
   const handleGrade = (status) => {
-    updateArticleStatus(status, article.id);
+    updateArticleStatus(status, article.id)
 
-    handleClose();
-  };
+    handleClose()
+  }
 
   return (
     <Fragment>
@@ -125,7 +125,8 @@ const ArticleTop = ({ article, user, updateArticleStatus }) => {
           >
             <Typography variant='h3'>{article.name}</Typography>
             <GrayTextTypography>
-              {article.user_username} • Feb 17
+              {article.user_username} •{' '}
+              {moment.unix(article.created_at).format('yyyy-MM-DD')}
             </GrayTextTypography>
           </Grid>
         </Grid>
@@ -218,11 +219,11 @@ const ArticleTop = ({ article, user, updateArticleStatus }) => {
         </Button>
       </Grid>
     </Fragment>
-  );
-};
+  )
+}
 
 ArticleTop.propTypes = {
   article: PropTypes.object.isRequired,
-};
+}
 
-export default ArticleTop;
+export default ArticleTop

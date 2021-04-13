@@ -4,6 +4,8 @@ import {
   USER_LOADED,
   AUTH_ERROR,
   SIGNOUT,
+  GET_USERS,
+  USER_ERROR,
 } from '../actions/types'
 import axios from '../../api/axios'
 import setAuthToken from '../../utils/setAuthToken'
@@ -48,9 +50,51 @@ export const loadUser = () => async (dispatch) => {
       payload: res.data.data,
     })
   } catch (err) {
+    console.error(err)
     dispatch({
       type: AUTH_ERROR,
     })
+  }
+}
+
+// get user by faculty and role
+export const getUsersByRole = (roleId) => async (dispatch) => {
+  try {
+    const config = {
+      params: {
+        role_id: roleId,
+      },
+    }
+
+    const res = await axios.get('/api/auth/get-user-by-role', config)
+
+    dispatch({
+      type: GET_USERS,
+      payload: res.data.data,
+    })
+  } catch (err) {
+    console.error(err)
+    dispatch({
+      type: USER_ERROR,
+      payload: { msg: err.message },
+    })
+  }
+}
+
+export const createUser = (formData, history) => async (dispatch) => {
+  try {
+    await axios.post('/api/auth/signup', formData)
+
+    dispatch(setAlert('Create user successfully', 'success'))
+
+    //history.push('/home')
+  } catch (err) {
+    console.error(err)
+    dispatch({
+      type: USER_ERROR,
+      payload: { msg: err.message },
+    })
+    dispatch(setAlert('Create user error', 'error'))
   }
 }
 

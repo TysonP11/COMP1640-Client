@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import AllArticles from '../../components/Article/AllArticles';
+import React, { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import AllArticles from '../../components/Article/AllArticles'
 import {
   getAllArticles,
   getArticlesByProps,
   updateArticle,
   getArticle,
   setFilterProps,
-} from '../../redux/actions/article';
-import { getCampaigns, getCurrentCampaign } from '../../redux/actions/campaign';
-import Spinner from '../../components/common/Spinner';
-import ArticleToolbar from '../../components/Article/ArticleToolbar';
-import ArticleBreadcrumbs from '../../components/Article/ArticleBreadcrumbs';
-import { Pagination } from '@material-ui/lab';
+} from '../../redux/actions/article'
+import { getCampaigns, getCurrentCampaign } from '../../redux/actions/campaign'
+import Spinner from '../../components/Common/Spinner'
+import ArticleToolbar from '../../components/Article/ArticleToolbar'
+import ArticleBreadcrumbs from '../../components/Article/ArticleBreadcrumbs'
+
 
 export const AllArticlesPage = ({
   article: { articles, loading, pagination, article, filterProps },
@@ -27,13 +27,13 @@ export const AllArticlesPage = ({
   getCurrentCampaign,
 }) => {
   useEffect(() => {
-    getCurrentCampaign();
+    getCurrentCampaign()
 
-    getCampaigns();
+    getCampaigns()
     // eslint-disable-next-line
-  }, [loading, campaign.loading, auth.loading]);
+  }, [loading, campaign.loading, auth.loading])
 
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(0)
 
   return !campaign ||
     campaign.loading ||
@@ -66,14 +66,12 @@ export const AllArticlesPage = ({
         filterProps={filterProps}
         facultyCode={auth.user.details.faculty_code}
         page={page}
-      />
-      <Pagination
-        count={pagination.totalPages}
-        onChange={(e, val) => setPage(val)}
+        setPage={setPage}
+        pagination={pagination}
       />
     </>
-  );
-};
+  )
+}
 
 AllArticlesPage.propTypes = {
   getAllArticles: PropTypes.func.isRequired,
@@ -86,13 +84,13 @@ AllArticlesPage.propTypes = {
   updateArticle: PropTypes.func.isRequired,
   setFilterProps: PropTypes.func.isRequired,
   getCurrentCampaign: PropTypes.func.isRequired,
-};
+}
 
 const mapStateToProps = (state) => ({
   article: state.article,
   campaign: state.campaign,
   auth: state.auth,
-});
+})
 
 export default connect(mapStateToProps, {
   getAllArticles,
@@ -102,4 +100,4 @@ export default connect(mapStateToProps, {
   updateArticle,
   setFilterProps,
   getCurrentCampaign,
-})(AllArticlesPage);
+})(AllArticlesPage)

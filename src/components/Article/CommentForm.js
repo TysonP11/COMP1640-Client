@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Button, Grid, makeStyles, TextField } from '@material-ui/core'
+import { setAlert } from '../../redux/actions/alert'
 
 const useStyles = makeStyles((theme) => ({
   input: {
@@ -23,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const CommentForm = ({ username, articleId, postComment }) => {
+const CommentForm = ({ username, articleId, postComment, isExpired }) => {
   const classes = useStyles()
 
   const [content, setContent] = useState('')
@@ -35,18 +36,23 @@ const CommentForm = ({ username, articleId, postComment }) => {
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    const formData = {
-      content,
-      username,
-      article_id: articleId,
-    }
+    if (isExpired) {
+      setAlert('Comment time has expired', 'error')
+    } else {
+      const formData = {
+        content,
+        username,
+        article_id: articleId,
+      }
 
-    postComment(formData)
+      postComment(formData)
+    }
   }
 
   return (
     <Grid container spacing={3} className={classes.form}>
       <TextField
+        disabled={isExpired}
         name='message'
         id='standard-textarea'
         label='Message'
@@ -62,6 +68,7 @@ const CommentForm = ({ username, articleId, postComment }) => {
         className={classes.postButton}
         onClick={handleSubmit}
         variant='contained'
+        disabled={isExpired}
       >
         Post
       </Button>

@@ -4,10 +4,8 @@ import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
-import InputBase from '@material-ui/core/InputBase'
 import Link from '@material-ui/core/Link'
 import MenuIcon from '@material-ui/icons/Menu'
-import SearchIcon from '@material-ui/icons/Search'
 import DashboardIcon from '@material-ui/icons/Dashboard'
 import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined'
 import { signout } from '../../redux/actions/auth'
@@ -19,10 +17,13 @@ import PostAddIcon from '@material-ui/icons/PostAdd'
 import GrainIcon from '@material-ui/icons/Grain'
 import Tooltip from '@material-ui/core/Tooltip'
 import ControlPointIcon from '@material-ui/icons/ControlPoint'
+import { useHistory } from 'react-router-dom'
+import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import SideBar from './SideBar'
+import ProfileMenu from './ProfileMenu'
 
 const StyledMenu = withStyles({
   paper: {
@@ -100,7 +101,7 @@ const useStyles = makeStyles((theme) => ({
   },
   sectionDesktop: {
     display: 'none',
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up('xs')]: {
       display: 'flex',
     },
   },
@@ -111,6 +112,7 @@ export const PrimarySearchAppBar = ({
   signout,
 }) => {
   const classes = useStyles()
+  const history = useHistory()
 
   const [mobileOpen, setMobileOpen] = useState(false)
 
@@ -119,9 +121,14 @@ export const PrimarySearchAppBar = ({
   }
 
   const [anchorEl, setAnchorEl] = React.useState(null)
+  const [anchorEl2, setAnchorEl2] = React.useState(null)
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
+  }
+
+  const handleClose2 = () => {
+    setAnchorEl2(null)
   }
 
   const handleClose = () => {
@@ -169,29 +176,36 @@ export const PrimarySearchAppBar = ({
               G - Mag
             </Link>
           </Typography>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder='Search…'
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             {loading || !isAuthenticated || !user ? (
               <Tooltip title='Signin'>
-                <IconButton color='inherit' href='/login'>
+                <IconButton
+                  color='inherit'
+                  onClick={(e) => history.push('/login')}
+                >
                   <ExitToAppOutlinedIcon />
                 </IconButton>
               </Tooltip>
             ) : (
               <>
+                <Tooltip title='Profile'>
+                  <IconButton
+                    color='inherit'
+                    onClick={(e) => setAnchorEl2(e.currentTarget)}
+                  >
+                    <AccountCircleIcon />
+                  </IconButton>
+                </Tooltip>
+
+                {user && !loading && (
+                  <ProfileMenu
+                    user={user}
+                    anchorEl2={anchorEl2}
+                    handleClose2={handleClose2}
+                  />
+                )}
+
                 <Tooltip title='Article'>
                   <IconButton color='inherit' onClick={handleClick}>
                     <PostAddIcon />
@@ -204,28 +218,37 @@ export const PrimarySearchAppBar = ({
                   open={Boolean(anchorEl)}
                   onClose={handleClose}
                 >
-                  <MenuItem>
+                  <MenuItem
+                    onClick={(e) => {
+                      history.push('/article')
+                      handleClose()
+                    }}
+                  >
                     <ListItemIcon>
                       <GrainIcon fontSize='small' />
                     </ListItemIcon>
-                    <Link href='/article' color='inherit'>
-                      <ListItemText primary='All Articles' />
-                    </Link>
+                    <ListItemText primary='All Articles' />
                   </MenuItem>
-                  <MenuItem>
+                  <MenuItem
+                    onClick={(e) => {
+                      history.push('/article/create')
+                      handleClose()
+                    }}
+                  >
                     <ListItemIcon>
                       <ControlPointIcon fontSize='small' />
                     </ListItemIcon>
-                    <Link href='/campaign' color='inherit'>
-                      <ListItemText primary='Create Article' />
-                    </Link>
+                    <ListItemText primary='Create Article' />
                   </MenuItem>
                 </StyledMenu>
-                <Tooltip title='Campaign'>
-                  <IconButton color='inherit' href='/campaign'>
-                    <DashboardIcon />
-                  </IconButton>
-                </Tooltip>
+                {user.authorities &&
+                  user.authorities.includes('ROLE_MARKETING_MANAGER') && (
+                    <Tooltip title='Campaign'>
+                      <IconButton color='inherit' href='/campaign'>
+                        <DashboardIcon />
+                      </IconButton>
+                    </Tooltip>
+                  )}
                 <Tooltip title='Signout'>
                   <IconButton color='inherit' onClick={(e) => handleSignout()}>
                     <ExitToAppOutlinedIcon />

@@ -11,7 +11,7 @@ import {
 const initialState = {
   filterProps: {},
   article: null,
-  pagination: {},
+  pagination: null,
   articles: [],
   loading: true,
   error: {},

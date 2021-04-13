@@ -12,6 +12,8 @@ export const SIGNIN_ERROR = 'SIGNIN_ERROR'
 export const SIGNUP_ERROR = 'SIGNUP_ERROR'
 export const SIGNOUT = 'SIGNOUT'
 export const REFRESH_TOKEN = 'REFRESH_TOKEN'
+export const USER_ERROR = 'USER_ERROR'
+export const GET_USERS = 'GET_USERS'
 
 // campaign types
 export const GET_CAMPAIGNS = 'GET_CAMPAIGNS'
@@ -38,3 +40,4 @@ export const FACULTY_ERROR = 'FACULTY_ERROR'
 export const GET_COMMENTS = 'GET_COMMENTS'
 export const ADD_COMMENT = 'ADD_COMMENT'
 export const COMMENT_ERROR = 'COMMENT_ERROR'
+export const COMMENT_COUNT = 'COMMENT_COUNT'

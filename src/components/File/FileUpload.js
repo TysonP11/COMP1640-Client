@@ -3,8 +3,11 @@ import axios from '../../api/axios'
 import Dropzone from 'react-dropzone'
 import PublishOutlinedIcon from '@material-ui/icons/PublishOutlined'
 import { Typography } from '@material-ui/core'
+import { setAlert } from '../../redux/actions/alert'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 
-const FileUpload = ({ refreshFunction }) => {
+const FileUpload = ({ refreshFunction, setAlert }) => {
   const [files, setFiles] = useState([])
 
   const onDrop = async (files) => {
@@ -20,12 +23,13 @@ const FileUpload = ({ refreshFunction }) => {
 
     try {
       const res = await axios.post('/api/file/upload', formData, config)
+
       console.log(res)
 
       setFiles([res.data.data.file_name, ...files])
       refreshFunction([res.data.data.file_path, ...files])
     } catch (err) {
-      console.error(err)
+      setAlert('Upload file error', 'error')
     }
   }
 
@@ -40,7 +44,7 @@ const FileUpload = ({ refreshFunction }) => {
   }
 
   return (
-    <Dropzone onDrop={onDrop} multiple={false} maxSize={1000000000}>
+    <Dropzone onDrop={onDrop} multiple={false} maxSize={8 * 1000000 / 2}>
       {({ getRootProps, getInputProps }) => (
         <div {...getRootProps()}>
           <PublishOutlinedIcon fontSize='large' />
@@ -57,4 +61,8 @@ const FileUpload = ({ refreshFunction }) => {
   )
 }
 
-export default FileUpload
+FileUpload.propTypes = {
+  setAlert: PropTypes.func.isRequired,
+}
+
+export default connect(null, { setAlert })(FileUpload)
