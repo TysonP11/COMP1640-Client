@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import {
   makeStyles,
@@ -87,8 +87,22 @@ const CreateArticleForm = ({
   const [name, setName] = useState('')
   const [message, setMessage] = useState('')
 
+  const [nameErr, setNameErr] = useState(false)
+  const [messageErr, setMessageErr] = useState(false)
+
   const [document, setDocument] = useState('')
   const [image, setImage] = useState('')
+
+  useEffect(() => {
+    if (name !== '') {
+      setNameErr(false)
+    }
+
+    if (message !== '') {
+      setMessageErr(false)
+    }
+
+  }, [name, message])
 
   const uploadDocument = (newDocument) => {
     setDocument(newDocument)
@@ -119,31 +133,49 @@ const CreateArticleForm = ({
       campaign_code: campaignCode,
     }
 
-    const emailData = {
-      reply_to: 'phamthaison11@gmail.com',
-      from_name: 'G_mag',
-      to_name: 'Coordinator',
-      message: 'This is a test message',
-      to_email: coordinatorEmail,
+    let hasErr = false
+
+    if (formData.name === '') {
+      setNameErr(true)
+      hasErr = true
     }
 
-    emailjs
-      .send(
-        'coordinator_contact',
-        'coordinator_contact_form',
-        emailData,
-        'user_b3WPLwZ5Bam6FFUi3vfVF',
-      )
-      .then(
-        (result) => {
-          console.log(result.text)
-        },
-        (error) => {
-          console.log(error.text)
-        },
-      )
+    if (formData.message === '') {
+      setMessageErr(true)
+      hasErr = true
+    }
 
-    createArticle(formData, history)
+    if (!formData.document_url || !formData.image_url) {
+      hasErr = true
+    }
+
+    if (!hasErr) {
+      const emailData = {
+        reply_to: 'phamthaison11@gmail.com',
+        from_name: 'G_mag',
+        to_name: 'Coordinator',
+        message: 'This is a test message',
+        to_email: coordinatorEmail,
+      }
+
+      emailjs
+        .send(
+          'coordinator_contact',
+          'coordinator_contact_form',
+          emailData,
+          'user_b3WPLwZ5Bam6FFUi3vfVF',
+        )
+        .then(
+          (result) => {
+            console.log(result.text)
+          },
+          (error) => {
+            console.log(error.text)
+          },
+        )
+
+      createArticle(formData, history)
+    }
   }
 
   const uploadedFile =
@@ -199,6 +231,8 @@ const CreateArticleForm = ({
           className={classes.input}
           value={name}
           onChange={handleOnChangeName}
+          error={nameErr}
+          helperText={nameErr ? 'Invalid input!' : ''}
         />
 
         <TextField
@@ -212,6 +246,8 @@ const CreateArticleForm = ({
           value={message}
           onChange={handleOnChangeMessage}
           variant='outlined'
+          error={messageErr}
+          helperText={messageErr ? 'Invalid input!' : ''}
         />
 
         <Grid container spacing={2}>

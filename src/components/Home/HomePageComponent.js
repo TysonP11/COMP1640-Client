@@ -1,39 +1,39 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Grid from '@material-ui/core/Grid';
-import Container from '@material-ui/core/Container';
-import GitHubIcon from '@material-ui/icons/GitHub';
-import FacebookIcon from '@material-ui/icons/Facebook';
-import TwitterIcon from '@material-ui/icons/Twitter';
-import Header from './HeaderHomePage';
-import MainFeaturedPost from './MainFeaturedPost';
-import FeaturedPost from './FeaturedPost';
-import Sidebar from './Sidebar';
-import PropTypes from 'prop-types';
-import Spinner from '../common/Spinner';
-import Pagination from '@material-ui/lab/Pagination';
+import React from 'react'
+import { makeStyles } from '@material-ui/core/styles'
+import CssBaseline from '@material-ui/core/CssBaseline'
+import Grid from '@material-ui/core/Grid'
+import Container from '@material-ui/core/Container'
+import GitHubIcon from '@material-ui/icons/GitHub'
+import FacebookIcon from '@material-ui/icons/Facebook'
+import TwitterIcon from '@material-ui/icons/Twitter'
+import Header from './HeaderHomePage'
+import MainFeaturedPost from './MainFeaturedPost'
+import FeaturedPost from './FeaturedPost'
+import Sidebar from './Sidebar'
+import PropTypes from 'prop-types'
+import Spinner from '../Common/Spinner'
+import Pagination from '@material-ui/lab/Pagination'
 
 const useStyles = makeStyles((theme) => ({
   mainGrid: {
     marginTop: theme.spacing(3),
   },
-}));
+}))
 
 const sections = [
   { title: 'Technology', url: '#' },
   { title: 'Design', url: '#' },
   { title: 'Business', url: '#' },
-];
+]
 
 const mainFeaturedPost = {
   title: 'Greenwich University',
   description:
-    "Greenwich University (VN) was formed on the basis of the association between Greenwich University (UK) and FPT Education Organization since 2009",
+    'Greenwich University (VN) was formed on the basis of the association between Greenwich University (UK) and FPT Education Organization since 2009',
   image: 'https://source.unsplash.com/random',
   imgText: 'main image description',
   linkText: 'Continue reading…',
-};
+}
 
 const sidebar = {
   title: 'About',
@@ -52,7 +52,7 @@ const sidebar = {
       dest: 'https://www.facebook.com/profile.php?id=100009249044059',
     },
   ],
-};
+}
 
 export default function HomePageComponent({
   articles,
@@ -62,7 +62,7 @@ export default function HomePageComponent({
   getArtcsByFaculty,
   userDetails,
 }) {
-  const classes = useStyles();
+  const classes = useStyles()
 
   return (
     <React.Fragment>
@@ -89,7 +89,7 @@ export default function HomePageComponent({
                       getArtcsByFaculty(
                         userDetails.faculty_code,
                         'ACCEPTED',
-                        val - 1
+                        val - 1,
                       )
                     }
                   />
@@ -111,7 +111,7 @@ export default function HomePageComponent({
         </main>
       </Container>
     </React.Fragment>
-  );
+  )
 }
 
 HomePageComponent.propTypes = {
@@ -119,4 +119,4 @@ HomePageComponent.propTypes = {
   getArtcsByCampaign: PropTypes.func.isRequired,
   getArtcsByFaculty: PropTypes.func.isRequired,
   userDetails: PropTypes.object.isRequired,
-};
+}

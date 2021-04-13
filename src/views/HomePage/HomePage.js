@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import HomePageComponent from '../../components/Home/HomePageComponent';
-import Spinner from '../../components/common/Spinner';
+import Spinner from '../../components/Common/Spinner';
 import {
   getArticlesByFacultyAndStatus,
   getArticlesByFacultyAndStatusAndCampaign,
@@ -41,6 +41,8 @@ export const HomePage = ({
     !user.authorities ||
     !user.details ||
     article.loading ||
+    !article.articles ||
+    !article.pagination ||
     campaign.loading ? (
     <Spinner />
   ) : (

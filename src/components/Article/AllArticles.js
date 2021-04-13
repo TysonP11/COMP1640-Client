@@ -3,10 +3,11 @@ import PropTypes from 'prop-types'
 
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Grid from '@material-ui/core/Grid'
-import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import ArticleItem from './ArticleItem'
 import UpdateArticleForm from './UpdateArticleForm'
+import { Pagination } from '@material-ui/lab'
+import Spinner from '../Common/Spinner'
 
 const useStyles = makeStyles((theme) => ({
   cardGrid: {
@@ -40,6 +41,8 @@ export const AllArtilces = ({
   page,
   user,
   campaign,
+  setPage,
+  pagination,
 }) => {
   const classes = useStyles()
 
@@ -53,10 +56,12 @@ export const AllArtilces = ({
     setShowUpdateForm(false)
   }
 
-  return !articles || articles.length === 0 ? (
-    <Typography style={{ marginTop: 10, marginBottom: 10 }} variant='h5'>
-      There is no article here!!!
-    </Typography>
+  return !articles || articles.length === 0 || !pagination ? (
+    // <Typography style={{ marginTop: 10, marginBottom: 10 }} variant='h5'>
+    //   There is no article here!!!
+    // </Typography>
+
+    <Spinner />
   ) : (
     <React.Fragment>
       <CssBaseline />
@@ -86,6 +91,11 @@ export const AllArtilces = ({
           ))}
         </Grid>
       </main>
+
+      <Pagination
+        count={pagination.totalPages}
+        onChange={(e, val) => setPage(val)}
+      />
     </React.Fragment>
   )
 }

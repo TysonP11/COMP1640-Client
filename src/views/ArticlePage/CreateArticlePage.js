@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import CreateArticleForm from '../../components/Article/CreateArticleForm';
-import CreateArticleBreadcrumbs from '../../components/Article/CreateArticleBreadcrumbs';
-import { createArticle } from '../../redux/actions/article';
-import Spinner from '../../components/common/Spinner';
-import { getCurrentCampaign } from '../../redux/actions/campaign';
+import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import CreateArticleForm from '../../components/Article/CreateArticleForm'
+import CreateArticleBreadcrumbs from '../../components/Article/CreateArticleBreadcrumbs'
+import { createArticle } from '../../redux/actions/article'
+import Spinner from '../../components/Common/Spinner'
+import { getCurrentCampaign } from '../../redux/actions/campaign'
 
-import { getFaculty } from '../../redux/actions/faculty';
+import { getFaculty } from '../../redux/actions/faculty'
 
 export const CreateArticlePage = ({
   createArticle,
@@ -19,12 +19,12 @@ export const CreateArticlePage = ({
   history,
 }) => {
   useEffect(() => {
-    getCurrentCampaign();
+    getCurrentCampaign()
 
-    getFaculty(user.details.faculty_code);
+    getFaculty(user.details.faculty_code)
 
     // eslint-disable-next-line
-  }, [loading]);
+  }, [loading])
 
   return (
     <div>
@@ -50,8 +50,8 @@ export const CreateArticlePage = ({
         />
       )}
     </div>
-  );
-};
+  )
+}
 
 CreateArticlePage.propTypes = {
   createArticle: PropTypes.func.isRequired,
@@ -59,16 +59,16 @@ CreateArticlePage.propTypes = {
   getCurrentCampaign: PropTypes.func.isRequired,
   faculty: PropTypes.object.isRequired,
   getFaculty: PropTypes.func.isRequired,
-};
+}
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
   campaign: state.campaign,
   faculty: state.faculty,
-});
+})
 
 export default connect(mapStateToProps, {
   createArticle,
   getCurrentCampaign,
   getFaculty,
-})(CreateArticlePage);
+})(CreateArticlePage)

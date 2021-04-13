@@ -4,7 +4,6 @@ import { Provider } from 'react-redux'
 import store from './store'
 
 import setAuthToken from './utils/setAuthToken'
-import LandingPage from './views/LandingPage/LandingPage'
 import LoginPage from './views/LoginPage/LoginPage'
 import HomePage from './views/HomePage/HomePage'
 import CampaignPage from './views/CampaignPage/CampaignPage'
@@ -54,7 +53,7 @@ const App = () => {
       <Router>
         <MenuAppBar />
         <Alert />
-        <Route exact path='/' component={LandingPage} />
+        <Route exact path='/' component={LoginPage} />
         <Route exact path='/login' component={LoginPage} />
         <div className={classes.appContainer}>
           <div className={classes.sidebarSpace}></div>
@@ -69,7 +68,7 @@ const App = () => {
               />
               <PrivateRoute
                 exact
-                path='/signup'
+                path='/403error'
                 component={UnauthorizationPage}
                 expectedAuthorities={[
                   'ROLE_GUEST',
