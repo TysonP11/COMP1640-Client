@@ -86,20 +86,20 @@ const CreateArticleForm = ({
   const [document, setDocument] = useState('');
   const [image, setImage] = useState('');
 
-  const uploadDocument = (newDocument) => {
-    setDocument(newDocument);
-  };
-
-  const uploadImage = (newImage) => {
-    setImage(newImage);
-  };
-
   const handleOnChangeName = (e) => {
     setName(e.target.value);
   };
 
   const handleOnChangeMessage = (e) => {
     setMessage(e.target.value);
+  };
+
+  const uploadDocument = (newDocument) => {
+    setDocument(newDocument);
+  };
+
+  const uploadImage = (newImage) => {
+    setImage(newImage);
   };
 
   const handleSubmit = (e) => {
@@ -119,7 +119,7 @@ const CreateArticleForm = ({
       reply_to: 'phamthaison11@gmail.com',
       from_name: 'G_mag',
       to_name: 'Coordinator',
-      message: 'This is a test message',
+      message: `Your faculty just received a new submission from ${username}. You have 14 days to comment.`,
       to_email: coordinatorEmail,
     };
 
