@@ -25,31 +25,63 @@ const ArticleDetailPage = ({
     getComments(match.params.id)
   }, [getArticle, match.params.id, getComments, postComment])
 
-  return auth.loading || !auth.user || loading || article === null || !match ? (
+  return auth.loading ||
+    !auth.user ||
+    loading ||
+    article === null ||
+    !match ||
+    !auth.user.authorities ? (
     <Spinner></Spinner>
   ) : (
     <Fragment>
       <ArticleDetailsBreadcrumb />
       <Grid container spacing={4} direction='row' alignItems='flex-start'>
-        <Grid item lg={9} md={12}>
+        <Grid
+          item
+          lg={
+            auth.user.authorities.includes('ROLE_STUDENT')
+              ? auth.user.username === article.user_username
+                ? 9
+                : 12
+              : 12
+          }
+          md={12}
+        >
           <ArticleTop
             article={article}
             updateArticleStatus={updateArticleStatus}
             user={auth.user}
           />
         </Grid>
-        <Grid item lg={3} md={12}>
-          {comment.loading ? (
-            <Spinner />
-          ) : (
-            <ChatBox
-              comments={comment.comments}
-              postComment={postComment}
-              username={auth.user.username}
-              article={article}
-            />
-          )}
-        </Grid>
+        {auth.user.authorities.includes('ROLE_STUDENT') ? (
+          auth.user.username === article.user_username ? (
+            <Grid item lg={3} md={12}>
+              {comment.loading ? (
+                <Spinner />
+              ) : (
+                <ChatBox
+                  comments={comment.comments}
+                  postComment={postComment}
+                  username={auth.user.username}
+                  article={article}
+                />
+              )}
+            </Grid>
+          ) : null
+        ) : (
+          <Grid item lg={3} md={12}>
+            {comment.loading ? (
+              <Spinner />
+            ) : (
+              <ChatBox
+                comments={comment.comments}
+                postComment={postComment}
+                username={auth.user.username}
+                article={article}
+              />
+            )}
+          </Grid>
+        )}
       </Grid>
     </Fragment>
   )

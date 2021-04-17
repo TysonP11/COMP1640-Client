@@ -64,7 +64,7 @@ const App = () => {
                 exact
                 path='/signup'
                 component={Signup}
-                expectedAuthorities={['ROLE_MARKETING_MANAGER']}
+                expectedAuthorities={['ROLE_ADMIN']}
               />
               <PrivateRoute
                 exact
@@ -86,13 +86,14 @@ const App = () => {
                   'ROLE_STUDENT',
                   'ROLE_MARKETING_COORDINATOR',
                   'ROLE_MARKETING_MANAGER',
+                  'ROLE_ADMIN'
                 ]}
               />
               <PrivateRoute
                 exact
                 path='/campaign'
                 component={CampaignPage}
-                expectedAuthorities={['ROLE_MARKETING_MANAGER']}
+                expectedAuthorities={['ROLE_MARKETING_MANAGER', 'ROLE_ADMIN']}
               />
 
               <PrivateRoute

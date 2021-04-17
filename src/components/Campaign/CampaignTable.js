@@ -226,48 +226,48 @@ export const CampaignTable = ({
                         </TableCell>
                         <TableCell align='left'>{row.admin_username}</TableCell>
                         <TableCell align='left'>
-                          <IconButton
-                            aria-label='update'
-                            className={classes.editIcon}
-                            onClick={(e) => handleGetCampaign(row.code)}
-                          >
-                            <EditLocationTwoToneIcon />
-                          </IconButton>
-
-                          {user.authorities.includes(
-                            'ROLE_MARKETING_MANAGER',
-                          ) &&
-                            (row.status === 'ACTIVE' ? (
+                          {user.authorities.includes('ROLE_ADMIN') && (
+                            <>
                               <IconButton
                                 aria-label='update'
-                                onClick={(e) => updateStatus(row.code)}
+                                className={classes.editIcon}
+                                onClick={(e) => handleGetCampaign(row.code)}
                               >
-                                <FontAwesomeIcon
-                                  icon={faToggleOn}
-                                  style={{ color: '#00a152' }}
-                                />
+                                <EditLocationTwoToneIcon />
                               </IconButton>
-                            ) : (
-                              <IconButton
-                                aria-label='update'
-                                onClick={(e) => updateStatus(row.code)}
-                              >
-                                <FontAwesomeIcon icon={faToggleOff} />
-                              </IconButton>
-                            ))}
+                              {row.status === 'ACTIVE' ? (
+                                <IconButton
+                                  aria-label='update'
+                                  onClick={(e) => updateStatus(row.code)}
+                                >
+                                  <FontAwesomeIcon
+                                    icon={faToggleOn}
+                                    style={{ color: '#00a152' }}
+                                  />
+                                </IconButton>
+                              ) : (
+                                <IconButton
+                                  aria-label='update'
+                                  onClick={(e) => updateStatus(row.code)}
+                                >
+                                  <FontAwesomeIcon icon={faToggleOff} />
+                                </IconButton>
+                              )}
+                            </>
+                          )}
 
                           {user.authorities.includes(
                             'ROLE_MARKETING_MANAGER',
                           ) && (
-                              <IconButton
-                                aria-label='update'
-                                onClick={(e) => downloadAllArticl(row.code)}
-                              >
-                                <SystemUpdateAltIcon
-                                  style={{ color: '#00a152' }}
-                                />
-                              </IconButton>
-                            )}
+                            <IconButton
+                              aria-label='update'
+                              onClick={(e) => downloadAllArticl(row.code)}
+                            >
+                              <SystemUpdateAltIcon
+                                style={{ color: '#00a152' }}
+                              />
+                            </IconButton>
+                          )}
 
                           {user.authorities.includes('ROLE_STUDENT') &&
                             new Date().valueOf() / 1000 < row.submit_deadline &&

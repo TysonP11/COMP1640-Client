@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -34,7 +34,8 @@ const useStyles = makeStyles((theme) => ({
     height: '100vh',
   },
   image: {
-    backgroundImage: 'url(https://source.unsplash.com/random)',
+    backgroundImage:
+      'url(https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80)',
     backgroundRepeat: 'no-repeat',
     backgroundColor:
       theme.palette.type === 'light'
@@ -68,9 +69,20 @@ export const LoginPage = ({ signin, isAuthenticated, loading }) => {
     password: '',
   })
 
-  const [hasError, setHasError] = useState(false)
+  const [usernameErr, setUsernameErr] = useState(false)
+  const [passwordErr, setPasswordErr] = useState(false)
 
   const { username, password } = formData
+
+  useEffect(() => {
+    if (username.trim() !== '') {
+      setUsernameErr(false)
+    }
+
+    if (password.trim() !== '') {
+      setPasswordErr(false)
+    }
+  }, [username, password])
 
   const handleOnChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -79,17 +91,25 @@ export const LoginPage = ({ signin, isAuthenticated, loading }) => {
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    if (username.trim() === '' || password.trim() === '') {
-      setHasError(true)
-    } else {
+    let hasErr = false
+
+    if (username.trim() === '') {
+      setUsernameErr(true)
+      hasErr = true
+    }
+
+    if (password.trim() === '') {
+      setPasswordErr(true)
+      hasErr = true
+    }
+
+    if (!hasErr) {
       signin(formData)
 
       setFormData({
         username: '',
         password: '',
       })
-
-      setHasError(false)
     }
   }
 
@@ -128,8 +148,8 @@ export const LoginPage = ({ signin, isAuthenticated, loading }) => {
               autoFocus
               value={username}
               onChange={(e) => handleOnChange(e)}
-              error={hasError}
-              helperText={hasError ? 'Invalid value!' : ''}
+              error={usernameErr}
+              helperText={usernameErr ? 'Invalid value!' : ''}
             />
             <TextField
               variant='outlined'
@@ -143,8 +163,8 @@ export const LoginPage = ({ signin, isAuthenticated, loading }) => {
               autoComplete='current-password'
               value={password}
               onChange={(e) => handleOnChange(e)}
-              error={hasError}
-              helperText={hasError ? 'Invalid value!' : ''}
+              error={passwordErr}
+              helperText={passwordErr ? 'Invalid value!' : ''}
             />
             <Button
               type='submit'

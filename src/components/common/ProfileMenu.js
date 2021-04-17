@@ -88,6 +88,8 @@ function ProfileMenu({ user, anchorEl2, handleClose2 }) {
           })}
         <Typography style={{ fontWeight: '700' }}>Email:</Typography>{' '}
         <Typography>{user.details.email}</Typography>
+        <Typography style={{ fontWeight: '700' }}>Faculty:</Typography>{' '}
+        <Typography>{user.details.faculty_code}</Typography>
       </div>
     </StyledMenu>
   )

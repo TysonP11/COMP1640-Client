@@ -8,6 +8,7 @@ import Spinner from '../../components/Common/Spinner'
 import { getCurrentCampaign } from '../../redux/actions/campaign'
 
 import { getFaculty } from '../../redux/actions/faculty'
+import { setAlert } from '../../redux/actions/alert'
 
 export const CreateArticlePage = ({
   createArticle,
@@ -17,6 +18,7 @@ export const CreateArticlePage = ({
   campaign,
   faculty,
   history,
+  setAlert
 }) => {
   useEffect(() => {
     getCurrentCampaign()
@@ -47,6 +49,7 @@ export const CreateArticlePage = ({
           campaignCode={campaign.campaign.code}
           coordinatorEmail={faculty.faculty.coordinator.email}
           history={history}
+          setAlert={setAlert}
         />
       )}
     </div>
@@ -59,6 +62,7 @@ CreateArticlePage.propTypes = {
   getCurrentCampaign: PropTypes.func.isRequired,
   faculty: PropTypes.object.isRequired,
   getFaculty: PropTypes.func.isRequired,
+  setAlert: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) => ({
@@ -71,4 +75,5 @@ export default connect(mapStateToProps, {
   createArticle,
   getCurrentCampaign,
   getFaculty,
+  setAlert
 })(CreateArticlePage)

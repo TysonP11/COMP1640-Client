@@ -87,7 +87,7 @@ export const createUser = (formData, history) => async (dispatch) => {
 
     dispatch(setAlert('Create user successfully', 'success'))
 
-    //history.push('/home')
+    history.push('/home')
   } catch (err) {
     console.error(err)
     dispatch({
