@@ -78,7 +78,7 @@ export const updateArticleStatus = (status, id) => async (dispatch) => {
       },
     };
 
-    const res = await axios.put(`/api/article/update-status/${id}`, config);
+    const res = await axios.get(`/api/article/update-status/${id}`, config);
 
     dispatch(setAlert('Article graded', 'success'));
   } catch (err) {
@@ -98,25 +98,25 @@ export const getArticlesWithoutPagin = (code) => async (dispatch) => {
       params: {
         code: code,
       },
-    }
+    };
 
-    const res = await axios.get('/api/article/get-all-by-campaign', config)
+    const res = await axios.get('/api/article/get-all-by-campaign', config);
 
     dispatch({
       type: GET_ARTICLES,
       payload: {
         page_data: res.data.data,
       },
-    })
+    });
   } catch (err) {
-    console.error(err.message)
+    console.error(err.message);
     dispatch({
       type: ARTICLE_ERROR,
       payload: { msg: err.message },
-    })
-    dispatch(setAlert('Get campaigns error', 'error'))
+    });
+    dispatch(setAlert('Get campaigns error', 'error'));
   }
-}
+};
 
 // set filter props
 export const setFilterProps = (props) => (dispatch) => {

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import {
   makeStyles,
   Paper,
@@ -9,19 +9,19 @@ import {
   Grid,
   FormControlLabel,
   Checkbox,
-} from '@material-ui/core'
-import FileUpload from '../File/FileUpload'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+} from '@material-ui/core';
+import FileUpload from '../File/FileUpload';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faFileWord,
   faFilePdf,
   faFileAlt,
-} from '@fortawesome/free-regular-svg-icons'
-import Avatar from '@material-ui/core/Avatar'
-import defaultImage from '../Common/DefaultImage.png'
-import { BASE_URL } from '../../environment/dev.env'
-import emailjs from 'emailjs-com'
-import { Link } from 'react-router-dom'
+} from '@fortawesome/free-regular-svg-icons';
+import Avatar from '@material-ui/core/Avatar';
+import defaultImage from '../Common/DefaultImage.png';
+import { BASE_URL } from '../../environment/dev.env';
+import emailjs from 'emailjs-com';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -73,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
     width: 300,
     height: 280,
   },
-}))
+}));
 
 const CreateArticleForm = ({
   createArticle,
@@ -83,45 +83,33 @@ const CreateArticleForm = ({
   history,
   coordinatorEmail,
 }) => {
-  const classes = useStyles()
-  const [name, setName] = useState('')
-  const [message, setMessage] = useState('')
+  const classes = useStyles();
+  const [name, setName] = useState('');
+  const [message, setMessage] = useState('');
 
-  const [nameErr, setNameErr] = useState(false)
-  const [messageErr, setMessageErr] = useState(false)
+  const [nameErr, setNameErr] = useState(false);
+  const [messageErr, setMessageErr] = useState(false);
 
-  const [document, setDocument] = useState('')
-  const [image, setImage] = useState('')
+  const [document, setDocument] = useState('');
+  const [image, setImage] = useState('');
 
   useEffect(() => {
     if (name !== '') {
-      setNameErr(false)
+      setNameErr(false);
     }
 
     if (message !== '') {
-      setMessageErr(false)
+      setMessageErr(false);
     }
+  }, [name, message]);
 
-  }, [name, message])
-
-<<<<<<< HEAD
-=======
-  const uploadDocument = (newDocument) => {
-    setDocument(newDocument)
-  }
-
-  const uploadImage = (newImage) => {
-    setImage(newImage)
-  }
-
->>>>>>> f27ed7dd0b51f764c27b14b1de159617b9e6d54b
   const handleOnChangeName = (e) => {
-    setName(e.target.value)
-  }
+    setName(e.target.value);
+  };
 
   const handleOnChangeMessage = (e) => {
-    setMessage(e.target.value)
-  }
+    setMessage(e.target.value);
+  };
 
   const uploadDocument = (newDocument) => {
     setDocument(newDocument);
@@ -132,7 +120,7 @@ const CreateArticleForm = ({
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     const formData = {
       name: name,
@@ -142,52 +130,22 @@ const CreateArticleForm = ({
       user_username: username,
       faculty_code: userDetails.faculty_code,
       campaign_code: campaignCode,
-<<<<<<< HEAD
     };
 
-    const emailData = {
-      reply_to: 'phamthaison11@gmail.com',
-      from_name: 'G_mag',
-      to_name: 'Coordinator',
-      message: `Your faculty just received a new submission from ${username}. You have 14 days to comment.`,
-      to_email: coordinatorEmail,
-    };
-
-    emailjs
-      .send(
-        'coordinator_contact',
-        'coordinator_contact_form',
-        emailData,
-        'user_b3WPLwZ5Bam6FFUi3vfVF'
-      )
-      .then(
-        (result) => {
-          console.log(result.text);
-        },
-        (error) => {
-          console.log(error.text);
-        }
-      );
-
-    createArticle(formData, history);
-  };
-=======
-    }
-
-    let hasErr = false
+    let hasErr = false;
 
     if (formData.name === '') {
-      setNameErr(true)
-      hasErr = true
+      setNameErr(true);
+      hasErr = true;
     }
 
     if (formData.message === '') {
-      setMessageErr(true)
-      hasErr = true
+      setMessageErr(true);
+      hasErr = true;
     }
 
     if (!formData.document_url || !formData.image_url) {
-      hasErr = true
+      hasErr = true;
     }
 
     if (!hasErr) {
@@ -197,28 +155,27 @@ const CreateArticleForm = ({
         to_name: 'Coordinator',
         message: 'This is a test message',
         to_email: coordinatorEmail,
-      }
+      };
 
       emailjs
         .send(
           'coordinator_contact',
           'coordinator_contact_form',
           emailData,
-          'user_b3WPLwZ5Bam6FFUi3vfVF',
+          'user_b3WPLwZ5Bam6FFUi3vfVF'
         )
         .then(
           (result) => {
-            console.log(result.text)
+            console.log(result.text);
           },
           (error) => {
-            console.log(error.text)
-          },
-        )
+            console.log(error.text);
+          }
+        );
 
-      createArticle(formData, history)
+      createArticle(formData, history);
     }
-  }
->>>>>>> f27ed7dd0b51f764c27b14b1de159617b9e6d54b
+  };
 
   const uploadedFile =
     document[0] && document[0] !== '' ? (
@@ -241,7 +198,7 @@ const CreateArticleForm = ({
       <Typography>
         <FontAwesomeIcon icon={faFileAlt} size='2x' /> File
       </Typography>
-    )
+    );
 
   const uploadedImage =
     image[0] && image[0] !== '' ? (
@@ -257,7 +214,7 @@ const CreateArticleForm = ({
         alt='default'
         src={defaultImage}
       />
-    )
+    );
 
   return (
     <Paper elevation={3} className={classes.root}>
@@ -350,14 +307,14 @@ const CreateArticleForm = ({
         </Button>
       </form>
     </Paper>
-  )
-}
+  );
+};
 
 CreateArticleForm.propTypes = {
   createArticle: PropTypes.func.isRequired,
   userDetails: PropTypes.object.isRequired,
   username: PropTypes.string.isRequired,
   campaignCode: PropTypes.string.isRequired,
-}
+};
 
-export default CreateArticleForm
+export default CreateArticleForm;
