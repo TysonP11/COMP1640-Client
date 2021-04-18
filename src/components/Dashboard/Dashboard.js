@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Grid } from '@material-ui/core'
-import Spinner from '../Common/Spinner'
 import FormControl from '@material-ui/core/FormControl'
 import NativeSelect from '@material-ui/core/NativeSelect'
 import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
-import { makeStyles, Paper } from '@material-ui/core'
+import { makeStyles, Paper, Typography } from '@material-ui/core'
 import PieChart from './PieChart'
 import BarChart from './BarChart'
 import GroupChart from './GroupChart'
@@ -102,21 +101,11 @@ export const Dashboard = ({
           </Grid>
         </Grid>
       </Paper>
-      
-      {articles && articles.length > 0 ? (
-        <BarChart articles={articles} />
-      ) : (
-        <Spinner />
-      )}
-
-      {articles && articles.length > 0 ? (
-        <GroupChart articles={articles} />
-      ) : (
-        <Spinner />
-      )}
 
       {articles && articles.length > 0 ? (
         <>
+          <BarChart articles={articles} />
+          <GroupChart articles={articles} />
           <PieChart
             articles={articles}
             getAllCommentsByFaculty={getAllCommentsByFaculty}
@@ -124,16 +113,8 @@ export const Dashboard = ({
           />
         </>
       ) : (
-        <Spinner />
+        <Typography>This campaign has no submissions</Typography>
       )}
-
-      {/* {users && users.length > 0 ? (
-        <>
-          <PieChart users={users} />
-        </>
-      ) : (
-        <Spinner />
-      )} */}
     </>
   )
 }

@@ -11,8 +11,8 @@ import MainFeaturedPost from './MainFeaturedPost'
 import FeaturedPost from './FeaturedPost'
 import Sidebar from './Sidebar'
 import PropTypes from 'prop-types'
-import Spinner from '../Common/Spinner'
 import Pagination from '@material-ui/lab/Pagination'
+import { Typography } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
   mainGrid: {
@@ -61,8 +61,24 @@ export default function HomePageComponent({
   pagination,
   getArtcsByFaculty,
   userDetails,
+  authorities,
+  getArtcsByCampaignStatus,
+  cpCode,
+  getArticlesByStatus,
 }) {
   const classes = useStyles()
+
+  const handleChangePage = (val) => {
+    if (authorities.includes('ROLE_MARKETING_MANAGER')) {
+      if (cpCode && cpCode !== '') {
+        getArtcsByCampaignStatus(cpCode, 'ACCEPTED', val - 1)
+      } else {
+        getArticlesByStatus('ACCEPTED', val - 1)
+      }
+    } else {
+      getArtcsByFaculty(userDetails.faculty_code, 'ACCEPTED', val - 1)
+    }
+  }
 
   return (
     <React.Fragment>
@@ -85,19 +101,13 @@ export default function HomePageComponent({
                   </div>
                   <Pagination
                     count={pagination.totalPages}
-                    onChange={(e, val) =>
-                      getArtcsByFaculty(
-                        userDetails.faculty_code,
-                        'ACCEPTED',
-                        val - 1,
-                      )
-                    }
+                    onChange={(e, val) => handleChangePage(val)}
                   />
                 </Grid>
               </>
             ) : (
               <Grid item xs={12} md={9}>
-                <Spinner />
+                <Typography>There is no article here</Typography>
               </Grid>
             )}
             <Sidebar

@@ -15,11 +15,13 @@ import FileSaver from 'file-saver';
 import JSZipUtils from 'jszip-utils';
 import { BASE_URL } from '../../environment/dev.env';
 const zip = new JSZip();
-const zipFilename = `${new Date().valueOf()}_All_Articles.zip`;
+
 let count = 0;
 
 export const downloadAllArticl = (campaignCode) => async (dispatch) => {
-  let filePaths;
+  let filePaths = [];
+
+  const zipFilename = `${new Date().valueOf()}_${campaignCode}_All_Articles.zip`;
 
   try {
     const config = {
@@ -30,7 +32,10 @@ export const downloadAllArticl = (campaignCode) => async (dispatch) => {
 
     const res = await axios.get('/api/article/get-all-by-campaign', config);
 
-    filePaths = res.data.data.map((articl) => articl.document_url);
+    res.data.data.forEach((articl) => {
+      filePaths.push(articl.image_url);
+      filePaths.push(articl.document_url);
+    });
   } catch (err) {
     console.error(err.message);
     dispatch({
@@ -50,11 +55,7 @@ export const downloadAllArticl = (campaignCode) => async (dispatch) => {
 
         zip.file(fileName, data, { binary: true });
 
-        console.log('before increment');
-
         count = count + 1;
-
-        console.log('after increment');
 
         if (count === filePaths.length) {
           const content = await zip.generateAsync({ type: 'blob' });
@@ -81,6 +82,10 @@ export const updateArticleStatus = (status, id) => async (dispatch) => {
     const res = await axios.get(`/api/article/update-status/${id}`, config);
 
     dispatch(setAlert('Article graded', 'success'));
+    dispatch({
+      type: GET_ARTICLE,
+      payload: res.data.data,
+    });
   } catch (err) {
     console.error(err.message);
     dispatch({
@@ -107,6 +112,35 @@ export const getArticlesWithoutPagin = (code) => async (dispatch) => {
       payload: {
         page_data: res.data.data,
       },
+    });
+  } catch (err) {
+    console.error(err.message);
+    dispatch({
+      type: ARTICLE_ERROR,
+      payload: { msg: err.message },
+    });
+    dispatch(setAlert('Get campaigns error', 'error'));
+  }
+};
+
+// get all articles
+export const getArticleByCampaignAndStatus = (code, status, page) => async (
+  dispatch
+) => {
+  try {
+    const config = {
+      params: {
+        code: code,
+        status: status,
+        page: page,
+      },
+    };
+
+    const res = await axios.get('/api/article/get-by-campaign-status', config);
+
+    dispatch({
+      type: GET_ARTICLES,
+      payload: res.data.data,
     });
   } catch (err) {
     console.error(err.message);

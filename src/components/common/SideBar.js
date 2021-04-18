@@ -95,6 +95,18 @@ const SideBar = ({
       </ListItem>
       <Divider />
 
+      <ListItem button onClick={(e) => history.push('/campaign')}>
+        <ListItemIcon>
+          <AppsIcon />
+        </ListItemIcon>
+        <ListItemText>Campaign</ListItemText>
+      </ListItem>
+      <Divider />
+    </>
+  )
+
+  const adminMenu = (
+    <>
       <ListItem button onClick={(e) => history.push('/signup')}>
         <ListItemIcon>
           <AddIcon />
@@ -168,6 +180,9 @@ const SideBar = ({
             <ListItemText>Home</ListItemText>
           </ListItem>
           <Divider />
+
+          {user.authorities.includes('ROLE_ADMIN') && <>{adminMenu}</>}
+
           {user.authorities.includes('ROLE_MARKETING_MANAGER') && (
             <>{managerMenu}</>
           )}

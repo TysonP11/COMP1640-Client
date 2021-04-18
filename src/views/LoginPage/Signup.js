@@ -20,6 +20,7 @@ import MomentUtils from '@date-io/moment'
 import FormControl from '@material-ui/core/FormControl'
 import NativeSelect from '@material-ui/core/NativeSelect'
 import { createUser } from '../../redux/actions/auth'
+import { setAlert } from '../../redux/actions/alert'
 import PropTypes from 'prop-types'
 
 // function Copyright() {
@@ -55,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function Signup({ createUser, history }) {
+function Signup({ createUser, history, setAlert }) {
   const classes = useStyles()
 
   const [dateOfBirth, setDateOfBirth] = useState(moment())
@@ -71,8 +72,8 @@ function Signup({ createUser, history }) {
     phoneNumber: '',
     email: '',
     confirmPassword: '',
-    facultyCode: '',
-    authority: '',
+    facultyCode: 'COMP',
+    authority: '2',
   })
 
   const [usernameErr, setUsernameErr] = useState(false)
@@ -213,7 +214,8 @@ function Signup({ createUser, history }) {
       }
 
       createUser(data, history)
-      console.log('Submitted!')
+    } else {
+      setAlert('Create user error', 'error')
     }
   }
 
@@ -438,4 +440,4 @@ Signup.propTypes = {
   createUser: PropTypes.func.isRequired,
 }
 
-export default connect(null, { createUser })(Signup)
+export default connect(null, { createUser, setAlert })(Signup)

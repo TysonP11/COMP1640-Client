@@ -82,6 +82,7 @@ const CreateArticleForm = ({
   campaignCode,
   history,
   coordinatorEmail,
+  setAlert,
 }) => {
   const classes = useStyles();
   const [name, setName] = useState('');
@@ -92,6 +93,7 @@ const CreateArticleForm = ({
 
   const [document, setDocument] = useState('');
   const [image, setImage] = useState('');
+  const [agreeTerm, setAgreeTerm] = useState(false);
 
   useEffect(() => {
     if (name !== '') {
@@ -102,14 +104,6 @@ const CreateArticleForm = ({
       setMessageErr(false);
     }
   }, [name, message]);
-
-  const handleOnChangeName = (e) => {
-    setName(e.target.value);
-  };
-
-  const handleOnChangeMessage = (e) => {
-    setMessage(e.target.value);
-  };
 
   const uploadDocument = (newDocument) => {
     setDocument(newDocument);
@@ -148,6 +142,10 @@ const CreateArticleForm = ({
       hasErr = true;
     }
 
+    if (!agreeTerm) {
+      hasErr = true;
+    }
+
     if (!hasErr) {
       const emailData = {
         reply_to: 'phamthaison11@gmail.com',
@@ -174,6 +172,8 @@ const CreateArticleForm = ({
         );
 
       createArticle(formData, history);
+    } else {
+      setAlert('Create article error', 'error');
     }
   };
 
@@ -289,7 +289,14 @@ const CreateArticleForm = ({
           }}
         >
           <FormControlLabel
-            control={<Checkbox value='allowExtraEmails' color='primary' />}
+            control={
+              <Checkbox
+                checked={agreeTerm}
+                onChange={(e) => setAgreeTerm(!agreeTerm)}
+                value='allowExtraEmails'
+                color='primary'
+              />
+            }
             label='I agree with terms and conditions of G-Mag'
           />
           <Link to='#'>

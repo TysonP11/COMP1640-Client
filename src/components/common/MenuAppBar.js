@@ -206,11 +206,23 @@ export const PrimarySearchAppBar = ({
                   />
                 )}
 
-                <Tooltip title='Article'>
-                  <IconButton color='inherit' onClick={handleClick}>
-                    <PostAddIcon />
-                  </IconButton>
-                </Tooltip>
+                {user.authorities &&
+                  user.authorities.includes('ROLE_MARKETING_COORDINATOR') && (
+                    <Tooltip title='Article'>
+                      <IconButton color='inherit' onClick={handleClick}>
+                        <PostAddIcon />
+                      </IconButton>
+                    </Tooltip>
+                  )}
+
+                {user.authorities && user.authorities.includes('ROLE_STUDENT') && (
+                  <Tooltip title='Article'>
+                    <IconButton color='inherit' onClick={handleClick}>
+                      <PostAddIcon />
+                    </IconButton>
+                  </Tooltip>
+                )}
+
                 <StyledMenu
                   id='customized-menu'
                   anchorEl={anchorEl}
@@ -229,17 +241,20 @@ export const PrimarySearchAppBar = ({
                     </ListItemIcon>
                     <ListItemText primary='All Articles' />
                   </MenuItem>
-                  <MenuItem
-                    onClick={(e) => {
-                      history.push('/article/create')
-                      handleClose()
-                    }}
-                  >
-                    <ListItemIcon>
-                      <ControlPointIcon fontSize='small' />
-                    </ListItemIcon>
-                    <ListItemText primary='Create Article' />
-                  </MenuItem>
+                  {user.authorities &&
+                    user.authorities.includes('ROLE_STUDENT') && (
+                      <MenuItem
+                        onClick={(e) => {
+                          history.push('/article/create')
+                          handleClose()
+                        }}
+                      >
+                        <ListItemIcon>
+                          <ControlPointIcon fontSize='small' />
+                        </ListItemIcon>
+                        <ListItemText primary='Create Article' />
+                      </MenuItem>
+                    )}
                 </StyledMenu>
                 {user.authorities &&
                   user.authorities.includes('ROLE_MARKETING_MANAGER') && (

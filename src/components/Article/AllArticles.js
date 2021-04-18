@@ -4,10 +4,10 @@ import PropTypes from 'prop-types'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'
+import { Typography } from '@material-ui/core'
 import ArticleItem from './ArticleItem'
 import UpdateArticleForm from './UpdateArticleForm'
 import { Pagination } from '@material-ui/lab'
-import Spinner from '../Common/Spinner'
 
 const useStyles = makeStyles((theme) => ({
   cardGrid: {
@@ -57,11 +57,9 @@ export const AllArtilces = ({
   }
 
   return !articles || articles.length === 0 || !pagination ? (
-    // <Typography style={{ marginTop: 10, marginBottom: 10 }} variant='h5'>
-    //   There is no article here!!!
-    // </Typography>
-
-    <Spinner />
+    <Typography style={{ marginTop: 10, marginBottom: 10 }} variant='h5'>
+      There is no article here!!!
+    </Typography>
   ) : (
     <React.Fragment>
       <CssBaseline />

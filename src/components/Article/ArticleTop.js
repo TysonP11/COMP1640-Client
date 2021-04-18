@@ -22,14 +22,17 @@ const useStyles = makeStyles((theme) => ({
   pending: {
     padding: theme.spacing(1),
     backgroundColor: '#b1b2b3',
+    fontWeight: 'bold'
   },
   approved: {
     padding: theme.spacing(1),
     backgroundColor: '#3DEC55',
+    fontWeight: 'bold'
   },
   denied: {
     padding: theme.spacing(1),
     backgroundColor: '#ff0505',
+    fontWeight: 'bold'
   },
   card: {
     height: '100%',
@@ -92,6 +95,7 @@ const ArticleTop = ({ article, user, updateArticleStatus }) => {
   const [anchorEl, setAnchorEl] = useState(null)
 
   const handleClick = (event) => {
+    console.log(user)
     setAnchorEl(event.currentTarget)
   }
 
@@ -131,8 +135,7 @@ const ArticleTop = ({ article, user, updateArticleStatus }) => {
           </Grid>
         </Grid>
         <Grid item>
-          {user.authorities.filter((el) => el === 'ROLE_MARKETING_COORDINATOR')
-            .length >= 0 ? (
+          {user.authorities.includes('ROLE_MARKETING_COORDINATOR') ? (
             <div>
               <Button
                 aria-controls='simple-menu'
@@ -170,7 +173,7 @@ const ArticleTop = ({ article, user, updateArticleStatus }) => {
                   : classes.approved
               }
             >
-              <Typography>{article.status}</Typography>
+              <Typography style={{fontWeight: 'bold'}}>{article.status}</Typography>
             </Paper>
           )}
         </Grid>

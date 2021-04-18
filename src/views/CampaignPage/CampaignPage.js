@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 
 import {
   getCampaigns,
@@ -8,20 +8,20 @@ import {
   getCampaign,
   updateCampaign,
   updateCampaignStatus,
-} from '../../redux/actions/campaign';
-import { downloadAllArticl } from '../../redux/actions/article';
-import CampaignTable from '../../components/Campaign/CampaignTable';
-import CreateCampaignForm from '../../components/Campaign/CreateCampaignForm';
-import CampaignBreadcrumbs from '../../components/Campaign/CampaignBreadcrumbs';
-import { Button, makeStyles } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
-import Spinner from '../../components/Common/Spinner';
+} from '../../redux/actions/campaign'
+import { downloadAllArticl } from '../../redux/actions/article'
+import CampaignTable from '../../components/Campaign/CampaignTable'
+import CreateCampaignForm from '../../components/Campaign/CreateCampaignForm'
+import CampaignBreadcrumbs from '../../components/Campaign/CampaignBreadcrumbs'
+import { Button, makeStyles } from '@material-ui/core'
+import AddIcon from '@material-ui/icons/Add'
+import Spinner from '../../components/Common/Spinner'
 
 const useStyles = makeStyles((theme) => ({
   createButton: {
     marginTop: theme.spacing(2),
   },
-}));
+}))
 
 export const CampaignPage = ({
   getCampaigns,
@@ -33,38 +33,41 @@ export const CampaignPage = ({
   updateCampaignStatus,
   downloadAllArticl,
 }) => {
-  const classes = useStyles();
+  const classes = useStyles()
 
-  const [showCreateForm, setShowCreateForm] = useState(false);
+  const [showCreateForm, setShowCreateForm] = useState(false)
 
   const handleShowCreateForm = () => {
-    setShowCreateForm(true);
-  };
+    setShowCreateForm(true)
+  }
 
   const handleCloseCreateForm = () => {
-    setShowCreateForm(false);
-  };
+    setShowCreateForm(false)
+  }
 
   useEffect(() => {
-    getCampaigns();
+    getCampaigns()
     // eslint-disable-next-line
-  }, []);
+  }, [])
 
   return loading || auth.loading || !auth.user || !auth ? (
     <Spinner />
   ) : (
     <>
       <CampaignBreadcrumbs />
-      <Button
-        variant='outlined'
-        size='large'
-        color='primary'
-        startIcon={<AddIcon />}
-        className={classes.createButton}
-        onClick={handleShowCreateForm}
-      >
-        Create Campaign
-      </Button>
+
+      {auth.user.authorities && auth.user.authorities.includes('ROLE_ADMIN') && (
+        <Button
+          variant='outlined'
+          size='large'
+          color='primary'
+          startIcon={<AddIcon />}
+          className={classes.createButton}
+          onClick={handleShowCreateForm}
+        >
+          Create Campaign
+        </Button>
+      )}
 
       <CreateCampaignForm
         handleClose={handleCloseCreateForm}
@@ -83,8 +86,8 @@ export const CampaignPage = ({
         downloadAllArticl={downloadAllArticl}
       />
     </>
-  );
-};
+  )
+}
 
 CampaignPage.propTypes = {
   getCampaigns: PropTypes.func.isRequired,
@@ -95,12 +98,12 @@ CampaignPage.propTypes = {
   updateCampaign: PropTypes.func.isRequired,
   updateCampaignStatus: PropTypes.func.isRequired,
   downloadAllArticl: PropTypes.func.isRequired,
-};
+}
 
 const mapStateToProps = (state) => ({
   campaign: state.campaign,
   auth: state.auth,
-});
+})
 
 export default connect(mapStateToProps, {
   getCampaigns,
@@ -109,4 +112,4 @@ export default connect(mapStateToProps, {
   updateCampaign,
   updateCampaignStatus,
   downloadAllArticl,
-})(CampaignPage);
+})(CampaignPage)
