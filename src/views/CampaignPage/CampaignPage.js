@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import {
   getCampaigns,
@@ -8,20 +8,25 @@ import {
   getCampaign,
   updateCampaign,
   updateCampaignStatus,
-} from '../../redux/actions/campaign'
-import { downloadAllArticl } from '../../redux/actions/article'
-import CampaignTable from '../../components/Campaign/CampaignTable'
-import CreateCampaignForm from '../../components/Campaign/CreateCampaignForm'
-import CampaignBreadcrumbs from '../../components/Campaign/CampaignBreadcrumbs'
-import { Button, makeStyles } from '@material-ui/core'
-import AddIcon from '@material-ui/icons/Add'
-import Spinner from '../../components/Common/Spinner'
+  restoreData,
+} from '../../redux/actions/campaign';
+import { downloadAllArticl } from '../../redux/actions/article';
+import CampaignTable from '../../components/Campaign/CampaignTable';
+import CreateCampaignForm from '../../components/Campaign/CreateCampaignForm';
+import CampaignBreadcrumbs from '../../components/Campaign/CampaignBreadcrumbs';
+import { Button, makeStyles, Typography, Grid } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
+import Spinner from '../../components/Common/Spinner';
+import RefreshIcon from '@material-ui/icons/Refresh';
 
 const useStyles = makeStyles((theme) => ({
   createButton: {
+    marginLeft: theme.spacing(2),
+  },
+  buttonArea: {
     marginTop: theme.spacing(2),
   },
-}))
+}));
 
 export const CampaignPage = ({
   getCampaigns,
@@ -32,23 +37,29 @@ export const CampaignPage = ({
   getCampaign,
   updateCampaignStatus,
   downloadAllArticl,
+  restoreData,
+  history,
 }) => {
-  const classes = useStyles()
+  const classes = useStyles();
 
-  const [showCreateForm, setShowCreateForm] = useState(false)
+  const [showCreateForm, setShowCreateForm] = useState(false);
 
   const handleShowCreateForm = () => {
-    setShowCreateForm(true)
-  }
+    setShowCreateForm(true);
+  };
 
   const handleCloseCreateForm = () => {
-    setShowCreateForm(false)
-  }
+    setShowCreateForm(false);
+  };
+
+  const handleRestoreData = () => {
+    restoreData(history);
+  };
 
   useEffect(() => {
-    getCampaigns()
+    getCampaigns();
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   return loading || auth.loading || !auth.user || !auth ? (
     <Spinner />
@@ -57,16 +68,50 @@ export const CampaignPage = ({
       <CampaignBreadcrumbs />
 
       {auth.user.authorities && auth.user.authorities.includes('ROLE_ADMIN') && (
-        <Button
-          variant='outlined'
-          size='large'
-          color='primary'
-          startIcon={<AddIcon />}
-          className={classes.createButton}
-          onClick={handleShowCreateForm}
+        <Grid
+          container
+          direction='row'
+          justify='space-between'
+          alignItems='center'
+          className={classes.buttonArea}
         >
-          Create Campaign
-        </Button>
+          <Grid item>
+            <Button
+              variant='outlined'
+              size='large'
+              color='primary'
+              startIcon={<AddIcon />}
+              //className={classes.createButton}
+              onClick={handleShowCreateForm}
+            >
+              Create Campaign
+            </Button>
+          </Grid>
+          <Grid item>
+            <Grid
+              container
+              direction='row'
+              justify='flex-end'
+              alignItems='center'
+            >
+              <Grid item>
+                <Typography>Your database is backed up everyday</Typography>
+              </Grid>
+              <Grid item direction='row' justify='flex-end'>
+                <Button
+                  variant='outlined'
+                  size='medium'
+                  color='grey'
+                  startIcon={<RefreshIcon />}
+                  className={classes.createButton}
+                  onClick={handleRestoreData}
+                >
+                  Restore
+                </Button>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
       )}
 
       <CreateCampaignForm
@@ -86,8 +131,8 @@ export const CampaignPage = ({
         downloadAllArticl={downloadAllArticl}
       />
     </>
-  )
-}
+  );
+};
 
 CampaignPage.propTypes = {
   getCampaigns: PropTypes.func.isRequired,
@@ -98,12 +143,13 @@ CampaignPage.propTypes = {
   updateCampaign: PropTypes.func.isRequired,
   updateCampaignStatus: PropTypes.func.isRequired,
   downloadAllArticl: PropTypes.func.isRequired,
-}
+  restoreData: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = (state) => ({
   campaign: state.campaign,
   auth: state.auth,
-})
+});
 
 export default connect(mapStateToProps, {
   getCampaigns,
@@ -112,4 +158,5 @@ export default connect(mapStateToProps, {
   updateCampaign,
   updateCampaignStatus,
   downloadAllArticl,
-})(CampaignPage)
+  restoreData,
+})(CampaignPage);

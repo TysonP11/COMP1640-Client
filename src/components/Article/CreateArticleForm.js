@@ -113,6 +113,14 @@ const CreateArticleForm = ({
     setImage(newImage);
   };
 
+  const handleOnChangeName = (e) => {
+    setName(e.target.value);
+  };
+
+  const handleOnChangeMessage = (e) => {
+    setMessage(e.target.value);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
