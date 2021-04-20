@@ -95,13 +95,13 @@ export const CampaignPage = ({
               alignItems='center'
             >
               <Grid item>
-                <Typography>Your database is backed up everyday</Typography>
+                <Typography>Your data was backed up 7 hours ago</Typography>
               </Grid>
-              <Grid item direction='row' justify='flex-end'>
+              <Grid item>
                 <Button
                   variant='outlined'
                   size='medium'
-                  color='grey'
+                  color='inherit'
                   startIcon={<RefreshIcon />}
                   className={classes.createButton}
                   onClick={handleRestoreData}

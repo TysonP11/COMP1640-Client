@@ -159,7 +159,7 @@ const CreateArticleForm = ({
         reply_to: 'phamthaison11@gmail.com',
         from_name: 'G_mag',
         to_name: 'Coordinator',
-        message: 'This is a test message',
+        message: `A new submission was made to your faculty by user ${username}. You have 14 days to comment.`,
         to_email: coordinatorEmail,
       };
 

@@ -31,19 +31,18 @@ export const getCampaigns = () => async (dispatch) => {
 //restore data
 export const restoreData = (history) => async (dispatch) => {
   try {
-    //const res = await backupAxios.get('/api/back-up');
-
-    //await axios.post('/api/back-up', res.data.data);
+    await backupAxios.get('/api/back-up/');
 
     history.push('/campaign');
     dispatch(setAlert('Database restored to previous version', 'success'));
   } catch (err) {
+    console.log(err);
     console.error(err.message);
     dispatch({
       type: CAMPAIGN_ERROR,
       payload: { msg: err.message },
     });
-    dispatch(setAlert('Restore Data Error', 'error'));
+    dispatch(setAlert('Your data has alredy up to date', 'warning'));
   }
 };
 
